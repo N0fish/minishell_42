@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:53:48 by alex              #+#    #+#             */
-/*   Updated: 2024/08/01 20:42:07 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/04 14:51:43 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void execute_redirections(cmd_node* node, bool stdin_pipe, bool stdout_pi
     char    *res;
     if (node == NULL)
         return;
+    //work with many redirections isn't finished
     printf("start\n");
     while (cmd && cmd->type == NODE_REDIRECT_OUT)
     {

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:05:22 by alex              #+#    #+#             */
-/*   Updated: 2024/08/04 14:16:33 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/04 14:52:47 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 После этого использую executor для выполнения команд.
 */
 
-int main2()
+int main()
 {
     char *line = NULL;
     size_t len = 0;
@@ -45,8 +45,9 @@ int main2()
         token = convert_from_tokens(tokens);
         //print_tokens(token);
         cmd = parser(&token);
+        printf("\n!!!!show_cmd_tree!!!!\n");
         show_cmd_tree(cmd);
-        printf("\n_______\n");
+        printf("\n!!!!end_cmd_tree!!!!\n");
         executor(cmd);
         free(tokens);
         free(token);

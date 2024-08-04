@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/04 14:20:07 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/04 14:37:54 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "lexer.h"
 # include <stdio.h>
 # include <string.h>
+# include <stdbool.h>
 
 // типы узлов дерева команд
 typedef enum
