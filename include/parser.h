@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/04 14:37:54 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/05 21:13:57 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	    cmd_delete(cmd_node* node);
 void	    cmd_attach(cmd_node* root, cmd_node* left, cmd_node* right);
 void	    cmd_set_type(cmd_node* node, node_type nodetype);
 void	    cmd_set_data(cmd_node* node, char* data);
-bool        check_tokentype(int tok_type, t_token **token, char** bufferptr);
+bool		check_tokentype(int tok_type, t_token **token, char** bufferptr);
+bool		only_check_tokentype(int tok_type, t_token **token, char** bufferptr);
 void        show_cmd_tree(cmd_node *node);
 
 cmd_node    *job(t_token **token);
