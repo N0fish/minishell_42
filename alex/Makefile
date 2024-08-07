@@ -1,4 +1,4 @@
-SRCS 			= $(filter-out srcs/builtins/% srcs/init/%, $(wildcard srcs/*/*.c)) $(filter-out srcs/main.c, $(wildcard srcs/*.c))
+SRCS 			= $(filter-out srcs/builtins/% srcs/init/%, $(wildcard srcs/*/*.c)) srcs/main.c
 OBJS			= ${SRCS:.c=.o}
 
 NAME			= minishell

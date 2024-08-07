@@ -9,15 +9,16 @@ SRCDIR = ./srcs/
 INCDIR = ./include/
 OBJDIR = ./obj/
 
-PARSING_SRC = parsing/parsing.c parsing/analyze_redirections.c parsing/string_modif.c parsing/syntax_errors.c
-EXEC_SRC = pipex/exec.c pipex/fds.c pipex/pids.c pipex/parsed_utils.c pipex/fds_utils.c pipex/here_doc.c
+PARSER_SRC = parser/cmd_utils.c parser/parser.c
 INIT_SRC = init/init.c init/env.c init/env_init.c init/env_utils.c init/env_prepare.c
+LEXER_SRC = lexer/lexer.c
 BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builtin.c \
 	builtins/cd_builtin.c builtins/pwd_builtin.c builtins/export_builtin.c builtins/export_builtin_utils.c \
 	builtins/unset_builtin.c builtins/env_builtin.c builtins/exit_builtin.c
+EXECUTOR_SRC = executor/command.c executor/executor.c
 UTILS_SRC = utils/free.c utils/write.c utils/error.c
 
-BASE_SRC = $(PARSING_SRC) $(EXEC_SRC) $(INIT_SRC) $(BUILTINS_SRC) $(UTILS_SRC)
+BASE_SRC = $(PARSER_SRC) $(EXECUTOR_SRC) $(INIT_SRC) $(LEXER_SRC) $(BUILTINS_SRC) $(UTILS_SRC)
 
 SRC =  $(BASE_SRC) main.c
 OBJS = $(SRC:%.c=$(OBJDIR)%.o)

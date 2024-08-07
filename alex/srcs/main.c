@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:05:22 by alex              #+#    #+#             */
-/*   Updated: 2024/08/04 14:52:47 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/04 19:25:20 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "parser.h"
-#include "executor.h"
+#include "minishell.h"
 
 /*
 Как я запускал свою minishell. 
@@ -24,8 +22,11 @@
 После этого использую executor для выполнения команд.
 */
 
-int main()
+int main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
+	(void)envp;
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
