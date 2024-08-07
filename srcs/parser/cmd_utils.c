@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/01 17:42:52 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/05 21:13:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,22 @@ bool check_tokentype(int tok_type, t_token **token, char** bufferptr)
 		*token = (*token)->next;
         return (true);
     }
-    *token = (*token)->next;
+	*token = (*token)->next;
+    return (false);
+}
+
+bool only_check_tokentype(int tok_type, t_token **token, char** bufferptr)
+{
+	if (!(*token))
+		return (false);
+    if ((*token)->type == tok_type)
+    {
+		if (bufferptr != NULL) {
+			*bufferptr = malloc(strlen((*token)->data) + 1);
+			strcpy(*bufferptr, (*token)->data);
+		}
+        return (true);
+    }
     return (false);
 }
 
@@ -47,7 +62,7 @@ void show_cmd_tree(cmd_node *node)
 	}
 	else if (node->type == NODE_REDIRECT_OUT)
 	{
-		printf("redirect: %s > %s\n", node->right->data, node->data);
+		printf("redirect: %s > %s\n", node->left->data, node->data);
 	}
 	show_cmd_tree(node->right);
 }

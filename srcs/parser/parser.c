@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:29:08 by alex              #+#    #+#             */
-/*   Updated: 2024/08/01 19:02:03 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/05 21:48:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ ASTreeNode* CMD_SIMPLE();			//	<simple command>
 */
 
 
-cmd_node	*cmd_file(t_token **token, cmd_node* cmd_tok);
-cmd_node	*cmd_redirect(t_token **token, cmd_node* cmd_tok);
-cmd_node	*cmd_redirect_file(t_token **token, cmd_node* cmd_tok);
+cmd_node	*redirect_out(t_token **token);
+cmd_node	*redirect(t_token **token);
 
 cmd_node*	job(t_token **token)
 {
@@ -77,81 +76,56 @@ cmd_node	*cmd(t_token **token)
 	cmd_node	*node;
 	
 	save = *token;
-	if ((*token = save, node = cmd_redirect_out(token)) != NULL)
+	if ((*token = save, node = redirect(token)) != NULL)
 		return (node);
     if ((*token = save, node = cmd_simple(token)) != NULL)
         return (node);
     return (NULL);
 }
 
-cmd_node	*cmd_redirect_out(t_token **token)
-{
-	cmd_node* cmd_tok;
-	cmd_node* redirect_tok;
-
-    if ((cmd_tok = cmd_simple(token)) == NULL)
-        return NULL;
-	if (!check_tokentype(CHAR_GREATER, token, NULL))
-	{
-		cmd_delete(cmd_tok);
-		return NULL;
-	}
-	if ((redirect_tok = cmd_redirect_file(token, cmd_tok)) == NULL)
-	{
-		cmd_delete(cmd_tok);
-		return NULL;
-	}
-	return (redirect_tok);
-}
-
-cmd_node	*cmd_redirect_file(t_token **token, cmd_node* cmd_tok)
+cmd_node	*redirect(t_token **token)
 {
 	t_token		*save;
     cmd_node	*node;
 	
 	save = *token;
-    if ((*token = save, node = cmd_redirect(token, cmd_tok)) != NULL)
+    if ((*token = save, node = redirect_out(token)) != NULL)
         return (node);
-    if ((*token = save, node = cmd_file(token, cmd_tok)) != NULL)
-        return (node);
-	cmd_delete(cmd_tok);
+	*token = save;
+	*token = (*token)->next;
     return (NULL);
 }
 
-cmd_node	*cmd_redirect(t_token **token, cmd_node *cmd_root)
+cmd_node	*redirect_out(t_token **token)
 {
 	cmd_node	*cmd_tok;
 	cmd_node	*redirect_tok;
+	cmd_node	*result;
+	char		*filename;
 
-	if ((cmd_tok = cmd_file(token, cmd_root)) == NULL)
+	if ((cmd_tok = cmd_simple(token)) == NULL)
 		return (NULL);
 	if (!check_tokentype(CHAR_GREATER, token, NULL))
-	{
-		//cmd_delete(cmd_tok);
-		return (NULL);
-	}
-	if ((redirect_tok = cmd_redirect_file(token, cmd_tok)) == NULL)
 	{
 		cmd_delete(cmd_tok);
 		return (NULL);
 	}
-    return (redirect_tok);
-}
-
-cmd_node	*cmd_file(t_token **token, cmd_node* cmd_tok)
-{
-	cmd_node	*result;
-    char		*filename;
-
-	if (!check_tokentype(TOKEN, token, &filename))
+	if (!only_check_tokentype(TOKEN, token, &filename))
 	{
-		free(filename);
-		return NULL;
+		cmd_delete(cmd_tok);
+		return (NULL);
 	}
-	result = malloc(sizeof(*result));
-    cmd_set_type(result, NODE_REDIRECT_OUT);
-    cmd_set_data(result, filename);
-	cmd_attach(result, NULL, cmd_tok);
+	result = malloc(sizeof(cmd_node));
+	if ((redirect_tok = redirect(token)) == NULL)
+	{
+		cmd_set_type(result, NODE_REDIRECT_OUT);
+		cmd_set_data(result, filename);
+		cmd_attach(result, cmd_tok, NULL);
+		return (result);
+	}
+	cmd_set_type(result, NODE_REDIRECT_OUT);
+	cmd_set_data(result, filename);
+	cmd_attach(result, cmd_tok, redirect_tok);
     return (result);
 }
 
@@ -162,7 +136,10 @@ cmd_node	*cmd_simple(t_token **token)
 	char		*res;
 
     if (!check_tokentype(TOKEN, token, &res))
+	{
+		free(res);
         return (NULL);
+	}
     arg = cmd_argument(token);
     result = malloc(sizeof(cmd_node));
 	cmd_set_type(result, NODE_CMDPATH);
