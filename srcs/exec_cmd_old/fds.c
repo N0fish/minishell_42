@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:22:11 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/22 12:25:36 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:38:33 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,20 +110,26 @@ t_fds	end_update_fds(int pipe_fds[2], t_fds io)
 	});
 }
 
-t_fds	in_out(t_data *data, t_parsed parsed)
+t_fds	in_out(t_data *data, cmd_node *node)
 {
-	if (parsed.err_code != EXIT_SUCCESS)
+	int in_fd;
+	int out_fd;
+
+	in_fd = STDIN_FILENO;
+	out_fd = STDOUT_FILENO;
+	while (node && node->type == NODE_REDIRECT_OUT)
 	{
-		ft_strerror_q(data, parsed.err_msg, NULL, NULL);
-		return ((t_fds){\
-			.in = -1, \
-			.out = -1, \
-			.no = -1 \
-		});
+		out_fd = open(node->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (out_fd == -1)
+			ft_strerror_q(data, node->data, NO_FILE_DIR, NULL);
+		node = node->right;
+		if (node && node->type == NODE_REDIRECT_OUT)
+			close(out_fd);
 	}
+	// attendre alex pour le reste
 	return ((t_fds){\
-		.in = path_to_fd(data, parsed.entry, *parsed.entry != '0', false), \
-		.out = path_to_fd(data, parsed.exit, false, parsed.ex_append), \
+		.in = in_fd, \
+		.out = out_fd, \
 		.no = -1 \
 	});
 }

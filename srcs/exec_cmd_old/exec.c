@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:40 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/21 20:01:06 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/07 23:25:01 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,54 @@ pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 	return (child);
 }
 
-void	trigger_cmd(t_data *data, t_parsed *parsed, t_fds fds, char **envp)
+t_fds	trigger_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 {
 	t_cmd	*cmd;
 
-	parsed->pipex = NULL;
-	if (!data || !parsed)
+	// parsed->pipex = NULL;
+	if (!data || !node)
 		return ;
-	parsed->is_pid = false;
-	if (parsed->eof && *parsed->eof)
-	{
-		parsed->is_pid = true;
-		handle_heredoc(*parsed->eof, fds.out);
+	// parsed->is_pid = false;
+	// attendre alex pour << HERE_DOC
+	// if (parsed->eof && *parsed->eof)
+	// {
+	// 	parsed->is_pid = true;
+	// 	handle_heredoc(*parsed->eof, fds.out);
+	// 	return ;
+	// }
+	if (node->type != NODE_CMDPATH)
+		node = node->left;
+	modif_env(data, "_", node->data);
+	if (use_builtin(data, node, fds))
 		return ;
-	}
-	modif_env(data, "_", parsed->cmd[0]);
-	if (use_builtin(data, parsed, fds))
-		return ;
-	cmd = prepare_cmd(data, parsed);
+	cmd = prepare_cmd(data, node);
 	if (!cmd)
 		return ;
 	cmd->pid = exec_child(data, fds, cmd, envp);
-	parsed->pipex = cmd;
-	parsed->is_pid = true;
+	// parsed->pipex = cmd;
+	// parsed->is_pid = true;
+	// if (data->all_parsed[i].pipex->pipes[0] != STDIN_FILENO && data->all_parsed[i].pipex->pipes[0] != -1)
+	// 	close(data->all_parsed[i].pipex->pipes[0]);
+	// if (data->all_parsed[i].pipex->pipes[1] != STDOUT_FILENO && data->all_parsed[i].pipex->pipes[1] != -1)
+	// 	close(data->all_parsed[i].pipex->pipes[1]);
+	// if (data->all_parsed[i].is_pid)
+	// 	data->exec_error = wait_clean_up_is_error(data, data->all_parsed[i]);
 	parsed->pipex->pipes[0] = fds.no;
 	parsed->pipex->pipes[1] = fds.out;
-	data->forks++;
+	// data->forks++;
 }
 
-int	exec_2_plus(t_data *data, t_parsed **parsed, int pipe_fds[2], t_fds *fds)
+void	wait_and_clean(t_data *data, int pid, t_fds fds)
+{
+	if (fds.in != STDIN_FILENO && data->all_parsed[i].pipex->pipes[0] != -1)
+		close(data->all_parsed[i].pipex->pipes[0]);
+	if (data->all_parsed[i].pipex->pipes[1] != STDOUT_FILENO && data->all_parsed[i].pipex->pipes[1] != -1)
+		close(data->all_parsed[i].pipex->pipes[1]);
+	if (data->all_parsed[i].is_pid)
+		data->exec_error = wait_clean_up_is_error(data, data->all_parsed[i]);
+}
+
+int	exec_2_plus(t_data *data, cmd_node **node, int pipe_fds[2], t_fds *fds)
 {
 	char	**envp;
 	int		i;
@@ -90,49 +109,48 @@ int	exec_2_plus(t_data *data, t_parsed **parsed, int pipe_fds[2], t_fds *fds)
 	data->forks = 0;
 	i = 1;
 	envp = transform_envp(data->m, data->envp);
-	if (data->nb_cmds > 1)
-	{
-		*fds = init_fds(pipe_fds, in_out(data, (*parsed[0])));
-		if (!fds_ok(*fds))
-			return (ft_free_array(data->m, (void **)envp), EXIT_FAILURE);
-		trigger_cmd(data, &(*parsed)[data->forks], *fds, envp);
-	}
-	while ((i < data->nb_cmds - 1) && (*parsed)[i].cmd)
+	*fds = init_fds(pipe_fds, in_out(data, (*node)->left));
+	if (!fds_ok(*fds))
+		return (ft_free_array(data->m, (void **)envp), EXIT_FAILURE);
+	trigger_cmd(data, (*node)->left, *fds, envp);
+	*node = (*node)->right;
+	while (*node && (*node)->type != NODE_PIPE)
 	{
 		*fds = update_fds(*fds, pipe_fds, \
-			in_out(data, (*parsed)[i]));
+			in_out(data, (*node)->right));
 		if (!fds_ok(*fds))
 			return (ft_free_array(data->m, (void **)envp), EXIT_FAILURE);
-		trigger_cmd(data, &(*parsed)[i], *fds, envp);
+		trigger_cmd(data, (*node)->left, *fds, envp);
 		i++;
+		*node = (*node)->right;
 	}
 	return (ft_free_array(data->m, (void **)envp), EXIT_SUCCESS);
 }
 
-int	exec_cmds(t_data *data)
+int	exec_cmds(t_data *data, cmd_node *node)
 {
 	int			pipe_fds[2];
 	char		**envp;
+	cmd_node	*start;
 
+	start = node;
 	data->forks = 0;
 	pipe_fds[0] = -1;
 	pipe_fds[1] = -1;
-	if (!data || !data->all_parsed)
+	if (!data || !node)
 		return (EXIT_FAILURE);
-	if (exec_2_plus(data, &data->all_parsed, pipe_fds, &data->fds) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	envp = transform_envp(data->m, data->envp);
-	if (data->forks - 1 < data->nb_cmds)
-	{
-		data->fds = end_update_fds(pipe_fds, in_out(data, data->all_parsed[data->nb_cmds -1]));
-		if (!fds_ok(data->fds))
+	if (node->type == NODE_PIPE)
+		if (exec_2_plus(data, &node, pipe_fds, &data->fds) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		trigger_cmd(data, &data->all_parsed[data->nb_cmds -1], data->fds, envp);
-		if (pipe_fds[0] != -1)
-			close(pipe_fds[0]);
-		// printf("exit_code: %d\n", data->exit_code);
-		wait_clean_up(data->fds, data);
-	}
+	envp = transform_envp(data->m, data->envp);
+	data->fds = end_update_fds(pipe_fds, in_out(data, node));
+	if (!fds_ok(data->fds))
+		return (EXIT_FAILURE);
+	trigger_cmd(data, &node, data->fds, envp);
+	if (pipe_fds[0] != -1)
+		close(pipe_fds[0]);
+	// printf("exit_code: %d\n", data->exit_code);
+	wait_clean_up(data->fds, data);
 	// printf("exit_code: %d\n", data->exit_code);
 	ft_free_array(data->m, (void **)envp);
 	return (data->exit_code);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:53:12 by alex              #+#    #+#             */
-/*   Updated: 2024/08/04 14:37:35 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/07 23:18:56 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "parser.h"
+# include "minishell.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -46,6 +47,6 @@ typedef struct cmd_internal
 int		init_command_internal(cmd_node* node, cmd_internal* cmd, bool stdin_pipe, bool stdout_pipe, int pipe_read, int pipe_write, char *redirect_in, char *redirect_out);
 void	execute_command_internal(cmd_internal* cmdinternal);
 void	destroy_command_internal(cmd_internal* cmdinternal);
-void	executor(cmd_node *tree);
+void	executor(cmd_node *node);
 
 #endif

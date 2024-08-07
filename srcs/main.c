@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	get_command(t_data *data, char *line)
+cmd_node	*get_command(t_data *data, char *line)
 {
 	char		**tokens;
 	cmd_node	*cmd;
@@ -14,9 +14,11 @@ void	get_command(t_data *data, char *line)
 	printf("\n!!!!show_cmd_tree!!!!\n");
 	show_cmd_tree(cmd);
 	printf("\n!!!!end_cmd_tree!!!!\n");
-	executor(cmd);
+	exec_cmds(data, cmd);
+	// executor(cmd);
 	free(tokens);
 	free(token);
+	return (cmd);
 }
 
 int	ft_isempty(char *str)
@@ -53,9 +55,7 @@ void	prompt(t_data *data)
 		{
 			add_history(line);
 			get_command(data, line);
-			// parse_err_or_exec_cmds(data);
-			// ft_free_t_cmd(data);
-			data->nb_cmds = 0;
+			// ft_free_cmd(data);
 			free(line);
 		}
 	}

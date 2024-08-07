@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:25:25 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/22 12:25:19 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:05:53 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,33 @@ int	update_exit_code(t_data *data)
 	return (data->exit_code);
 }
 
-int	wait_clean_up_is_error(t_data *data, t_parsed parsed)
-{
-	return ((parsed.pipex->pid > -1 \
-			&& waitpid(parsed.pipex->pid, &data->wtpd, 0) == -1) \
-			|| parsed.pipex->pid == -1);
-}
+// int	wait_clean_up_is_error(t_data *data, cmd_node *node)
+// {
+// 	return ((parsed.pipex->pid > -1 \
+// 			&& waitpid(parsed.pipex->pid, &data->wtpd, 0) == -1) \
+// 			|| parsed.pipex->pid == -1);
+// }
 
-void	wait_clean_up(t_fds io, t_data *data)
+void	wait_clean_up(t_fds io, t_data *data, cmd_node *node)
 {
-	int i;
+	// int i;
 
-	i = 0;
+	// i = 0;
 	data->exec_error = false;
-	if (data && data->all_parsed)
-	{
-		while (data->forks > 0)
-		{
-			if (data->all_parsed[i].pipex->pipes[0] != STDIN_FILENO && data->all_parsed[i].pipex->pipes[0] != -1)
-				close(data->all_parsed[i].pipex->pipes[0]);
-			if (data->all_parsed[i].pipex->pipes[1] != STDOUT_FILENO && data->all_parsed[i].pipex->pipes[1] != -1)
-				close(data->all_parsed[i].pipex->pipes[1]);
-			if (data->all_parsed[i].is_pid)
-				data->exec_error = wait_clean_up_is_error(data, data->all_parsed[i]);
-			data->forks--;
-			i++;
-		}
-	}
+	// if (data && node)
+	// {
+	// 	while (data->forks > 0)
+	// 	{
+	// 		if (data->all_parsed[i].pipex->pipes[0] != STDIN_FILENO && data->all_parsed[i].pipex->pipes[0] != -1)
+	// 			close(data->all_parsed[i].pipex->pipes[0]);
+	// 		if (data->all_parsed[i].pipex->pipes[1] != STDOUT_FILENO && data->all_parsed[i].pipex->pipes[1] != -1)
+	// 			close(data->all_parsed[i].pipex->pipes[1]);
+	// 		if (data->all_parsed[i].is_pid)
+	// 			data->exec_error = wait_clean_up_is_error(data, data->all_parsed[i]);
+	// 		data->forks--;
+	// 		i++;
+	// 	}
+	// }
 	if (io.in != STDIN_FILENO && io.in != -1)
 		close(io.in);
 	if (io.out != STDOUT_FILENO && io.out != -1)
