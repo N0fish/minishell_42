@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/05 21:13:57 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/07 15:49:46 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ typedef enum
 {
     NODE_PIPE 			= 1,
 	NODE_REDIRECT_OUT	= 2,
-    NODE_CMDPATH		= 3,
-    NODE_ARGUMENT		= 4,
+	NODE_REDIRECT_IN	= 3,
+    NODE_CMDPATH		= 4,
+    NODE_ARGUMENT		= 5,
     NODE_DATA 			= 0,
 } node_type;
 

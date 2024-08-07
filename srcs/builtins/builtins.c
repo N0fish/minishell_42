@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:13 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/22 12:26:45 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 00:32:48 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,24 @@ t_data	*init_builtins(char **argv, char **envp)
 	return (data);
 }
 
-void	exec_builtin(t_data *data, t_parsed *parsed)
+void	exec_builtin(t_data *data, cmd_node *node)
 {
-	if (!data || !parsed || !parsed->cmd)
+	if (!data || !node || !node->left->data)
 		return ;
-	parsed->pipex = NULL;
-	if (!ft_strcmp(parsed->cmd[0], "pwd"))
+	// parsed->pipex = NULL;
+	if (!ft_strcmp(node->left->data, "pwd"))
 		data->exit_code = pwd_builtin(data);
-	else if (!ft_strcmp(parsed->cmd[0], "cd"))
+	else if (!ft_strcmp(node->left->data, "cd"))
 		data->exit_code = cd_builtin(data, parsed->cmd[1], parsed->cmd);
-	else if (!ft_strcmp(parsed->cmd[0], "unset"))
+	else if (!ft_strcmp(node->left->data, "unset"))
 		data->exit_code = unset_builtin(data, parsed->cmd[1]);
-	else if (!ft_strcmp(parsed->cmd[0], "env"))
+	else if (!ft_strcmp(node->left->data, "env"))
 		data->exit_code = env_builtin(data);
-	else if (!ft_strcmp(parsed->cmd[0], "export"))
+	else if (!ft_strcmp(node->left->data, "export"))
 		data->exit_code = export_builtin(data, parsed->cmd);
-	else if (!ft_strcmp(parsed->cmd[0], "echo"))
+	else if (!ft_strcmp(node->left->data, "echo"))
 		data->exit_code = echo_builtin(data, parsed->cmd);
-	else if (!ft_strcmp(parsed->cmd[0], "exit"))
+	else if (!ft_strcmp(node->left->data, "exit"))
 		exit_builtin(data, parsed->cmd, true);
 }
 
@@ -93,11 +93,11 @@ bool	use_builtin_close(t_data *data)
 	return (true);
 }
 
-bool	use_builtin(t_data *data, t_parsed *parsed, t_fds fds)
+bool	use_builtin(t_data *data, cmd_node *node, t_fds fds)
 {
-	if (!data || !parsed || !parsed->cmd || !parsed->cmd[0])
+	if (!data || !node)
 		return (false);
-	if (!ft_match_any(data, parsed->cmd[0], \
+	if (!ft_match_any(data, node->data, \
 		"pwd,cd,unset,env,export,echo,exit"))
 		return (false);
 	data->out_fd = dup(STDOUT_FILENO);
@@ -106,6 +106,7 @@ bool	use_builtin(t_data *data, t_parsed *parsed, t_fds fds)
 		dup2(fds.out, STDOUT_FILENO) < 0 || \
 		dup2(fds.in, STDIN_FILENO) < 0)
 		return (true);
+	// continue ici
 	parsed->pipex = pid_only_cmd(data->m, \
 		exec_or_fork_builtin(data, fds, parsed));
 	if (dup2(data->out_fd, STDOUT_FILENO) < 0 || \
