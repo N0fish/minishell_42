@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:25:25 by alex              #+#    #+#             */
-/*   Updated: 2024/08/01 18:04:51 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/07 20:24:24 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,24 @@ void execute_command_internal(cmd_internal* cmd)
 	pid_t   pid;
 
 	if (cmd->argc < 0)
-		return;
+		return ;
 	if((pid = fork()) == 0) {
 		stdoutfd = dup(STDOUT_FILENO);
 		if (cmd->stdin_pipe)
 			dup2(cmd->pipe_read, STDIN_FILENO);
 		if (cmd->stdout_pipe)
 			dup2(cmd->pipe_write, STDOUT_FILENO);
-		if (cmd->redirect_out) {
-			//printf("rediret to %s\n", cmd->redirect_out);
+		if (cmd->redirect_in)
+		{
+            int fd = open(cmd->redirect_in, O_RDONLY);
+            if (fd == -1) {
+                perror(cmd->redirect_in);
+                exit(1);
+            }
+            dup2(fd, STDIN_FILENO);
+        }
+		if (cmd->redirect_out)
+		{
             int fd = open(cmd->redirect_out, O_WRONLY | O_CREAT | O_TRUNC,
                           S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
             if (fd == -1) {
@@ -98,10 +107,11 @@ void execute_command_internal(cmd_internal* cmd)
 			exit(1);
 		}
 	}
-	else if (pid < 0) {
+	else if (pid < 0)
+	{
 		perror("fork");
-		return;
+		return; 
 	}
 	while (waitpid(pid, NULL, 0) <= 0);
-	return;
+	return ;
 }

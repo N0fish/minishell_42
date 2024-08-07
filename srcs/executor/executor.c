@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:53:48 by alex              #+#    #+#             */
-/*   Updated: 2024/08/05 20:51:30 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/07 20:46:14 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ static void execute_redirections(cmd_node* node, bool stdin_pipe, bool stdout_pi
         return ;
     cmd_root = node;
     cmd = node;
+    while (cmd && cmd->type == NODE_REDIRECT_IN)
+    {
+        execute_simple_command(cmd_root->left, stdin_pipe, stdout_pipe, pipe_read, pipe_write, cmd->data, NULL);
+        cmd = cmd->right;
+    }
     while (cmd && cmd->type == NODE_REDIRECT_OUT)
     {
         execute_simple_command(cmd_root->left, stdin_pipe, stdout_pipe, pipe_read, pipe_write, NULL, cmd->data);
@@ -40,7 +45,9 @@ static void execute_command(cmd_node* node, bool stdin_pipe, bool stdout_pipe, i
 {
     if (node == NULL)
         return;
-    if (node->type == NODE_REDIRECT_OUT)
+    if (node->type == NODE_REDIRECT_IN)
+        execute_redirections(node, stdin_pipe, stdout_pipe, pipe_read, pipe_write);
+    else if (node->type == NODE_REDIRECT_OUT)
         execute_redirections(node, stdin_pipe, stdout_pipe, pipe_read, pipe_write);
 	else if (node->type == NODE_CMDPATH)
 		execute_simple_command(node, stdin_pipe, stdout_pipe, pipe_read, pipe_write, NULL, NULL);

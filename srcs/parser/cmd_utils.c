@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/05 21:13:46 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/07 19:31:32 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ void show_cmd_tree(cmd_node *node)
 	}
 	else if (node->type == NODE_REDIRECT_OUT)
 	{
-		printf("redirect: %s > %s\n", node->left->data, node->data);
+		printf("redirect out: %s > %s\n", node->left->data, node->data);
+	}
+	else if (node->type == NODE_REDIRECT_IN)
+	{
+		printf("redirect in: %s < %s\n", node->left->data, node->data);
 	}
 	show_cmd_tree(node->right);
 }
