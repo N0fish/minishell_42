@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 14:22:07 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:46:54 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,6 @@ void	init_vars(t_data *data, char **argv)
 	data->exec_error = false;
 	// data->all_parsed = NULL;
 	// data->nb_cmds = 0;
-	data->out_fd = -1;
-	data->in_fd = -1;
-	data->forks = 0;
-	data->fds = (t_fds){\
-		.in = -1, \
-		.out = -1, \
-		.no = -1 \
-	};
 }
 
 t_data	*init(char **argv, char **envp)

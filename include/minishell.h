@@ -52,10 +52,6 @@ typedef struct s_data
 	bool			here_doc;
 	int				wtpd;
 	bool			exec_error;
-	int				out_fd;
-	int				in_fd;
-	struct s_fds	fds;
-	int				forks;
 }				t_data;
 
 // BUILTINS
@@ -68,6 +64,7 @@ void	modif_display(t_envp *envp, char *key, bool display);
 // builtins
 t_data	*init_builtins(char **argv, char **envp);
 bool	use_builtin(t_data *data, cmd_node *node, t_fds fds);
+bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds);
 
 // cd_builtin
 int		cd_builtin(t_data *data, cmd_node *cmd);

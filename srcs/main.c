@@ -5,7 +5,6 @@ cmd_node	*get_command(t_data *data, char *line)
 	cmd_node	*cmd;
 	t_token		*token;
 
-	(void)data;
 	token = lexer(line);
 	//print_tokens(token);
 	cmd = parser(&token);
@@ -63,7 +62,7 @@ void	prompt(t_data *data)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_data				*data;
+	t_data	*data;
 
 	if (argc != 1)
 		(printf("No arguments needed\n"), exit(EXIT_FAILURE));

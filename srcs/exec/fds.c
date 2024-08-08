@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:22:11 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/07 17:38:33 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:39:53 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ t_fds	update_t_fds(t_fds fds, t_fds io, int new_pipes[2], int old_pipes[2])
 	if (io.in != STDIN_FILENO && io.in != -1)
 	{
 		fds.in = io.in;
-		if (old_pipes[0] != -1)
-			close(old_pipes[0]);
+		// if (old_pipes[0] != -1)
+		// 	close(old_pipes[0]);
 	}
 
 	fds.out = new_pipes[1];
 	if (io.out != STDOUT_FILENO && io.out != -1)
 	{
-		if (new_pipes[1] != -1)
-			close(new_pipes[1]);
+		// if (new_pipes[1] != -1)
+		// 	close(new_pipes[1]);
 		fds.out = io.out;
 	}
 	fds.no = new_pipes[0];
@@ -76,10 +76,10 @@ t_fds	update_fds(t_fds fds, int pipe_fds[2], t_fds io)
 			.no = -1 \
 		});
 	}
-	if (fds.in != STDIN_FILENO && fds.in != -1)
-		close(fds.in);
-	if (fds.out != STDOUT_FILENO && fds.out != -1)
-		close(fds.out);
+	// if (fds.in != STDIN_FILENO && fds.in != -1)
+	// 	close(fds.in);
+	// if (fds.out != STDOUT_FILENO && fds.out != -1)
+	// 	close(fds.out);
 	fds = update_t_fds(fds, io, new_pipe_fds, pipe_fds);
 	if (pipe_fds[1] != -1)
 		close(pipe_fds[1]);
@@ -124,6 +124,15 @@ t_fds	in_out(t_data *data, cmd_node *node)
 			ft_strerror_q(data, node->data, NO_FILE_DIR, NULL);
 		node = node->right;
 		if (node && node->type == NODE_REDIRECT_OUT)
+			close(out_fd);
+	}
+	while (node && node->type == NODE_REDIRECT_IN)
+	{
+		out_fd = open(node->data, O_RDONLY);
+		if (out_fd == -1)
+			ft_strerror_q(data, node->data, NO_FILE_DIR, NULL);
+		node = node->right;
+		if (node && node->type == NODE_REDIRECT_IN)
 			close(out_fd);
 	}
 	// attendre alex pour le reste

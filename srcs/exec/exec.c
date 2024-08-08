@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:40 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 18:15:31 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:46:37 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 {
 	pid_t		child;
 
-	(void) data;
 	if (fds.in == -1 || fds.out == -1)
 		return (-1);
 	child = fork();
@@ -70,13 +69,15 @@ t_fds	trigger_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 	if (node->type != NODE_CMDPATH)
 		node = node->left;
 	modif_env(data, "_", node->data);
-	if (use_builtin(data, node, fds))
+	if (fork_builtin(data, node, fds))
 		return (fds);
 	cmd = prepare_cmd(data, node);
 	if (!cmd)
 		return (fds);
 	cmd->pid = exec_child(data, fds, cmd, envp);
+	printf("trigger_cmd before waitpid\n");
 	data->exec_error = waitpid(cmd->pid, &data->wtpd, 0) == -1;
+	printf("trigger_cmd > fds.in: %d, fds.out: %d\n", fds.in, fds.out);
 	if (fds.in != STDIN_FILENO && fds.in != -1)
 		close(fds.in);
 	if (fds.out != STDOUT_FILENO && fds.out != -1)
@@ -91,17 +92,16 @@ int	exec_2_plus(t_data *data, cmd_node **node, int pipe_fds[2], t_fds *fds)
 {
 	char	**envp;
 
-	data->forks = 0;
 	envp = transform_envp(data->m, data->envp);
 	*fds = init_fds(pipe_fds, in_out(data, (*node)->left));
 	if (!fds_ok(*fds))
 		return (ft_free_array(data->m, (void **)envp), EXIT_FAILURE);
 	trigger_cmd(data, (*node)->left, *fds, envp);
 	*node = (*node)->right;
-	while (*node && (*node)->type != NODE_PIPE)
+	while (*node && (*node)->type == NODE_PIPE)
 	{
 		*fds = update_fds(*fds, pipe_fds, \
-			in_out(data, (*node)->right));
+			in_out(data, (*node)->left));
 		if (!fds_ok(*fds))
 			return (ft_free_array(data->m, (void **)envp), EXIT_FAILURE);
 		trigger_cmd(data, (*node)->left, *fds, envp);
@@ -114,23 +114,23 @@ int	exec_cmds(t_data *data, cmd_node *node)
 {
 	int			pipe_fds[2];
 	char		**envp;
+	t_fds		fds;
 
-	data->forks = 0;
 	pipe_fds[0] = -1;
 	pipe_fds[1] = -1;
 	if (!data || !node)
 		return (EXIT_FAILURE);
-	if (exec_2_plus(data, &node, pipe_fds, &data->fds) == EXIT_FAILURE)
+	if (exec_2_plus(data, &node, pipe_fds, &fds) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	envp = transform_envp(data->m, data->envp);
-	data->fds = end_update_fds(pipe_fds, in_out(data, node));
-	if (!fds_ok(data->fds))
+	fds = end_update_fds(pipe_fds, in_out(data, node));
+	if (!fds_ok(fds))
 		return (EXIT_FAILURE);
-	trigger_cmd(data, node, data->fds, envp);
+	trigger_cmd(data, node, fds, envp);
 	if (pipe_fds[0] != -1)
 		close(pipe_fds[0]);
 	// printf("exit_code: %d\n", data->exit_code);
-	wait_clean_up(data->fds, data, node);
+	wait_clean_up(fds, data, node);
 	// printf("exit_code: %d\n", data->exit_code);
 	ft_free_array(data->m, (void **)envp);
 	return (data->exit_code);
@@ -147,10 +147,9 @@ int exec_cmd(t_data *data, cmd_node *node)
 	if (use_builtin(data, node, fds))
 		return (data->exit_code);
 	envp = transform_envp(data->m, data->envp);
-	data->fds = in_out(data, node);
-	if (!fds_ok(data->fds))
+	if (!fds_ok(fds))
 		return (EXIT_FAILURE);
-	trigger_cmd(data, node, data->fds, envp);
+	trigger_cmd(data, node, fds, envp);
 	return (data->exit_code);
 }
 
