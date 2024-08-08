@@ -6,19 +6,19 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:41 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/02 14:54:33 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:17:08 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	check_digit(t_data *data, char **arg)
+bool	check_digit(t_data *data, cmd_node *arg)
 {
 	char			*res_arg;
 	char			*arg_cpy;
 	long long int	i;
 
-	arg_cpy = ft_strdup_m(data->m, arg[1]);
+	arg_cpy = ft_strdup_m(data->m, arg->data);
 	if (arg_cpy[0] == '+')
 		arg_cpy++;
 	i = ft_atoi_long_long_int(arg_cpy);
@@ -27,7 +27,7 @@ bool	check_digit(t_data *data, char **arg)
 	{
 		data->exit_code = EXIT_ERR_DIGIT;
 		return (ft_free(data->m, res_arg), ft_free(data->m, arg_cpy), \
-		ft_strerror(data, "exit", arg[1], "numeric argument required"), false);
+		ft_strerror(data, "exit", arg->data, "numeric argument required"), false);
 	}
 	ft_free(data->m, res_arg);
 	ft_free(data->m, arg_cpy);
@@ -40,13 +40,13 @@ bool	check_digit(t_data *data, char **arg)
 	return (true);
 }
 
-void	check_exit_arg(t_data *data, char **arg, bool *do_exit)
+void	check_exit_arg(t_data *data, cmd_node *arg, bool *do_exit)
 {
-	if (!data || !arg || !arg[1])
+	if (!data || !arg)
 		return ;
 	if (!check_digit(data, arg))
 		return ;
-	if (ft_array_len(arg) > 2)
+	if (arg->right)
 	{
 		*do_exit = false;
 		data->exit_code = EXIT_FAILURE;
@@ -77,7 +77,7 @@ void	close_everything(t_data *data)
 	close(STDERR_FILENO);
 }
 
-void	exit_builtin(t_data *data, char **arg, bool display)
+void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 {
 	int		exit_code;
 	bool	do_exit;
@@ -92,7 +92,7 @@ void	exit_builtin(t_data *data, char **arg, bool display)
 	if (do_exit == false)
 		return ;
 	close_everything(data);
-	free_all_parsed(data->all_parsed, data->nb_cmds);
+	// free_all_parsed(data->all_parsed, data->nb_cmds);
 	ft_free_all(data->m);
 	// rl_clear_history();
 	exit(exit_code);

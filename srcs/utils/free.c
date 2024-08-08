@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:01:55 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/07 23:20:50 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:24:28 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,32 +48,32 @@ void	free_char_array(char **array)
 	}
 }
 
-void	ft_free_t_cmd(t_data *data)
-{
-	int			i;
+// void	ft_free_t_cmd(t_data *data)
+// {
+// 	int			i;
 
-	if (!data || !data->all_parsed)
-		return ;
-	i = 0;
-	while (i < data->nb_cmds)
-	{
-		if (data->all_parsed[i].pipex)
-			free_cmd(data, data->all_parsed[i].pipex);
-		i++;
-	}
-}
+// 	if (!data || !data->all_parsed)
+// 		return ;
+// 	i = 0;
+// 	while (i < data->nb_cmds)
+// 	{
+// 		if (data->all_parsed[i].pipex)
+// 			free_cmd(data, data->all_parsed[i].pipex);
+// 		i++;
+// 	}
+// }
 
-void	ft_free_cmd(t_data *data)
-{
-	int			i;
+// void	ft_free_cmd(t_data *data)
+// {
+// 	int			i;
 
-	if (!data || !data->all_parsed)
-		return ;
-	i = 0;
-	while (i < data->nb_cmds)
-	{
-		if (data->all_parsed[i].pipex)
-			free_cmd(data, data->all_parsed[i].pipex);
-		i++;
-	}
-}
+// 	if (!data || !data->all_parsed)
+// 		return ;
+// 	i = 0;
+// 	while (i < data->nb_cmds)
+// 	{
+// 		if (data->all_parsed[i].pipex)
+// 			free_cmd(data, data->all_parsed[i].pipex);
+// 		i++;
+// 	}
+// }

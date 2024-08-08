@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:25:25 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/07 16:05:53 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:30:04 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	update_exit_code(t_data *data)
 void	wait_clean_up(t_fds io, t_data *data, cmd_node *node)
 {
 	// int i;
-
+	(void) node;
 	// i = 0;
 	data->exec_error = false;
 	// if (data && node)

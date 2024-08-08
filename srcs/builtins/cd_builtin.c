@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:02:02 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/29 13:05:04 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:39:07 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,48 @@ int	cd_builtin_utils(t_data *data)
 	return (exit);
 }
 
-int	see_args(t_data *data, char **cmd)
+int	see_args(t_data *data, cmd_node *arg)
 {
-	if (!data || !cmd)
+	if (!data || !arg)
 		return (EXIT_FAILURE);
-	if (cmd[1] && cmd[1][0] == '-')
-		return (ft_strerror(data, "cd", cmd[1], "invalid option"), \
+	if (arg->data && arg->data[0] == '-')
+		return (ft_strerror(data, "cd", arg->data, "invalid option"), \
 				EXIT_INVALID_OPERATION);
-	else if (cmd[1] && cmd[2])
+	else if (arg->data && arg->right && arg->right->data)
 		return (ft_strerror(data, "cd", NULL, "too many arguments"), \
 				EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int	cd_builtin(t_data *data, char *path, char **cmd)
+char *cd_no_data(t_data *data, cmd_node *cmd)
 {
-	t_envp	*oldpwd;
-	t_envp	*pwd;
+	char	*path;
 
-	if (!data)
-		return (EXIT_FAILURE);
-	if ((cmd[1] && cmd[1][0] == '-') || (cmd[1] && cmd[2]))
-		return (see_args(data, cmd));
-	if (!path)
+	path = cmd->data;
+	if (!cmd->data)
 	{
 		path = seek_env_value(data->envp, "HOME");
 		if (!path)
 			return (ft_strerror(data, "cd", NULL, "HOME not set"), \
-					EXIT_FAILURE);
+					NULL);
 	}
+	return (path);
+}
+
+int	cd_builtin(t_data *data, cmd_node *arg)
+{
+	t_envp	*oldpwd;
+	t_envp	*pwd;
+	char	*path;
+
+	if (!data)
+		return (EXIT_FAILURE);
+	if ((arg->data && arg->data[0] == '-')\
+		|| (arg->data && arg->right && arg->right->data))
+		return (see_args(data, arg));
+	path = cd_no_data(data, arg);
+	if (!path)
+		return (EXIT_FAILURE);
 	oldpwd = seek_env(data->envp, "OLDPWD");
 	pwd = seek_env(data->envp, "PWD");
 	if (oldpwd)

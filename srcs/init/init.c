@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/21 19:59:33 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:22:07 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	init_vars(t_data *data, char **argv)
 	data->exit_code = EXIT_SUCCESS;
 	data->wtpd = -1;
 	data->exec_error = false;
-	data->all_parsed = NULL;
-	data->nb_cmds = 0;
+	// data->all_parsed = NULL;
+	// data->nb_cmds = 0;
 	data->out_fd = -1;
 	data->in_fd = -1;
 	data->forks = 0;

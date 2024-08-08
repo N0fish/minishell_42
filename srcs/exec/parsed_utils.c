@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:48 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/19 15:48:24 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:11:09 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	**split_cmd_argv(t_data *data, char **cmd_args, \
 		tmp = ft_strdup_m(data->m, cmd_args[0]);
 	else
 		tmp = ft_strdup_m(data->m, cmd + 1);
+	free(cmd_args[0]);
 	cmd_args[0] = tmp;
 	return (cmd_args);
 }
@@ -67,25 +68,31 @@ bool	is_directory(char *path, bool slash)
 	return (S_ISDIR(path_stat.st_mode));
 }
 
-t_cmd	*prepare_cmd(t_data *data, t_parsed *parsed)
+t_cmd	*prepare_cmd(t_data *data, cmd_node *node)
 {
 	char	*cmd;
 	char	**args;
 	t_cmd	*cmd_res;
 	char	*path;
+	int		argc;
 
-	if (!data || !parsed)
+	(void) path;
+	cmd = NULL;
+	(void) cmd;
+
+	if (!data || !node)
 		return (NULL);
 	cmd_res = (t_cmd *)ft_malloc(data->m, sizeof(t_cmd));
 	path = seek_env_value(data->envp, "PATH");
-	if (!parsed->cmd[0])
+	if (!node->data)
 		path = "";
-	if (is_directory(parsed->cmd[0], true))
+	if (is_directory(node->data, true))
 	{
 		data->exit_code = ERROR_CMD_NOT_EXET;
-		return (ft_strerror(data, NULL, parsed->cmd[0], "Is a directory"), NULL);
+		return (ft_strerror(data, NULL, node->data, "Is a directory"), NULL);
 	}
-	args = split_cmd_argv(data, parsed->cmd, \
+	args = get_command_args(node, &argc);
+	args = split_cmd_argv(data, args, \
 				ft_split_m(data->m, path, ':'), &cmd);
 	cmd_res->cmd = cmd;
 	cmd_res->args = args;

@@ -70,30 +70,30 @@ t_data	*init_builtins(char **argv, char **envp);
 bool	use_builtin(t_data *data, cmd_node *node, t_fds fds);
 
 // cd_builtin
-int		cd_builtin(t_data *data, char *path, char **cmd);
+int		cd_builtin(t_data *data, cmd_node *cmd);
 
 // echo_builtin
-int		echo_builtin(t_data *data, char **arg);
+int		echo_builtin(t_data *data, cmd_node *arg);
 
 // env_builtin
 int		env_builtin(t_data *data);
 
 // exit_builtin
-void	exit_builtin(t_data *data, char **arg, bool display);
+void	exit_builtin(t_data *data, cmd_node *arg, bool display);
 void	close_everything(t_data *data);
 
 // export_builtin_utils
 int		declare_env_builtin(t_data *data);
 
 // export_builtin
-int		export_builtin(t_data *data, char **cmd);
+int		export_builtin(t_data *data, cmd_node *arg);
 
 // pwd_builtin
 char	*getcwd_builtin(t_data *data);
 int		pwd_builtin(t_data *data);
 
 // unset_builtin
-int		unset_builtin(t_data *data, char *key);
+int		unset_builtin(t_data *data, cmd_node *arg);
 
 // INIT
 // env_init
@@ -124,7 +124,8 @@ t_data	*init(char **argv, char **envp);
 
 // EXEC_CMD
 // exec
-int		exec_cmds(t_data *data, cmd_node *cmd);
+// int		exec_cmds(t_data *data, cmd_node *cmd);
+int		exec_entry(t_data *data, cmd_node *node);
 
 // fds_utils
 int		path_to_fd(t_data *data, char *path, bool chev_left, bool right_append);
@@ -144,7 +145,8 @@ t_cmd	*prepare_cmd(t_data *data, cmd_node *node);
 t_cmd	*pid_only_cmd(t_malloc *m, pid_t pid);
 bool	is_directory(char *path, bool slash);
 // pids
-void	wait_clean_up(t_fds io, t_data *data);
+void    wait_clean_up(t_fds io, t_data *data, cmd_node *node);
+// void	wait_clean_up(t_fds io, t_data *data);
 int		update_exit_code(t_data *data);
 
 // UTILS
@@ -155,6 +157,10 @@ void	ft_strerror(t_data *data, char *name, char *text, char *err);
 // free
 void	ft_free_t_cmd(t_data *data);
 void	free_char_array(char **array);
+
+// node
+bool	is_redirect_node(cmd_node *node);
+bool	find_node_type(cmd_node *node, node_type type);
 
 // write
 int		safe_write(t_data *data, char *name, char *arg, int fd);

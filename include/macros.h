@@ -10,7 +10,8 @@
 #  define ERROR_CMD_NOT_EXET 126
 #  define INVALID_ID  "not a valid identifier"
 #  define NO_FILE_DIR "no such file or directory"
-#  define MISS_PROMPT "\001\033[0;35m\002$> \001\033[0m\002"
+// #  define MISS_PROMPT "\001\033[0;35m\002$> \001\033[0m\002"
+#  define MISS_PROMPT "\001\033[0;36m\002(＃＞＜) \001\033[0m\002"
 #  if __APPLE__
     // pour mac
 #    define PATH_MAX 1024

@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:40 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 00:08:32 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:15:31 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,8 @@ t_fds	trigger_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 {
 	t_cmd	*cmd;
 
-	// parsed->pipex = NULL;
 	if (!data || !node)
-		return ;
-	// parsed->is_pid = false;
+		return (fds);
 	// attendre alex pour << HERE_DOC
 	// if (parsed->eof && *parsed->eof)
 	// {
@@ -73,41 +71,27 @@ t_fds	trigger_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 		node = node->left;
 	modif_env(data, "_", node->data);
 	if (use_builtin(data, node, fds))
-		return ;
+		return (fds);
 	cmd = prepare_cmd(data, node);
 	if (!cmd)
-		return ;
+		return (fds);
 	cmd->pid = exec_child(data, fds, cmd, envp);
-	// parsed->pipex = cmd;
-	// parsed->is_pid = true;
-	// if (data->all_parsed[i].pipex->pipes[0] != STDIN_FILENO && data->all_parsed[i].pipex->pipes[0] != -1)
-	// 	close(data->all_parsed[i].pipex->pipes[0]);
-	// if (data->all_parsed[i].pipex->pipes[1] != STDOUT_FILENO && data->all_parsed[i].pipex->pipes[1] != -1)
-	// 	close(data->all_parsed[i].pipex->pipes[1]);
-	// if (data->all_parsed[i].is_pid)
-	// 	data->exec_error = wait_clean_up_is_error(data, data->all_parsed[i]);
-	parsed->pipex->pipes[0] = fds.no;
-	parsed->pipex->pipes[1] = fds.out;
+	data->exec_error = waitpid(cmd->pid, &data->wtpd, 0) == -1;
+	if (fds.in != STDIN_FILENO && fds.in != -1)
+		close(fds.in);
+	if (fds.out != STDOUT_FILENO && fds.out != -1)
+		close(fds.out);
+	// parsed->pipex->pipes[0] = fds.no;
+	// parsed->pipex->pipes[1] = fds.out;
 	// data->forks++;
-}
-
-void	wait_and_clean(t_data *data, int pid, t_fds fds)
-{
-	if (fds.in != STDIN_FILENO && data->all_parsed[i].pipex->pipes[0] != -1)
-		close(data->all_parsed[i].pipex->pipes[0]);
-	if (data->all_parsed[i].pipex->pipes[1] != STDOUT_FILENO && data->all_parsed[i].pipex->pipes[1] != -1)
-		close(data->all_parsed[i].pipex->pipes[1]);
-	if (data->all_parsed[i].is_pid)
-		data->exec_error = wait_clean_up_is_error(data, data->all_parsed[i]);
+	return (fds);
 }
 
 int	exec_2_plus(t_data *data, cmd_node **node, int pipe_fds[2], t_fds *fds)
 {
 	char	**envp;
-	int		i;
 
 	data->forks = 0;
-	i = 1;
 	envp = transform_envp(data->m, data->envp);
 	*fds = init_fds(pipe_fds, in_out(data, (*node)->left));
 	if (!fds_ok(*fds))
@@ -121,7 +105,6 @@ int	exec_2_plus(t_data *data, cmd_node **node, int pipe_fds[2], t_fds *fds)
 		if (!fds_ok(*fds))
 			return (ft_free_array(data->m, (void **)envp), EXIT_FAILURE);
 		trigger_cmd(data, (*node)->left, *fds, envp);
-		i++;
 		*node = (*node)->right;
 	}
 	return (ft_free_array(data->m, (void **)envp), EXIT_SUCCESS);
@@ -131,27 +114,51 @@ int	exec_cmds(t_data *data, cmd_node *node)
 {
 	int			pipe_fds[2];
 	char		**envp;
-	cmd_node	*start;
 
-	start = node;
 	data->forks = 0;
 	pipe_fds[0] = -1;
 	pipe_fds[1] = -1;
 	if (!data || !node)
 		return (EXIT_FAILURE);
-	if (node->type == NODE_PIPE)
-		if (exec_2_plus(data, &node, pipe_fds, &data->fds) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+	if (exec_2_plus(data, &node, pipe_fds, &data->fds) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	envp = transform_envp(data->m, data->envp);
 	data->fds = end_update_fds(pipe_fds, in_out(data, node));
 	if (!fds_ok(data->fds))
 		return (EXIT_FAILURE);
-	trigger_cmd(data, &node, data->fds, envp);
+	trigger_cmd(data, node, data->fds, envp);
 	if (pipe_fds[0] != -1)
 		close(pipe_fds[0]);
 	// printf("exit_code: %d\n", data->exit_code);
-	wait_clean_up(data->fds, data);
+	wait_clean_up(data->fds, data, node);
 	// printf("exit_code: %d\n", data->exit_code);
 	ft_free_array(data->m, (void **)envp);
+	return (data->exit_code);
+}
+
+int exec_cmd(t_data *data, cmd_node *node)
+{
+	t_fds 	fds;
+	char	**envp;
+
+	fds = in_out(data, node);
+	if (is_redirect_node(node))
+		node = node->left;
+	if (use_builtin(data, node, fds))
+		return (data->exit_code);
+	envp = transform_envp(data->m, data->envp);
+	data->fds = in_out(data, node);
+	if (!fds_ok(data->fds))
+		return (EXIT_FAILURE);
+	trigger_cmd(data, node, data->fds, envp);
+	return (data->exit_code);
+}
+
+int	exec_entry(t_data *data, cmd_node *node)
+{
+	if (node->type == NODE_PIPE)
+		exec_cmds(data, node);
+	else
+		exec_cmd(data, node);
 	return (data->exit_code);
 }

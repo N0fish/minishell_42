@@ -14,7 +14,8 @@ cmd_node	*get_command(t_data *data, char *line)
 	printf("\n!!!!show_cmd_tree!!!!\n");
 	show_cmd_tree(cmd);
 	printf("\n!!!!end_cmd_tree!!!!\n");
-	exec_cmds(data, cmd);
+	// exec_cmds(data, cmd);
+	exec_entry(data, cmd);
 	// executor(cmd);
 	free(tokens);
 	free(token);

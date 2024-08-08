@@ -15,8 +15,9 @@ LEXER_SRC = lexer/lexer.c
 BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builtin.c \
 	builtins/cd_builtin.c builtins/pwd_builtin.c builtins/export_builtin.c builtins/export_builtin_utils.c \
 	builtins/unset_builtin.c builtins/env_builtin.c builtins/exit_builtin.c
-EXECUTOR_SRC = executor/command.c executor/executor.c
-UTILS_SRC = utils/free.c utils/write.c utils/error.c
+# EXECUTOR_SRC = executor/command.c executor/executor.c
+EXECUTOR_SRC = exec/exec.c exec/fds_utils.c exec/fds.c exec/here_doc.c exec/parsed_utils.c exec/pids.c exec/command.c
+UTILS_SRC = utils/free.c utils/write.c utils/error.c utils/node.c
 
 BASE_SRC = $(PARSER_SRC) $(EXECUTOR_SRC) $(INIT_SRC) $(LEXER_SRC) $(BUILTINS_SRC) $(UTILS_SRC)
 

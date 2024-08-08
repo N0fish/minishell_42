@@ -6,29 +6,29 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:18:10 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/16 13:18:11 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:45:47 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unset_builtin(t_data *data, char *key)
+int	unset_builtin(t_data *data, cmd_node *arg)
 {
 	if (!data)
 		return (EXIT_FAILURE);
-	if (!key || key[0] == '\0')
+	if (!arg || (arg->data && arg->data[0] == '\0'))
 		return (EXIT_SUCCESS);
-	if (!ft_isstralnum(key))
+	if (!ft_isstralnum(arg->data))
 	{
-		ft_strerror(data, "unset", key, INVALID_ID);
+		ft_strerror_q(data, "unset", arg->data, INVALID_ID);
 		return (EXIT_FAILURE);
 	}
-	if (!ft_strcmp(key, "PWD"))
+	if (!ft_strcmp(arg->data, "PWD"))
 	{
-		modif_env(data, key, "");
-		hide_env(data, key);
+		modif_env(data, arg->data, "");
+		hide_env(data, arg->data);
 	}
 	else
-		delete_env(data, key);
+		delete_env(data, arg->data);
 	return (EXIT_SUCCESS);
 }

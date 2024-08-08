@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:53:12 by alex              #+#    #+#             */
-/*   Updated: 2024/08/07 23:18:56 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:09:59 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ int		init_command_internal(cmd_node* node, cmd_internal* cmd, bool stdin_pipe, b
 void	execute_command_internal(cmd_internal* cmdinternal);
 void	destroy_command_internal(cmd_internal* cmdinternal);
 void	executor(cmd_node *node);
+char	**get_command_args(cmd_node *node, int *argc);
 
 #endif
