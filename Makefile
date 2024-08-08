@@ -9,7 +9,7 @@ SRCDIR = ./srcs/
 INCDIR = ./include/
 OBJDIR = ./obj/
 
-PARSER_SRC = parser/cmd_utils.c parser/parser.c
+PARSER_SRC = parser/cmd_utils.c parser/parser.c parser/parser_cmd.c parser/parser_redirect.c
 INIT_SRC = init/init.c init/env.c init/env_init.c init/env_utils.c init/env_prepare.c
 LEXER_SRC = lexer/lexer.c
 BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builtin.c \

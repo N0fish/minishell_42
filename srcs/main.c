@@ -2,13 +2,11 @@
 
 cmd_node	*get_command(t_data *data, char *line)
 {
-	char		**tokens;
 	cmd_node	*cmd;
 	t_token		*token;
 
 	(void)data;
-	tokens = lexer(line);
-	token = convert_from_tokens(tokens);
+	token = lexer(line);
 	//print_tokens(token);
 	cmd = parser(&token);
 	printf("\n!!!!show_cmd_tree!!!!\n");
@@ -17,7 +15,6 @@ cmd_node	*get_command(t_data *data, char *line)
 	// exec_cmds(data, cmd);
 	exec_entry(data, cmd);
 	// executor(cmd);
-	free(tokens);
 	free(token);
 	return (cmd);
 }
