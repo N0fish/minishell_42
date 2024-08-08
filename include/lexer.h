@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:06:24 by alex              #+#    #+#             */
-/*   Updated: 2024/08/07 15:44:14 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/08 16:01:08 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ typedef struct s_token {
 	struct s_token	*next;
 }	t_token;
 
-char		**lexer(char *line);
-t_token		*convert_from_tokens(char **tokens);
+t_token		*lexer(char *line);
 void		print_tokens(t_token *token);
 
 #endif
