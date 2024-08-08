@@ -6,34 +6,39 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 10:43:03 by alex              #+#    #+#             */
-/*   Updated: 2024/08/07 15:44:47 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/08 16:04:43 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-char	**lexer(char *line)
+static int	assign_token_type(char *token)
 {
-	return (ft_strtok(line, TOKEN_DELIM));
+	if (token[0] == '|')
+		return (CHAR_PIPE);
+	else if (token[0] == '>')
+		return (CHAR_GREATER);
+	else if (token[0] == '<')
+		return (CHAR_LESSER);
+	else
+		return (TOKEN);
 }
 
-t_token *convert_from_tokens(char **tokens)
+static t_token	*convert_from_tokens(char **tokens)
 {
-	t_token *head = NULL;
-	t_token *prev = NULL;
+	t_token		*head;
+	t_token		*prev;
+	t_token		*token;
+	int			i;
 
-	for (int i = 0; tokens[i] != NULL; i++)
+	head = NULL;
+	prev = NULL;
+	i = -1;
+	while (tokens[++i])
 	{
-		t_token *token = malloc(sizeof(t_token));
+		token = malloc(sizeof(t_token));
 		token->data = tokens[i];
-		if (tokens[i][0] == '|')
-			token->type = CHAR_PIPE;
-		else if (tokens[i][0] == '>')
-			token->type = CHAR_GREATER;
-		else if (tokens[i][0] == '<')
-			token->type = CHAR_LESSER;
-		else
-			token->type = TOKEN;
+		token->type = assign_token_type(tokens[i]);
 		token->next = NULL;
 		if (prev == NULL)
 			head = token;
@@ -41,11 +46,11 @@ t_token *convert_from_tokens(char **tokens)
 			prev->next = token;
 		prev = token;
 	}
-
-	return head;
+	free(tokens);
+	return (head);
 }
 
-void print_tokens(t_token *token)
+void	print_tokens(t_token *token)
 {
 	while (token)
 	{
@@ -53,4 +58,12 @@ void print_tokens(t_token *token)
 		ft_printf("type: %d\n", token->type);
 		token = token->next;
 	}
+}
+
+t_token	*lexer(char *line)
+{
+	char	**tokens;
+
+	tokens = ft_strtok(line, TOKEN_DELIM);
+	return (convert_from_tokens(tokens));
 }

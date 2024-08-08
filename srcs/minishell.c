@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:05:22 by alex              #+#    #+#             */
-/*   Updated: 2024/08/05 22:01:42 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/08 16:02:51 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ int main()
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
-    char **tokens;
     cmd_node *cmd;
-    t_token *token;
+    t_token *tokens;
 
     while (1)
     {
@@ -45,17 +44,15 @@ int main()
         if (line && strlen(line) != 0)
         {
             tokens = lexer(line);
-            token = convert_from_tokens(tokens);
-            //print_tokens(token);
-            if (token)
+            //print_tokens(tokens);
+            if (tokens)
             {
-                cmd = parser(&token);
+                cmd = parser(&tokens);
                 printf("\n!!!!show_cmd_tree!!!!\n");
                 show_cmd_tree(cmd);
                 printf("\n!!!!end_cmd_tree!!!!\n");
                 executor(cmd);
                 free(tokens);
-                free(token);
             }
         }
     }

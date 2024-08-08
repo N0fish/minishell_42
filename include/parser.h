@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/07 15:49:46 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/08 16:22:06 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,10 @@ bool		check_tokentype(int tok_type, t_token **token, char** bufferptr);
 bool		only_check_tokentype(int tok_type, t_token **token, char** bufferptr);
 void        show_cmd_tree(cmd_node *node);
 
-cmd_node    *job(t_token **token);
-cmd_node	*job_pipe(t_token **token);
-cmd_node	*cmd(t_token **token);
-cmd_node	*cmd_redirect_out(t_token **token);
-cmd_node	*cmd_simple(t_token **token);
-cmd_node	*cmd_argument(t_token **token);
 cmd_node	*argument(t_token **token);
-
-cmd_node*	parser(t_token **token);
+cmd_node	*redirect(t_token **token);
+cmd_node	*cmd(t_token **token);
+cmd_node	*cmd_simple(t_token **token);
+cmd_node	*parser(t_token **token);
 
 #endif
