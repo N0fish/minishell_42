@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:02:02 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 15:39:07 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/10 00:28:45 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,12 @@ char *cd_no_data(t_data *data, cmd_node *cmd)
 {
 	char	*path;
 
-	path = cmd->data;
-	if (!cmd->data)
-	{
-		path = seek_env_value(data->envp, "HOME");
-		if (!path)
-			return (ft_strerror(data, "cd", NULL, "HOME not set"), \
-					NULL);
-	}
+	if (cmd && cmd->data)
+		return (cmd->data);
+	path = seek_env_value(data->envp, "HOME");
+	if (!path)
+		return (ft_strerror(data, "cd", NULL, "HOME not set"), \
+				NULL);
 	return (path);
 }
 
@@ -66,8 +64,8 @@ int	cd_builtin(t_data *data, cmd_node *arg)
 
 	if (!data)
 		return (EXIT_FAILURE);
-	if ((arg->data && arg->data[0] == '-')\
-		|| (arg->data && arg->right && arg->right->data))
+	if (arg && ((arg->data && arg->data[0] == '-') \
+		|| (arg->data && arg->right && arg->right->data)))
 		return (see_args(data, arg));
 	path = cd_no_data(data, arg);
 	if (!path)

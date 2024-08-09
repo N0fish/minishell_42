@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:48 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 18:11:09 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/09 23:53:21 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,10 @@ t_cmd	*prepare_cmd(t_data *data, cmd_node *node)
 	char	**args;
 	t_cmd	*cmd_res;
 	char	*path;
-	int		argc;
-
-	(void) path;
-	cmd = NULL;
-	(void) cmd;
 
 	if (!data || !node)
 		return (NULL);
+	cmd = NULL;
 	cmd_res = (t_cmd *)ft_malloc(data->m, sizeof(t_cmd));
 	path = seek_env_value(data->envp, "PATH");
 	if (!node->data)
@@ -91,29 +87,9 @@ t_cmd	*prepare_cmd(t_data *data, cmd_node *node)
 		data->exit_code = ERROR_CMD_NOT_EXET;
 		return (ft_strerror(data, NULL, node->data, "Is a directory"), NULL);
 	}
-	args = get_command_args(node, &argc);
-	args = split_cmd_argv(data, args, \
-				ft_split_m(data->m, path, ':'), &cmd);
+	args = get_command_args(data, node);
+	args = split_cmd_argv(data, args, ft_split_m(data->m, path, ':'), &cmd);
 	cmd_res->cmd = cmd;
 	cmd_res->args = args;
-	cmd_res->pipes = (int *) ft_malloc(data->m, sizeof(int) * 2);
-	cmd_res->pipes[0] = -1;
-	cmd_res->pipes[1] = -1;
 	return (cmd_res);
-}
-
-t_cmd	*pid_only_cmd(t_malloc *m, pid_t pid)
-{
-	t_cmd	*cmd;
-
-	if (!m)
-		return (NULL);
-	cmd = (t_cmd *)ft_malloc(m, sizeof(t_cmd));
-	cmd->args = NULL;
-	cmd->cmd = NULL;
-	cmd->pid = pid;
-	cmd->pipes = (int *) ft_malloc(m, sizeof(int) * 2);
-	cmd->pipes[0] = -1;
-	cmd->pipes[1] = -1;
-	return (cmd);
 }

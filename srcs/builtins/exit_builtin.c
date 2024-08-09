@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:41 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 22:49:33 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/09 21:28:54 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,6 @@ void	close_everything(t_data *data)
 {
 	if (!data)
 		return ;
-	// if (data->out_fd != -1)
-	// 	close(data->out_fd);
-	// if (data->in_fd != -1)
-	// 	close(data->in_fd);
-	// if (data->fds.out != -1)
-	// 	close(data->fds.out);
-	// if (data->fds.in != -1)
-	// 	close(data->fds.in);
-	// if (data->fds.no != -1)
-	// 	close(data->fds.no);
-	// if (data->out_fd != STDOUT_FILENO && \
-	// 	data->fds.out != STDOUT_FILENO && data->fds.no != STDOUT_FILENO)
-	// 	close(STDOUT_FILENO);
-	// if (data->in_fd != STDIN_FILENO && \
-	// 	data->fds.in != STDIN_FILENO && data->fds.no != STDIN_FILENO)
-	// 	close(STDIN_FILENO);
 	close(STDERR_FILENO);
 }
 
@@ -92,8 +76,8 @@ void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 	if (do_exit == false)
 		return ;
 	close_everything(data);
-	// free_all_parsed(data->all_parsed, data->nb_cmds);
+	// free parsed
 	ft_free_all(data->m);
-	// rl_clear_history();
+	// rl_clear_history(); // pas sur mac
 	exit(exit_code);
 }

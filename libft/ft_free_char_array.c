@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_free_char_array.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 12:01:55 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/09 23:44:48 by algultse         ###   ########.fr       */
+/*   Created: 2024/08/09 23:44:13 by algultse          #+#    #+#             */
+/*   Updated: 2024/08/09 23:45:45 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	free_cmd(t_data *data, t_cmd *cmd)
+void	ft_free_char_array(char **array)
 {
-	if (!cmd)
-		return ;
-	if (cmd->args)
+	int	i;
+
+	i = 0;
+	while (array && array[i])
 	{
-		ft_free_array(data->m, (void **)cmd->args);
-		cmd->args = NULL;
+		free(array[i]);
+		array[i] = NULL;
+		i++;
 	}
-	if (cmd->cmd)
+	if (array)
 	{
-		ft_free(data->m, cmd->cmd);
-		cmd->cmd = NULL;
+		free(array);
+		array = NULL;
 	}
-	ft_free(data->m, cmd);
-	cmd = NULL;
 }

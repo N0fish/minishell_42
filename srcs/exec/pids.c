@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:25:25 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 14:30:04 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/09 23:53:16 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,36 @@ int	update_exit_code(t_data *data)
 	return (data->exit_code);
 }
 
-// int	wait_clean_up_is_error(t_data *data, cmd_node *node)
-// {
-// 	return ((parsed.pipex->pid > -1 \
-// 			&& waitpid(parsed.pipex->pid, &data->wtpd, 0) == -1) \
-// 			|| parsed.pipex->pid == -1);
-// }
-
-void	wait_clean_up(t_fds io, t_data *data, cmd_node *node)
+pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 {
-	// int i;
-	(void) node;
-	// i = 0;
-	data->exec_error = false;
-	// if (data && node)
-	// {
-	// 	while (data->forks > 0)
-	// 	{
-	// 		if (data->all_parsed[i].pipex->pipes[0] != STDIN_FILENO && data->all_parsed[i].pipex->pipes[0] != -1)
-	// 			close(data->all_parsed[i].pipex->pipes[0]);
-	// 		if (data->all_parsed[i].pipex->pipes[1] != STDOUT_FILENO && data->all_parsed[i].pipex->pipes[1] != -1)
-	// 			close(data->all_parsed[i].pipex->pipes[1]);
-	// 		if (data->all_parsed[i].is_pid)
-	// 			data->exec_error = wait_clean_up_is_error(data, data->all_parsed[i]);
-	// 		data->forks--;
-	// 		i++;
-	// 	}
-	// }
-	if (io.in != STDIN_FILENO && io.in != -1)
-		close(io.in);
-	if (io.out != STDOUT_FILENO && io.out != -1)
-		close(io.out);
-	data->exit_code = update_exit_code(data);
+	pid_t		child;
+
+	if (fds.in == -1 || fds.out == -1)
+		return (-1);
+	child = fork();
+	if (child == 0)
+	{
+		data->exit_code = 0;
+		dup2(fds.in, STDIN_FILENO);
+		dup2(fds.out, STDOUT_FILENO);
+		if (fds.no >= 0 && fds.no != fds.in && fds.no != fds.out)
+			close(fds.no);
+		if (is_directory(cmd->cmd, false))
+		{
+			data->exit_code = EX_NOTFOUND;
+			ft_strerror(data, NULL, cmd->cmd, "No such file or directory");
+		}
+		else
+		{
+			if (access(cmd->cmd, X_OK) != 0)
+			{
+				data->exit_code = EX_NOTFOUND;
+				ft_strerror(data, NULL, cmd->cmd, "command not found");
+			}
+			else
+				execve(cmd->cmd, cmd->args, envp);
+		}
+		exit_builtin(data, NULL, false);
+	}
+	return (child);
 }

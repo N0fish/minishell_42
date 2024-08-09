@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 12:01:55 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/09 23:44:48 by algultse         ###   ########.fr       */
+/*   Created: 2024/08/09 21:30:03 by algultse          #+#    #+#             */
+/*   Updated: 2024/08/09 21:31:12 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	free_cmd(t_data *data, t_cmd *cmd)
+char	*ft_strcpy(char *dst, const char *src)
 {
-	if (!cmd)
-		return ;
-	if (cmd->args)
+	int	i;
+
+	i = 0;
+	while (src[i] != '\0')
 	{
-		ft_free_array(data->m, (void **)cmd->args);
-		cmd->args = NULL;
+		dst[i] = src[i];
+		i++;
 	}
-	if (cmd->cmd)
-	{
-		ft_free(data->m, cmd->cmd);
-		cmd->cmd = NULL;
-	}
-	ft_free(data->m, cmd);
-	cmd = NULL;
+	dst[i] = '\0';
+	return (dst);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:12:11 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/04 14:26:54 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/09 23:45:10 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ char			*ft_substr_m(t_malloc *m, char const *s, \
 							unsigned int start, size_t len);
 size_t			ft_array_len(char **arg);
 char			**ft_strtok(char *str, char *charset);
+char			*ft_strcpy(char *dst, const char *src);
+void			ft_free_char_array(char **array);
 
 #endif
