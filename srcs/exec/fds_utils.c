@@ -40,11 +40,15 @@ void	close_fds(t_fds fds)
 {
 	if (fds.in != STDIN_FILENO && fds.in != -1)
 		close(fds.in);
+	fds.in = -1;
 	if (fds.out != STDOUT_FILENO && fds.out != -1)
 		close(fds.out);
+	fds.out = -1;
 	if (fds.pipe[0] != STDIN_FILENO && fds.pipe[0] != -1)
 		close(fds.pipe[0]);
+	fds.pipe[0] = -1;
 	// fds.pipe[1] == 0
 	if (fds.pipe[1] != STDOUT_FILENO && fds.pipe[1] != -1)
 		close(fds.pipe[1]);
+	fds.pipe[1] = -1;
 }

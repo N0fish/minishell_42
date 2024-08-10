@@ -30,6 +30,12 @@ pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 	if (fds.in == -1 || fds.out == -1)
 		return (-1);
 	child = fork();
+	if (child < 0)
+	{
+		ft_strerror(data, "fork", NULL, strerror(errno));
+		data->exit_code = -1;
+		return (-1);
+	}
 	if (child == 0)
 	{
 		data->exit_code = 0;

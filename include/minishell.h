@@ -43,13 +43,16 @@ typedef struct s_cmd {
 
 typedef struct s_data
 {
-	t_malloc		*m;
+	struct s_malloc	*m;
 	struct s_envp	*envp;
 	int				exit_code;
 	char			*shell_name;
 	bool			here_doc;
 	int				wtpd;
 	bool			exec_error;
+	int				out_fd;
+	int				in_fd;
+	struct s_fds	fds;
 }				t_data;
 
 // BUILTINS
@@ -60,7 +63,7 @@ char	**transform_envp(t_malloc *m, t_envp *envp);
 void	modif_display(t_envp *envp, char *key, bool display);
 // builtins
 t_data	*init_builtins(char **argv, char **envp);
-bool	use_builtin(t_data *data, cmd_node *node, t_fds fds);
+bool	use_builtin(t_data *data, cmd_node *node, t_fds fds, bool exit_display);
 bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds);
 // cd_builtin
 int		cd_builtin(t_data *data, cmd_node *cmd);

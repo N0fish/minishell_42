@@ -55,7 +55,7 @@ t_fds	update_fds(t_fds fds, t_fds io)
 			.pipe = {-1, -1} \
 		});
 	}
-	// .in = A0
+	// .in = A0 or L1
 	fds.in = fds.no;
 	if (io.in != STDIN_FILENO && io.in != -1)
 		fds.in = io.in;

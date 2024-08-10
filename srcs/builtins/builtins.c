@@ -22,7 +22,7 @@ t_data	*init_builtins(char **argv, char **envp)
 	return (data);
 }
 
-void	exec_builtin(t_data *data, cmd_node *cmd)
+void	exec_builtin(t_data *data, cmd_node *cmd, bool exit_display)
 {
 	if (!data || !cmd || !cmd->data)
 		return ;
@@ -39,7 +39,7 @@ void	exec_builtin(t_data *data, cmd_node *cmd)
 	else if (!ft_strcmp(cmd->data, "echo"))
 		data->exit_code = echo_builtin(data, cmd->right);
 	else if (!ft_strcmp(cmd->data, "exit"))
-		exit_builtin(data, cmd->right, true);
+		exit_builtin(data, cmd->right, exit_display);
 }
 
 bool	is_builtin(t_data *data, cmd_node *cmd)
@@ -48,25 +48,30 @@ bool	is_builtin(t_data *data, cmd_node *cmd)
 		"pwd,cd,unset,env,export,echo,exit"));
 }
 
-bool	use_builtin(t_data *data, cmd_node *cmd, t_fds fds)
+bool	use_builtin(t_data *data, cmd_node *cmd, t_fds fds, bool exit_display)
 {
-	int	out;
-	int	in;
-
 	if (!data || !cmd)
 		return (false);
 	if (!is_builtin(data, cmd))
 		return (false);
-	out = dup(STDOUT_FILENO);
-	in = dup(STDIN_FILENO);
-	if (out < 0 || in < 0 || \
+	// on garde les fds de stdout et stdin
+	data->out_fd = dup(STDOUT_FILENO);
+	data->in_fd = dup(STDIN_FILENO);
+	// on remplace stdin et stdout par fds.in et fds.out
+	if (data->out_fd < 0 || data->in_fd < 0 || \
 		dup2(fds.out, STDOUT_FILENO) < 0 || \
 		dup2(fds.in, STDIN_FILENO) < 0)
 		return (true);
-	exec_builtin(data, cmd);
-	if (dup2(out, STDOUT_FILENO) < 0 || \
-		dup2(in, STDIN_FILENO) < 0)
+	exec_builtin(data, cmd, exit_display);
+	// on remet les fds de stdout et stdin qu'on avait garde
+	if (dup2(data->out_fd, STDOUT_FILENO) < 0 || \
+		dup2(data->in_fd, STDIN_FILENO) < 0)
 		return (true);
+	close(data->out_fd);
+	data->out_fd = -1;
+	close(data->in_fd);
+	data->in_fd = -1;
+	close_fds(fds);
 	return (true);
 }
 
@@ -87,7 +92,7 @@ bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds)
 	{
 		dup2(fds.in, STDIN_FILENO);
 		dup2(fds.out, STDOUT_FILENO);
-		use_builtin(data, cmd, fds);
+		use_builtin(data, cmd, fds, false);
 		if (fds.no != -1 && fds.no != fds.in && fds.no != fds.out)
 			close(fds.no);
 		exit_builtin(data, NULL, false);

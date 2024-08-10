@@ -35,7 +35,7 @@ char	*find_cmd_path(t_malloc *m, char **paths, char *cmd)
 }
 
 char	**split_cmd_argv(t_data *data, char **cmd_args, \
-							char **res_path, char **data_cmd)
+							char **paths, char **data_cmd)
 {
 	char	*cmd;
 	char	*tmp;
@@ -43,8 +43,8 @@ char	**split_cmd_argv(t_data *data, char **cmd_args, \
 	if (!cmd_args)
 		return (NULL);
 	if (data_cmd)
-		*data_cmd = find_cmd_path(data->m, res_path, cmd_args[0]);
-	ft_free_array(data->m, (void **)res_path);
+		*data_cmd = find_cmd_path(data->m, paths, cmd_args[0]);
+	ft_free_array(data->m, (void **)paths);
 	cmd = ft_strrchr(cmd_args[0], '/');
 	if (!cmd)
 		return (cmd_args);

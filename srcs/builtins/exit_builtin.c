@@ -58,6 +58,13 @@ void	close_everything(t_data *data)
 {
 	if (!data)
 		return ;
+	if (data->in_fd != STDIN_FILENO && data->in_fd != -1)
+		close(data->in_fd);
+	if (data->out_fd != STDOUT_FILENO && data->out_fd != -1)
+		close(data->out_fd);
+	close_fds(data->fds);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 }
 
@@ -78,6 +85,6 @@ void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 	close_everything(data);
 	// free parsed
 	ft_free_all(data->m);
-	// rl_clear_history(); // pas sur mac
+	rl_clear_history(); // pas sur mac
 	exit(exit_code);
 }
