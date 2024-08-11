@@ -53,7 +53,7 @@ void	prompt(t_data *data)
 			free(line);
 		}
 	}
-	rl_clear_history (); // Не компилирует с ним на mac из-за этого закоментирован
+	rl_clear_history(); // Не компилирует с ним на mac из-за этого закоментирован
 	return ;
 }
 

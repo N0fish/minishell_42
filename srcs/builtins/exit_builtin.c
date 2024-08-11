@@ -54,15 +54,13 @@ void	check_exit_arg(t_data *data, cmd_node *arg, bool *do_exit)
 	}
 }
 
-void	close_everything(t_data *data)
+void	close_everything(t_fds fds, int in_out[2])
 {
-	if (!data)
-		return ;
-	if (data->in_fd != STDIN_FILENO && data->in_fd != -1)
-		close(data->in_fd);
-	if (data->out_fd != STDOUT_FILENO && data->out_fd != -1)
-		close(data->out_fd);
-	close_fds(data->fds);
+	if (in_out[0] != STDIN_FILENO && in_out[0] != -1)
+		close(in_out[0]);
+	if (in_out[1] != STDOUT_FILENO && in_out[1] != -1)
+		close(in_out[1]);
+	close_fds(fds);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
@@ -72,6 +70,8 @@ void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 {
 	int		exit_code;
 	bool	do_exit;
+	t_fds	fds;
+	int		in_out[2];
 
 	if (!data)
 		exit(EXIT_FAILURE);
@@ -82,9 +82,12 @@ void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 	exit_code = data->exit_code;
 	if (do_exit == false)
 		return ;
-	close_everything(data);
 	cmd_delete(data->entry_node);
+	fds = data->fds;
+	in_out[0] = data->in_fd;
+	in_out[1] = data->out_fd;
 	ft_free_all(data->m);
 	rl_clear_history(); // pas sur mac
+	close_everything(fds, in_out);
 	exit(exit_code);
 }

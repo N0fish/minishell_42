@@ -17,6 +17,8 @@ char	*find_cmd_path(t_malloc *m, char **paths, char *cmd)
 	char	*tmp;
 	char	*res_cmd;
 
+	if (try_dir_or_file(cmd))
+		return (ft_strdup_m(m, cmd));
 	while (*paths)
 	{
 		tmp = ft_strjoin_m(m, *paths, "/");
@@ -52,7 +54,7 @@ char	**split_cmd_argv(t_data *data, char **cmd_args, \
 		tmp = ft_strdup_m(data->m, cmd_args[0]);
 	else
 		tmp = ft_strdup_m(data->m, cmd + 1);
-	free(cmd_args[0]);
+	ft_free(data->m, cmd_args[0]);
 	cmd_args[0] = tmp;
 	return (cmd_args);
 }
@@ -66,6 +68,11 @@ bool	is_directory(char *path, bool slash)
 	ft_memset(&path_stat, 0, sizeof(struct stat));
 	stat(path, &path_stat);
 	return (S_ISDIR(path_stat.st_mode));
+}
+
+bool	try_dir_or_file(char *path)
+{
+	return (path && (path[0] == '/' || ft_strncmp(path, "./", 2) == 0));
 }
 
 t_cmd	*prepare_cmd(t_data *data, cmd_node *node)

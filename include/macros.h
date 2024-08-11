@@ -10,6 +10,9 @@
 # define ERROR_CMD_NOT_EXET 126
 # define INVALID_ID  "not a valid identifier"
 # define NO_FILE_DIR "no such file or directory"
+# define NO_FILE_DIR_CAP "No such file or directory"
+# define CMD_NOT_FOUND "command not found"
+# define IS_A_DIR "Is a directory"
 # define MISS_PROMPT "\001\033[0;36m\002(＃＞＜) \001\033[0m\002"
 # if __APPLE__
     // pour mac
