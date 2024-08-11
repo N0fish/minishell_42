@@ -83,7 +83,7 @@ void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 	if (do_exit == false)
 		return ;
 	close_everything(data);
-	// free parsed
+	cmd_delete(data->entry_node);
 	ft_free_all(data->m);
 	rl_clear_history(); // pas sur mac
 	exit(exit_code);

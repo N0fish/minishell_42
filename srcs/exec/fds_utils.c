@@ -17,20 +17,20 @@ bool	fds_ok(t_fds fds)
 	return (fds.in != -1 && fds.out != -1);
 }
 
-int	find_final_fd(t_data *data, cmd_node *node, \
+int	find_final_fd(t_data *data, cmd_node **red, \
 						int node_type, int open_modes[2])
 {
 	int	fd;
 
-	if (!data || !node)
+	if (!data || !red || !*red)
 		return (-1);
-	while (node && node->type == node_type)
+	while (*red && (*red)->type == node_type)
 	{
-		fd = open(node->data, open_modes[0], open_modes[1]);
+		fd = open((*red)->data, open_modes[0], open_modes[1]);
 		if (fd == -1)
-			ft_strerror_q(data, node->data, NO_FILE_DIR, NULL);
-		node = node->right;
-		if (node && node->type == node_type && fd != -1)
+			ft_strerror(data, (*red)->data, NULL, NO_FILE_DIR);
+		*red = (*red)->right;
+		if (*red && (*red)->type == node_type && fd != -1)
 			close(fd);
 	}
 	return (fd);

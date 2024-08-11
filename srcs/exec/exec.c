@@ -102,6 +102,7 @@ int	exec_entry(t_data *data, cmd_node *node)
 	if (!data || !node)
 		return (EXIT_FAILURE);
 	data->exec_error = false;
+	data->entry_node = node;
 	if (node->type == NODE_PIPE)
 		exec_cmds(data, node);
 	else

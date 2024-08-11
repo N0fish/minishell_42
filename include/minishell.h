@@ -53,6 +53,7 @@ typedef struct s_data
 	int				out_fd;
 	int				in_fd;
 	struct s_fds	fds;
+	struct cmd_node	*entry_node;
 }				t_data;
 
 // BUILTINS
@@ -114,7 +115,8 @@ char	**get_command_args(t_data *data, cmd_node *node);
 int		exec_entry(t_data *data, cmd_node *node);
 // fds_utils
 bool	fds_ok(t_fds fds);
-int		find_final_fd(t_data *data, cmd_node *node, int node_type, int open_modes[2]);
+int		find_final_fd(t_data *data, cmd_node **red, \
+						int node_type, int open_modes[2]);
 void	close_fds(t_fds fds);
 // fds
 t_fds	init_fds(t_fds io);

@@ -60,6 +60,7 @@ t_data	*init_vars(t_data *data, char **argv)
 		.no = -1, \
 		.pipe = {-1, -1} \
 	};
+	data->entry_node = NULL;
 	return (data);
 }
 

@@ -16,9 +16,9 @@ t_fds	init_fds(t_fds io)
 {
 	int	pipe_res;
 	int	out_fd;
-	int	pipe_fds[2];
+	int	new_pipe_fds[2];
 
-	pipe_res = pipe(pipe_fds);
+	pipe_res = pipe(new_pipe_fds);
 	if (pipe_res == -1)
 		return ((t_fds){\
 			.in = -1, \
@@ -26,17 +26,17 @@ t_fds	init_fds(t_fds io)
 			.no = -1, \
 			.pipe = {-1, -1}, \
 		});
-	out_fd = pipe_fds[1]; //A1
+	out_fd = new_pipe_fds[1]; // A1
 	if (io.out != STDOUT_FILENO)
-		out_fd = io.out;
+		out_fd = io.out; // R1
 	// .in = io.in, // STDIN or L1
-	// .out = out_fd, // A1
-	// .no = pipe_fds[0] // A0
+	// .out = out_fd, // A1 or R1
+	// .no = new_pipe_fds[0] // A0
 	return ((t_fds){\
 		.in = io.in, \
 		.out = out_fd, \
-		.no = pipe_fds[0], \
-		.pipe = {-1, pipe_fds[1]} \
+		.no = new_pipe_fds[0], \
+		.pipe = {-1, new_pipe_fds[1]} \
 	});
 }
 
@@ -74,11 +74,11 @@ t_fds	end_update_fds(t_fds fds, t_fds io)
 {
 	int	in_fd;
 
-	// .in = B0
+	// .in = A0/B0
 	in_fd = fds.no;
 	if (io.in != STDIN_FILENO)
-		in_fd = io.in;
-	// .out = stdout or L1
+		in_fd = io.in; // L1
+	// .out = stdout or R1
 	return ((t_fds){\
 		.in = in_fd, \
 		.out = io.out, \
@@ -95,15 +95,19 @@ t_fds	in_out(t_data *data, cmd_node *node)
 
 	in_fd = STDIN_FILENO;
 	out_fd = STDOUT_FILENO;
-	open_mode[0] = O_CREAT | O_WRONLY | O_TRUNC;
-	open_mode[1] = 0644;
-	// quelle est la premiere redirect priotitaire dans node ?
-	if (node && node->type == NODE_REDIRECT_OUT)
-		out_fd = find_final_fd(data, node, NODE_REDIRECT_OUT, open_mode);
-	open_mode[0] = O_RDONLY;
-	open_mode[1] = DEFAULT_CHMOD;
-	if (node && node->type == NODE_REDIRECT_IN)
-		in_fd = find_final_fd(data, node, NODE_REDIRECT_IN, open_mode);
+	while (node && is_redirect_node(node))
+	{
+		open_mode[0] = O_CREAT | O_WRONLY | O_TRUNC;
+		open_mode[1] = 0644;
+		if (node && node->type == NODE_REDIRECT_OUT)
+			out_fd = find_final_fd(data, &node, NODE_REDIRECT_OUT, open_mode);
+		open_mode[0] = O_RDONLY;
+		open_mode[1] = DEFAULT_CHMOD;
+		if (node && node->type == NODE_REDIRECT_IN)
+			in_fd = find_final_fd(data, &node, NODE_REDIRECT_IN, open_mode);
+		// if (node)
+		// 	node = node->right;
+	}
 	// attendre alex pour le reste
 	return ((t_fds){\
 		.in = in_fd, \
