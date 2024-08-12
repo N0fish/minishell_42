@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:02:02 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/10 00:28:45 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:15:00 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	see_args(t_data *data, cmd_node *arg)
 	return (EXIT_SUCCESS);
 }
 
-char *cd_no_data(t_data *data, cmd_node *cmd)
+char	*cd_no_data(t_data *data, cmd_node *cmd)
 {
 	char	*path;
 

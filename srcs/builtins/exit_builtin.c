@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:41 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/09 21:28:54 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:14:50 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ bool	check_digit(t_data *data, cmd_node *arg)
 	{
 		data->exit_code = EXIT_ERR_DIGIT;
 		return (ft_free(data->m, res_arg), ft_free(data->m, arg_cpy), \
-		ft_strerror(data, "exit", arg->data, "numeric argument required"), false);
+			ft_strerror(data, "exit", arg->data, \
+			"numeric argument required"), false);
 	}
 	ft_free(data->m, res_arg);
 	ft_free(data->m, arg_cpy);

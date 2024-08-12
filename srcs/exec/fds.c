@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:22:11 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/09 23:24:05 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:17:09 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ t_fds	in_out(t_data *data, cmd_node *node)
 		open_mode[1] = DEFAULT_CHMOD;
 		if (node && node->type == NODE_REDIRECT_IN)
 			in_fd = find_final_fd(data, &node, NODE_REDIRECT_IN, open_mode);
-		// if (node)
-		// 	node = node->right;
 	}
 	// attendre alex pour le reste
 	return ((t_fds){\

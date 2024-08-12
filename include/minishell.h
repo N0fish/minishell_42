@@ -25,7 +25,7 @@ typedef struct s_fds {
 	int	in;
 	int	out;
 	int	no;
-	int pipe[2];
+	int	pipe[2];
 }				t_fds;
 
 typedef struct s_envp {
