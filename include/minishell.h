@@ -15,18 +15,13 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <stdbool.h>
+# include "executor.h"
 # include "libft.h"
 # include "ft_malloc.h"
 # include "macros.h"
 # include "lexer.h"
 # include "parser.h"
-
-typedef struct s_fds {
-	int	in;
-	int	out;
-	int	no;
-	int pipe[2];
-}				t_fds;
+# include "expander.h"
 
 typedef struct s_envp {
 	char			*key;
@@ -40,21 +35,6 @@ typedef struct s_cmd {
 	char			*cmd;
 	char			**args;
 }				t_cmd;
-
-typedef struct s_data
-{
-	struct s_malloc	*m;
-	struct s_envp	*envp;
-	int				exit_code;
-	char			*shell_name;
-	bool			here_doc;
-	int				wtpd;
-	bool			exec_error;
-	int				out_fd;
-	int				in_fd;
-	struct s_fds	fds;
-	struct cmd_node	*entry_node;
-}				t_data;
 
 // BUILTINS
 // builtin_utils

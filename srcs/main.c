@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "expander.h"
 
 cmd_node	*get_command(t_data *data, char *line)
 {
@@ -8,6 +9,7 @@ cmd_node	*get_command(t_data *data, char *line)
 	token = lexer(line);
 	//print_tokens(token);
 	cmd = parser(&token);
+	cmd = expander(data, cmd);
 	// printf("\n!!!!show_cmd_tree!!!!\n");
 	// show_cmd_tree(cmd);
 	// printf("\n!!!!end_cmd_tree!!!!\n");
@@ -53,7 +55,7 @@ void	prompt(t_data *data)
 			free(line);
 		}
 	}
-	rl_clear_history(); // Не компилирует с ним на mac из-за этого закоментирован
+	//rl_clear_history(); // Не компилирует с ним на mac из-за этого закоментирован
 	return ;
 }
 

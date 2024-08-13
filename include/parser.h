@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/08 18:17:44 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:09:05 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,6 @@ typedef enum
     NODE_DATA 			= 0,
 } node_type;
 
-
-/* 
-структура для хранения дерева команд.
-Например: ls -l | grep main.c
-
-Если попросить напечатать дерево команд, то получим:
-pipe: ls | grep
-
-Если посмотреть каждую комманду детальнее:
-cmd: ls
-arg: -l
-cmd: grep
-arg: main.c
-*/
 typedef struct cmd_node {
 	char		*data;
 	int			type;

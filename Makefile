@@ -17,9 +17,10 @@ BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builti
 	builtins/unset_builtin.c builtins/env_builtin.c builtins/exit_builtin.c
 # EXECUTOR_SRC = executor/command.c executor/executor.c
 EXECUTOR_SRC = exec/exec.c exec/fds_utils.c exec/fds.c exec/here_doc.c exec/parsed_utils.c exec/pids.c exec/command.c
+EXPANDER_SRC = expander/expander.c
 UTILS_SRC = utils/free.c utils/write.c utils/error.c utils/node.c
 
-BASE_SRC = $(PARSER_SRC) $(EXECUTOR_SRC) $(INIT_SRC) $(LEXER_SRC) $(BUILTINS_SRC) $(UTILS_SRC)
+BASE_SRC = $(PARSER_SRC) $(EXECUTOR_SRC) $(EXPANDER_SRC) $(INIT_SRC) $(LEXER_SRC) $(BUILTINS_SRC) $(UTILS_SRC)
 
 SRC =  $(BASE_SRC) main.c
 OBJS = $(SRC:%.c=$(OBJDIR)%.o)

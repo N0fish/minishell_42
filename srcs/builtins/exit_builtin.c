@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:41 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/09 21:28:54 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:50:55 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 	in_out[0] = data->in_fd;
 	in_out[1] = data->out_fd;
 	ft_free_all(data->m);
-	rl_clear_history(); // pas sur mac
+	//rl_clear_history(); // pas sur mac
 	close_everything(fds, in_out);
 	exit(exit_code);
 }
