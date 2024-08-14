@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/08 16:29:58 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/14 13:24:44 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,12 @@ void	show_cmd_tree(cmd_node *node)
 	{
 		printf("cmd: %s\n", node->data);
 	}
-	else if (node->type == NODE_ARGUMENT)
+	else if (node->type == NODE_ARGUMENT
+		|| node->type == NODE_Q_ARGUMENT
+			|| node->type == NODE_DQ_ARGUMENT)
 	{
 		printf("arg: %s\n", node->data);
+		printf("type: %d\n", node->type);
 	}
 	else if (node->type == NODE_PIPE)
 	{

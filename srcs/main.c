@@ -10,9 +10,9 @@ cmd_node	*get_command(t_data *data, char *line)
 	//print_tokens(token);
 	cmd = parser(&token);
 	cmd = expander(data, cmd);
-	// printf("\n!!!!show_cmd_tree!!!!\n");
-	// show_cmd_tree(cmd);
-	// printf("\n!!!!end_cmd_tree!!!!\n");
+	//printf("\n!!!!show_cmd_tree!!!!\n");
+	//show_cmd_tree(cmd);
+	//printf("\n!!!!end_cmd_tree!!!!\n");
 	exec_entry(data, cmd);
 	cmd_delete(cmd);
 	data->entry_node = NULL;
