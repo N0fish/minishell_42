@@ -71,7 +71,7 @@ static void	lexer_general(char *input, t_token **token, int i, int *j)
 	else if (char_type(input[i]) == CHAR_WHITESPACE
 		&& input[i + 1] && char_type(input[i + 1]) != CHAR_WHITESPACE)
 	{
-		if (j > 0)
+		if (*j > 0)
 		{
 			(*token)->data[*j] = 0;
 			(*token)->next = malloc(sizeof(t_token));

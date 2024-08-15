@@ -68,6 +68,10 @@ pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 		return (-1);
 	}
 	if (child == 0)
+	{
+		// restore_signal();
 		exec_fork(data, fds, cmd, envp);
+	}
+	// ignore_signal();
 	return (child);
 }

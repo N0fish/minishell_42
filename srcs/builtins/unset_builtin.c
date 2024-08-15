@@ -18,11 +18,6 @@ int	unset_builtin(t_data *data, cmd_node *arg)
 		return (EXIT_FAILURE);
 	if (!arg || (arg->data && arg->data[0] == '\0'))
 		return (EXIT_SUCCESS);
-	if (!ft_isstralnum(arg->data))
-	{
-		ft_strerror_q(data, "unset", arg->data, INVALID_ID);
-		return (EXIT_FAILURE);
-	}
 	if (!ft_strcmp(arg->data, "PWD"))
 	{
 		modif_env(data, arg->data, "");

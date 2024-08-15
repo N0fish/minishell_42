@@ -23,6 +23,9 @@
 # include "parser.h"
 # include "expander.h"
 
+extern int	*g_status;
+typedef struct sigaction	t_sig;
+
 typedef struct s_envp {
 	char			*key;
 	char			*value;
@@ -35,6 +38,7 @@ typedef struct s_cmd {
 	char			*cmd;
 	char			**args;
 }				t_cmd;
+
 
 // BUILTINS
 // builtin_utils
@@ -111,6 +115,11 @@ bool	try_dir_or_file(char *path);
 // pids
 int		update_exit_code(t_data *data);
 pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp);
+
+// SIGNALS
+void	ignore_signal(void);
+void	restore_signal(void);
+void	signals(int *exit_code);
 
 // UTILS
 // error

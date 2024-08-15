@@ -1,6 +1,8 @@
 #include "minishell.h"
 #include "expander.h"
 
+int	*g_status;
+
 cmd_node	*get_command(t_data *data, char *line)
 {
 	cmd_node	*cmd;
@@ -10,9 +12,9 @@ cmd_node	*get_command(t_data *data, char *line)
 	//print_tokens(token);
 	cmd = parser(&token);
 	cmd = expander(data, cmd);
-	//printf("\n!!!!show_cmd_tree!!!!\n");
-	//show_cmd_tree(cmd);
-	//printf("\n!!!!end_cmd_tree!!!!\n");
+	printf("\n!!!!show_cmd_tree!!!!\n");
+	show_cmd_tree(cmd);
+	printf("\n!!!!end_cmd_tree!!!!\n");
 	exec_entry(data, cmd);
 	cmd_delete(cmd);
 	data->entry_node = NULL;
@@ -39,6 +41,7 @@ void	prompt(t_data *data)
 
 	while (true)
 	{
+		signals(&(data->exit_code));
 		line = NULL;
 		line = readline(MISS_PROMPT);
 		if (line == NULL)
@@ -64,10 +67,9 @@ int	main(int argc, char **argv, char **envp)
 	t_data	*data;
 
 	if (argc != 1)
-		(printf("No arguments needed\n"), exit(EXIT_FAILURE));
-	// signals
+		return (write(2, "No arguments needed\n", 20), EXIT_FAILURE);
 	data = init_builtins(argv, envp);
 	prompt(data);
 	// exit_builtin(data, NULL, false);
-	return (EXIT_SUCCESS);
+	return (*g_status);
 }
