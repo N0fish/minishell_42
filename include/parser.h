@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/08 18:17:44 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:33:00 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <string.h>
 # include <stdbool.h>
 
-// типы узлов дерева команд
 typedef enum
 {
     NODE_PIPE 			= 1,
@@ -27,23 +26,11 @@ typedef enum
 	NODE_REDIRECT_IN	= 3,
     NODE_CMDPATH		= 4,
     NODE_ARGUMENT		= 5,
+	NODE_Q_ARGUMENT		= 6,
+	NODE_DQ_ARGUMENT	= 7,
     NODE_DATA 			= 0,
 } node_type;
 
-
-/* 
-структура для хранения дерева команд.
-Например: ls -l | grep main.c
-
-Если попросить напечатать дерево команд, то получим:
-pipe: ls | grep
-
-Если посмотреть каждую комманду детальнее:
-cmd: ls
-arg: -l
-cmd: grep
-arg: main.c
-*/
 typedef struct cmd_node {
 	char		*data;
 	int			type;
@@ -61,7 +48,7 @@ bool		check_tokentype(int tok_type, t_token **token, char** bufferptr);
 bool		only_check_tokentype(int tok_type, t_token **token, char** bufferptr);
 void        show_cmd_tree(cmd_node *node);
 
-cmd_node	*argument(t_token **token);
+cmd_node	*argument(t_token **token, int type);
 cmd_node	*redirect(t_token **token);
 cmd_node	*cmd(t_token **token);
 cmd_node	*cmd_simple(t_token **token);

@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 10:43:03 by alex              #+#    #+#             */
-/*   Updated: 2024/08/14 13:24:05 by alex             ###   ########.fr       */
+/*   Created: 2024/08/12 12:45:11 by alex              #+#    #+#             */
+/*   Updated: 2024/08/13 17:19:59 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#ifndef EXPANDER_H
+# define EXPANDER_H
 
-void	print_tokens(t_token *token)
-{
-	while (token)
-	{
-		ft_printf("data: %s\n", token->data);
-		ft_printf("type: %d\n", token->type);
-		token = token->next;
-	}
-}
+# include "parser.h"
+# include "executor.h"
 
-t_token	*lexer(char *line)
-{
-	t_token		*token;
+char            *get_dollar_pos(char *str);
+cmd_node	    *expander(t_data *data, cmd_node *node);
 
-	token = lexer_build(line, STATE_GENERAL);
-	return (token);
-}
+#endif
