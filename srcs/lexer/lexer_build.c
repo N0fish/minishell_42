@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_build.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:23:52 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 10:53:21 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/16 14:11:11 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ static void	lexer_redirections(char *input, t_token **token, int i, int *j)
 	{
 		if (*j > 0)
 		{
-			(*token)->data[*j] = 0;
+			(*token)->data[*j] = '\0';
 			(*token)->next = malloc(sizeof(t_token));
 			(*token) = (*token)->next;
 			token_data_init(*token, ft_strlen(input) - i);
 			*j = 0;
 		}
 		(*token)->data[0] = input[i];
-		(*token)->data[1] = 0;
+		(*token)->data[1] = '\0';
 		(*token)->type = ch_t;
 		if (input[i + 1] && char_type(input[i + 1]) != CHAR_WHITESPACE)
 		{
@@ -73,10 +73,18 @@ static void	lexer_general(char *input, t_token **token, int i, int *j)
 	{
 		if (j != NULL)
 		{
-			(*token)->data[*j] = 0;
+			(*token)->data[*j] = '\0';
 			(*token)->next = malloc(sizeof(t_token));
 			(*token) = (*token)->next;
 			token_data_init(*token, ft_strlen(input) - i);
+			*j = 0;
+		}
+	}
+	if (char_type(input[i]) == CHAR_NULL)
+	{
+		if (*j > 0)
+		{
+			(*token)->data[*j] = '\0';
 			*j = 0;
 		}
 	}
@@ -97,14 +105,6 @@ static void	lexer_other_state(char ch, t_token **token, int *j, int *state)
 		(*token)->data[(*j)++] = ch;
 		if (char_type(ch) == CHAR_DQOUTE)
 			*state = STATE_GENERAL;
-	}
-	if (char_type(ch) == CHAR_NULL)
-	{
-		if (*j > 0)
-		{
-			(*token)->data[*j] = 0;
-			*j = 0;
-		}
 	}
 }
 
@@ -133,6 +133,7 @@ t_token	*lexer_build(char *input, int state)
 		else
 			lexer_other_state(input[i], &token, &j, &state);
 	}
+	lexer_general(input, &token, i, &j);
 	remove_quotes_from(head);
 	return (head);
 }
