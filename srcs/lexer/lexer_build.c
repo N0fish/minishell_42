@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:23:52 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 14:11:11 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:30:29 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ static void	lexer_redirections(char *input, t_token **token, int i, int *j)
 		if (*j > 0)
 		{
 			(*token)->data[*j] = '\0';
-			(*token)->next = malloc(sizeof(t_token));
+			(*token)->next = token_init((*token)->m,
+					(*token)->next, ft_strlen(input) - i);
 			(*token) = (*token)->next;
-			token_data_init(*token, ft_strlen(input) - i);
 			*j = 0;
 		}
 		(*token)->data[0] = input[i];
@@ -52,9 +52,9 @@ static void	lexer_redirections(char *input, t_token **token, int i, int *j)
 		(*token)->type = ch_t;
 		if (input[i + 1] && char_type(input[i + 1]) != CHAR_WHITESPACE)
 		{
-			(*token)->next = malloc(sizeof(t_token));
+			(*token)->next = token_init((*token)->m,
+					(*token)->next, ft_strlen(input) - i);
 			(*token) = (*token)->next;
-			token_data_init(*token, ft_strlen(input) - i);
 		}
 	}
 }
@@ -74,19 +74,16 @@ static void	lexer_general(char *input, t_token **token, int i, int *j)
 		if (j != NULL)
 		{
 			(*token)->data[*j] = '\0';
-			(*token)->next = malloc(sizeof(t_token));
+			(*token)->next = token_init((*token)->m,
+					(*token)->next, ft_strlen(input) - i);
 			(*token) = (*token)->next;
-			token_data_init(*token, ft_strlen(input) - i);
 			*j = 0;
 		}
 	}
 	if (char_type(input[i]) == CHAR_NULL)
 	{
 		if (*j > 0)
-		{
 			(*token)->data[*j] = '\0';
-			*j = 0;
-		}
 	}
 }
 
@@ -108,18 +105,16 @@ static void	lexer_other_state(char ch, t_token **token, int *j, int *state)
 	}
 }
 
-t_token	*lexer_build(char *input, int state)
+t_token	*lexer_build(t_data *data, char *input, int state)
 {
 	t_token		*token;
 	t_token		*head;
 	int			i;
 	int			j;
 
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
+	token = NULL;
+	token = token_init(data->m, token, ft_strlen(input));
 	head = token;
-	token_data_init(token, ft_strlen(input));
 	i = -1;
 	j = 0;
 	while (input[++i])
@@ -134,6 +129,5 @@ t_token	*lexer_build(char *input, int state)
 			lexer_other_state(input[i], &token, &j, &state);
 	}
 	lexer_general(input, &token, i, &j);
-	remove_quotes_from(head);
-	return (head);
+	return (check_lexer(data, head, state));
 }

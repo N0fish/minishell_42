@@ -6,11 +6,12 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:56:53 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 14:04:01 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:29:34 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "minishell.h"
 
 int	char_type(char ch)
 {
@@ -60,23 +61,17 @@ void	strip_quotes(char *src, char *dest)
 	dest[j] = 0;
 }
 
-void	token_data_init(t_token *token, int size)
-{
-	if (!token)
-		return ;
-	token->data = malloc(size + 1);
-	if (!token->data)
-		return ;
-	token->data[0] = 0;
-	token->type = CHAR_NULL;
-	token->next = NULL;
-}
-
-void	remove_quotes_from(t_token *token)
+t_token	*check_lexer(t_data *data, t_token *token, int state)
 {
 	t_token	*head;
 
 	head = token;
+	if (state != STATE_GENERAL)
+	{
+		ft_strerror(data, NULL, NULL, "Syntax error");
+		lexer_destroy(&head);
+		return (NULL);
+	}
 	while (token)
 	{
 		if (token->type == TOKEN || token->type == TOKEN_DQUOTE
@@ -85,14 +80,15 @@ void	remove_quotes_from(t_token *token)
 		token = token->next;
 	}
 	token = head;
+	return (token);
 }
 
-void	lexer_destroy(t_token *token)
+void	lexer_destroy(t_token **token)
 {
-	if (token != NULL)
+	if (token && *token)
 	{
-		free(token->data);
-		lexer_destroy(token->next);
-		free(token);
+		free((*token)->data);
+		lexer_destroy(&(*token)->next);
+		free(*token);
 	}
 }

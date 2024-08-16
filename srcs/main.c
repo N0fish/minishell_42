@@ -8,19 +8,19 @@ cmd_node	*get_command(t_data *data, char *line)
 	cmd_node	*cmd;
 	t_token		*token;
 
-	token = lexer(line);
-	//print_tokens(token);
+	token = lexer(data, line);
+	if (!token)
+		return (NULL);
+	print_tokens(token);
 	cmd = parser(&token);
-	cmd = expander(data, cmd);
+	//cmd = expander(data, cmd);
 	printf("\n!!!!show_cmd_tree!!!!\n");
 	show_cmd_tree(cmd);
 	printf("\n!!!!end_cmd_tree!!!!\n");
 	exec_entry(data, cmd);
-	cmd_delete(cmd);
+	//cmd_delete(cmd);
 	data->entry_node = NULL;
 	// executor(cmd);
-	if (token)
-		free(token);
 	return (cmd);
 }
 
