@@ -107,7 +107,7 @@ t_fds	update_fds(t_fds fds, t_fds io);
 t_fds	end_update_fds(t_fds fds, t_fds io);
 t_fds	in_out(t_data *data, cmd_node *node);
 // here_doc
-int		handle_heredoc(char *limiter, int fd);
+int		handle_heredoc(t_data *data, char *limiter);
 // parsed_utils
 bool	is_directory(char *path, bool slash);
 t_cmd	*prepare_cmd(t_data *data, cmd_node *node);

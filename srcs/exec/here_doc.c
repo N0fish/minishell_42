@@ -11,10 +11,12 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+char	*check_var(t_data *data, char *str);
 
-int	heredoc_loop(char **line, char **buf)
+int	heredoc_loop(t_data *data, char **line, char **buf)
 {
 	char	*tmp;
+	(void) data;
 
 	ft_printf("here_doc> ");
 	if (!*buf)
@@ -33,32 +35,53 @@ int	heredoc_loop(char **line, char **buf)
 	}
 	free(*line);
 	*line = get_next_line(STDIN_FILENO);
+	// *line = check_var(data, *line);
 	return (EXIT_SUCCESS);
 }
 
-int	handle_heredoc(char *limiter, int fd)
+void	heredoc_fork(t_data *data, int pipe_fds[2], char *line, char *limiter, char *buf)
 {
-	char	*line;
-	char	*buf;
-
-	ft_printf("here_doc> ");
-	line = get_next_line(STDIN_FILENO);
-	if (!line)
-		return (EXIT_FAILURE);
-	buf = NULL;
+	close(pipe_fds[0]);
 	while (line)
 	{
 		if (ft_strcmp(line, limiter) == '\n')
 		{
 			free(line);
 			get_next_line(FREE_STATIC_FD);
-			write (fd, buf, ft_strlen(buf));
+			write (pipe_fds[1], buf, ft_strlen(buf));
 			if (buf)
 				free(buf);
-			return (EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 		}
-		if (heredoc_loop(&line, &buf) == EXIT_FAILURE)
-			return (get_next_line(FREE_STATIC_FD), EXIT_FAILURE);
+		if (heredoc_loop(data, &line, &buf) == EXIT_FAILURE)
+		{
+			close(pipe_fds[1]);
+			get_next_line(FREE_STATIC_FD);
+			exit(EXIT_FAILURE);
+		}
 	}
-	return (EXIT_FAILURE);
+}
+
+int	handle_heredoc(t_data *data, char *limiter)
+{
+	char	*line;
+	char	*buf;
+	int		pipe_fds[2];
+	int		status;
+
+	pipe(pipe_fds);
+	ft_printf("here_doc> ");
+	line = get_next_line(STDIN_FILENO);
+	if (!line)
+		return (-1);
+	buf = NULL;
+	int pid = fork();
+	if (pid == 0)
+		heredoc_fork(data, pipe_fds, line, limiter, buf);
+	else
+	{
+		close(pipe_fds[1]);
+		waitpid(pid, &status, 0);
+	}
+	return (pipe_fds[0]);
 }
