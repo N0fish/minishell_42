@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:06:24 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 17:33:16 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:55:31 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_token		*lexer(t_data *data, char *line);
 t_token		*lexer_build(t_data *data, char *line, int state);
 void		print_tokens(t_token *token);
 
-t_token		*token_init(struct s_malloc *m, t_token *token, int size);
+t_token		*token_init(t_malloc *m, t_token *token, int size);
 t_token		*check_lexer(t_data *data, t_token *token, int state);
 
 int			char_type(char ch);

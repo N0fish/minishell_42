@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:56:53 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 17:29:39 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:55:21 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	token_data_init(t_token *token, int size)
 	token->next = NULL;
 }
 
-t_token	*token_init(struct s_malloc *m, t_token *token, int size)
+t_token	*token_init(t_malloc *m, t_token *token, int size)
 {
 	token = ft_malloc(m, sizeof(t_token));
 	token->m = m;
