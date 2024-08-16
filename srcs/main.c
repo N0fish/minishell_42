@@ -6,7 +6,9 @@ cmd_node	*get_command(t_data *data, char *line)
 	cmd_node	*cmd;
 	t_token		*token;
 
-	token = lexer(line);
+	token = lexer(data, line);
+	if (!token)
+		return (NULL);
 	//print_tokens(token);
 	cmd = parser(&token);
 	cmd = expander(data, cmd);
@@ -17,8 +19,6 @@ cmd_node	*get_command(t_data *data, char *line)
 	cmd_delete(cmd);
 	data->entry_node = NULL;
 	// executor(cmd);
-	if (token)
-		free(token);
 	return (cmd);
 }
 
