@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:06:27 by alex              #+#    #+#             */
-/*   Updated: 2024/08/08 16:25:20 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/16 18:55:25 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,34 @@
 cmd_node	*redirect_out(t_token **token);
 cmd_node	*redirect_in(t_token **token);
 
+cmd_node	*set_null()
+{
+	cmd_node	*result;
+	char		*filename;
+
+	filename = malloc(sizeof(char) * 5);
+	strcpy(filename, "cat");
+	result = malloc(sizeof(cmd_node));
+	cmd_set_data(result, filename);
+	cmd_set_type(result, NODE_CMDPATH);
+	return (result);
+}
+
 cmd_node	*redirect_in(t_token **token)
 {
+	t_token		*save;
 	cmd_node	*cmd_tok;
 	cmd_node	*redirect_tok;
 	cmd_node	*result;
 	char		*filename;
 
+	save = *token;
 	cmd_tok = cmd_simple(token);
 	if (!cmd_tok)
-		return (NULL);
+	{
+		*token = save;
+		cmd_tok = set_null();
+	}
 	if (!check_tokentype(CHAR_LESSER, token, NULL))
 	{
 		cmd_delete(cmd_tok);
