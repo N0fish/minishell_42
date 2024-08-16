@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:23:52 by alex              #+#    #+#             */
-/*   Updated: 2024/08/14 13:01:23 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/16 10:53:21 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	lexer_general(char *input, t_token **token, int i, int *j)
 	else if (char_type(input[i]) == CHAR_WHITESPACE
 		&& input[i + 1] && char_type(input[i + 1]) != CHAR_WHITESPACE)
 	{
-		if (j > 0)
+		if (j != NULL)
 		{
 			(*token)->data[*j] = 0;
 			(*token)->next = malloc(sizeof(t_token));
