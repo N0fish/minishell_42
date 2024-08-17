@@ -19,13 +19,6 @@ void	fork_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 
 	if (!data || !node)
 		return ;
-	// attendre alex pour << HERE_DOC
-	// if (parsed->eof && *parsed->eof)
-	// {
-	// 	parsed->is_pid = true;
-	// 	handle_heredoc(*parsed->eof, fds.out);
-	// 	return ;
-	// }
 	if (node->type != NODE_CMDPATH)
 		node = node->left;
 	modif_env(data, "_", node->data);

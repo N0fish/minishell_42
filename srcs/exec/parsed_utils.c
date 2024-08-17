@@ -42,7 +42,7 @@ char	**split_cmd_argv(t_data *data, char **cmd_args, \
 	char	*cmd;
 	char	*tmp;
 
-	if (!cmd_args)
+	if (!cmd_args || !cmd_args[0])
 		return (NULL);
 	if (data_cmd)
 		*data_cmd = find_cmd_path(data->m, paths, cmd_args[0]);
@@ -95,7 +95,11 @@ t_cmd	*prepare_cmd(t_data *data, cmd_node *node)
 		return (ft_strerror(data, NULL, node->data, "Is a directory"), NULL);
 	}
 	args = get_command_args(data, node);
+	if (!args || !args[0])
+    	return (NULL);
 	args = split_cmd_argv(data, args, ft_split_m(data->m, path, ':'), &cmd);
+	if (!args)
+    	return (NULL);
 	cmd_res->cmd = cmd;
 	cmd_res->args = args;
 	return (cmd_res);

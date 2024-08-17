@@ -21,6 +21,14 @@ char	**fill_argv(t_data *data, cmd_node *arg_node, char **argv)
 		(arg_node->type == NODE_ARGUMENT || arg_node->type == NODE_CMDPATH))
 	{
 		argv[i] = (char *)ft_malloc(data->m, ft_strlen(arg_node->data) + 1);
+		if (!argv[i])
+        {
+            // Освобождение уже выделенной памяти в случае ошибки
+            while (i-- > 0)
+                ft_free(data->m, argv[i]);
+            ft_free(data->m, argv);
+            return (NULL);
+        }
 		ft_strcpy(argv[i], arg_node->data);
 		arg_node = arg_node->right;
 		i++;

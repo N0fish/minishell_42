@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/14 13:24:44 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/17 13:02:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	show_cmd_tree(cmd_node *node)
 	}
 	else if (node->type == NODE_ARGUMENT
 		|| node->type == NODE_Q_ARGUMENT
-			|| node->type == NODE_DQ_ARGUMENT)
+		|| node->type == NODE_DQ_ARGUMENT)
 	{
 		printf("arg: %s\n", node->data);
 		printf("type: %d\n", node->type);
@@ -73,53 +73,39 @@ void	show_cmd_tree(cmd_node *node)
 	{
 		printf("redirect in: %s < %s\n", node->left->data, node->data);
 	}
+	else if (node->type == NODE_HEREDOC_OUT)
+	{
+		printf("heredoc out: %s << %s\n", node->left->data, node->data);
+	}
+	else if (node->type == NODE_HEREDOC_IN)
+	{
+		printf("heredoc in: %s >> %s\n", node->left->data, node->data);
+	}
 	show_cmd_tree(node->right);
 }
 
-void	cmd_attach(cmd_node *root, cmd_node *left, cmd_node *right)
+cmd_node	*cmd_delete(cmd_node *node)
 {
-	if (root == NULL)
-		return ;
-	root->left = left;
-	root->right = right;
-}
-
-void	cmd_set_type(cmd_node *node, node_type type)
-{
-	if (node == NULL)
-		return ;
-	node->type = type;
-}
-
-void	cmd_set_data(cmd_node *node, char *data)
-{
-	if (node == NULL)
-		return ;
-	if (data != NULL)
-	{
-		node->data = data;
-	}
-}
-
-void	cmd_set(cmd_node *node, char *data, node_type type, cmd_node *next)
-{
-	if (node == NULL)
-		return ;
-	if (data != NULL)
-	{
-		node->data = data;
-		node->type = type;
-		node->left = next;
-	}
-}
-
-void	cmd_delete(cmd_node *node)
-{
-	if (node == NULL)
-		return ;
+	if (!node)
+		return (NULL);
 	if (node->type >= 0)
 		free(node->data);
 	cmd_delete(node->left);
 	cmd_delete(node->right);
 	free(node);
+	return (NULL);
+}
+
+cmd_node	*set_null(t_token **token)
+{
+	cmd_node	*result;
+	char		*filename;
+
+	(void)token;
+	filename = malloc(sizeof(char));
+	ft_strcpy(filename, "\0");
+	result = malloc(sizeof(cmd_node));
+	cmd_set_data(result, filename);
+	cmd_set_type(result, NODE_CMDPATH);
+	return (result);
 }

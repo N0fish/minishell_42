@@ -9,7 +9,7 @@ SRCDIR = ./srcs/
 INCDIR = ./include/
 OBJDIR = ./obj/
 
-PARSER_SRC = parser/cmd_utils.c parser/parser.c parser/parser_cmd.c parser/parser_redirect.c
+PARSER_SRC = parser/cmd_utils.c parser/cmd_init.c parser/parser.c parser/parser_cmd.c parser/parser_redirect.c parser/parser_heredoc.c
 INIT_SRC = init/init.c init/env.c init/env_init.c init/env_utils.c init/env_prepare.c
 LEXER_SRC = lexer/lexer.c lexer/lexer_build.c lexer/lexer_utils.c lexer/lexer_init.c
 BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builtin.c \
@@ -18,7 +18,7 @@ BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builti
 # EXECUTOR_SRC = executor/command.c executor/executor.c
 EXECUTOR_SRC = exec/exec.c exec/fds_utils.c exec/fds.c exec/here_doc.c exec/is_env_hd.c \
 	exec/parsed_utils.c exec/pids.c exec/command.c
-EXPANDER_SRC = expander/expander.c
+EXPANDER_SRC = expander/expander.c expander/expander_utils.c
 SIGNALS_SRC = signals/signals.c
 UTILS_SRC = utils/free.c utils/write.c utils/error.c utils/node.c
 

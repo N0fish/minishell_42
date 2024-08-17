@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_build.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:23:52 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 17:30:29 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/17 12:56:59 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,39 @@ static void	lexer_redirections(char *input, t_token **token, int i, int *j)
 					(*token)->next, ft_strlen(input) - i);
 			(*token) = (*token)->next;
 		}
+	}
+}
+
+static void	lexer_heredoc(char *input, t_token **token, int *i, int *j)
+{
+	int		ch_t;
+
+	if (!input || !token || !*token)
+		return ;
+	ch_t = is_heredoc(input, *i);
+	if (ch_t == HEREDOC_IN || ch_t == HEREDOC_OUT)
+	{
+		(*i) += 1;
+		if (*j > 0)
+		{
+			(*token)->data[*j] = '\0';
+			(*token)->next = token_init((*token)->m,
+					(*token)->next, ft_strlen(input) - *i);
+			(*token) = (*token)->next;
+			*j = 0;
+		}
+		(*token)->data[0] = input[*i];
+		(*token)->data[1] = '\0';
+		(*token)->type = ch_t;
+		if (input[*i + 1] && char_type(input[*i + 1]) != CHAR_WHITESPACE)
+		{
+			(*token)->next = token_init((*token)->m,
+					(*token)->next, ft_strlen(input) - *i);
+			(*token) = (*token)->next;
+			(*i) += 1;
+		}
+		if (input[*i] == '>' || input[*i] == '<')
+			(*i) += 1;
 	}
 }
 
@@ -122,6 +155,7 @@ t_token	*lexer_build(t_data *data, char *input, int state)
 		if (state == STATE_GENERAL)
 		{
 			lexer_quotes(input[i], &token, &j, &state);
+			lexer_heredoc(input, &token, &i, &j);
 			lexer_redirections(input, &token, i, &j);
 			lexer_general(input, &token, i, &j);
 		}

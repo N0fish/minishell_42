@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:06:24 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 17:55:31 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/17 12:47:59 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 enum TokenType{
 	CHAR_PIPE		= '|',
 	CHAR_GREATER	= '>',
+	HEREDOC_IN		= '>'+13,
+	HEREDOC_OUT		= '<'+13,
 	CHAR_LESSER		= '<',
 	CHAR_QOUTE		= '\'',
 	CHAR_DQOUTE		= '\"',
@@ -59,6 +61,7 @@ t_token		*token_init(t_malloc *m, t_token *token, int size);
 t_token		*check_lexer(t_data *data, t_token *token, int state);
 
 int			char_type(char ch);
+int			is_heredoc(char *input, int i);
 void		token_data_init(t_token* token, int size);
 void		strip_quotes(char *src, char *dest);
 void		lexer_destroy(t_token **token);
