@@ -101,16 +101,21 @@ t_fds	in_out(t_data *data, cmd_node *node)
 		open_mode[1] = 0644;
 		if (node && node->type == NODE_REDIRECT_OUT)
 			out_fd = find_final_fd(data, &node, NODE_REDIRECT_OUT, open_mode);
-		if (node && node->type == NODE_REDIRECT_IN) {
-			in_fd = handle_heredoc(data, node->data);
-			node = node->right;
-		}
+		// if (node && node->type == NODE_SHIFT_IN) // cest fonction
+		// {
+		// 	in_fd = handle_heredoc(data, node->data);
+		// 	node = node->right;
+		// }
 		open_mode[0] = O_RDONLY;
 		open_mode[1] = DEFAULT_CHMOD;
-		// if (node && node->type == NODE_REDIRECT_IN)
-		// 	in_fd = find_final_fd(data, &node, NODE_REDIRECT_IN, open_mode);
+		if (node && node->type == NODE_REDIRECT_IN)
+			in_fd = find_final_fd(data, &node, NODE_REDIRECT_IN, open_mode);
+		// open_mode[0] = O_CREAT | O_WRONLY | O_APPEND;
+		// open_mode[1] = 0644;
+		// if (node && node->type == NODE_SHIFT_OUT) // cest pas fait encore;
+		// if (node && node->type == NODE_REDIRECT_OUT) // pour test
+		// 	out_fd = find_final_fd(data, &node, NODE_REDIRECT_IN, open_mode);
 	}
-	// attendre alex pour le reste
 	return ((t_fds){\
 		.in = in_fd, \
 		.out = out_fd, \

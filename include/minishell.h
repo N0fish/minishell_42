@@ -108,6 +108,8 @@ t_fds	end_update_fds(t_fds fds, t_fds io);
 t_fds	in_out(t_data *data, cmd_node *node);
 // here_doc
 int		handle_heredoc(t_data *data, char *limiter);
+// if_env_hd
+char	*is_there_env(t_data *data, char *line);
 // parsed_utils
 bool	is_directory(char *path, bool slash);
 t_cmd	*prepare_cmd(t_data *data, cmd_node *node);
@@ -117,6 +119,7 @@ int		update_exit_code(t_data *data);
 pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp);
 
 // SIGNALS
+void	handler_sigint(int signal);
 void	ignore_signal(void);
 void	restore_signal(void);
 void	signals(int *exit_code);

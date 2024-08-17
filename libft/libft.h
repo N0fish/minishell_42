@@ -70,5 +70,7 @@ size_t			ft_array_len(char **arg);
 char			**ft_strtok(char *str, char *charset);
 char			*ft_strcpy(char *dst, const char *src);
 void			ft_free_char_array(char **array);
+char			*ft_strncpy(char *dest, const char *src, size_t n);
+char			*ft_strcat(char *dest, const char *src);
 
 #endif

@@ -17,7 +17,7 @@ void	token_data_init(t_token *token, int size)
 	if (!token)
 		return ;
 	if (token->m)
-		token->data = ft_malloc(token->m, sizeof(char) * (size + 1));
+		token->data = (char	*)ft_malloc(token->m, sizeof(char) * (size + 1));
 	else
 		token->data = malloc(sizeof(char) * (size + 1));
 	token->data[0] = 0;
@@ -27,7 +27,7 @@ void	token_data_init(t_token *token, int size)
 
 t_token	*token_init(t_malloc *m, t_token *token, int size)
 {
-	token = ft_malloc(m, sizeof(t_token));
+	token = (t_token *)ft_malloc(m, sizeof(t_token));
 	token->m = m;
 	token_data_init(token, size);
 	return (token);

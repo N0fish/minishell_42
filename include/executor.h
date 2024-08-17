@@ -19,17 +19,17 @@
 Структура для хранения внутренних данных команды. Сюда записываются pipes, redirect и аргументы комманды.
 Можно менять по своему усмотрению. (главное не сильно усложнять :) )
 */
-typedef struct cmd_internal
-{
-	int     argc;
-	char    **argv;
-	bool    stdin_pipe;
-	bool    stdout_pipe;
-	int     pipe_read;
-	int     pipe_write;
-    char    *redirect_in;
-    char    *redirect_out;
-}   cmd_internal;
+// typedef struct cmd_internal
+// {
+// 	int     argc;
+// 	char    **argv;
+// 	bool    stdin_pipe;
+// 	bool    stdout_pipe;
+// 	int     pipe_read;
+// 	int     pipe_write;
+//     char    *redirect_in;
+//     char    *redirect_out;
+// }   cmd_internal;
 
 typedef struct s_fds {
 	int	in;

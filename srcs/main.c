@@ -65,9 +65,22 @@ void	prompt(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
+	// t_sig	act;
+	// t_sig	act_q;
 
 	if (argc != 1)
 		return (write(2, "No arguments needed\n", 20), EXIT_FAILURE);
+    // act.sa_handler = &handler_sigint; 
+    // act.sa_flags = 0;
+	// sigemptyset(&act.sa_mask);
+	// sigaddset(&act.sa_mask, CNTRL_C);
+    // sigaction(CNTRL_C, &act, NULL);
+
+    // act_q.sa_handler = SIG_IGN; 
+    // act_q.sa_flags = SA_RESTART;
+	// sigemptyset(&act_q.sa_mask);
+	// sigaddset(&act_q.sa_mask, CNTRL_B_SLASH);
+    // sigaction(CNTRL_B_SLASH, &act_q, NULL);
 	data = init_builtins(argv, envp);
 	prompt(data);
 	// exit_builtin(data, NULL, false);

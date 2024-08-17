@@ -28,7 +28,8 @@ SRC = ft_atoi.c ft_bzero.c ft_isascii.c ft_isalnum.c ft_calloc.c \
 		get_next_line.c ft_printf.c ft_printf_utils.c \
 		ft_malloc.c ft_malloc_utils.c ft_split_m.c ft_strjoin_m.c \
 		ft_strdup_m.c ft_substr_m.c ft_itoa_m.c ft_itoa_long_long_int_m.c \
-		ft_array_len.c ft_strtok.c ft_strcpy.c ft_free_char_array.c
+		ft_array_len.c ft_strtok.c ft_strcpy.c ft_free_char_array.c \
+		ft_strncpy.c ft_strcat.c
 
 OBJ = $(SRC:%.c=$(OBJDIR)%.o)
 
