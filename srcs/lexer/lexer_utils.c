@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:56:53 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 17:29:34 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/17 12:42:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,17 @@ int	char_type(char ch)
 		return (CHAR_NULL);
 	else
 		return (CHAR_GENERAL);
+}
+
+int is_heredoc(char *input, int i)
+{
+	if (!input[i] || !input[i + 1])
+		return (CHAR_GENERAL);
+	if (input[i] == '>' && input[i + 1] == '>')
+		return (HEREDOC_IN);
+	else if (input[i] == '<' && input[i + 1] == '<')
+		return (HEREDOC_OUT);
+	return (CHAR_GENERAL);
 }
 
 void	strip_quotes(char *src, char *dest)

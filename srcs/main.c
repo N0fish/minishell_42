@@ -16,7 +16,7 @@ cmd_node	*get_command(t_data *data, char *line)
 	show_cmd_tree(cmd);
 	printf("\n!!!!end_cmd_tree!!!!\n");
 	exec_entry(data, cmd);
-	cmd_delete(cmd);
+	//cmd_delete(cmd);
 	data->entry_node = NULL;
 	// executor(cmd);
 	return (cmd);

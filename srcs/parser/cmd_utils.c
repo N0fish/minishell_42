@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 11:28:14 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/17 13:02:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,14 @@ void	show_cmd_tree(cmd_node *node)
 	{
 		printf("redirect in: %s < %s\n", node->left->data, node->data);
 	}
+	else if (node->type == NODE_HEREDOC_OUT)
+	{
+		printf("heredoc out: %s << %s\n", node->left->data, node->data);
+	}
+	else if (node->type == NODE_HEREDOC_IN)
+	{
+		printf("heredoc in: %s >> %s\n", node->left->data, node->data);
+	}
 	show_cmd_tree(node->right);
 }
 
@@ -86,4 +94,18 @@ cmd_node	*cmd_delete(cmd_node *node)
 	cmd_delete(node->right);
 	free(node);
 	return (NULL);
+}
+
+cmd_node	*set_null(t_token **token)
+{
+	cmd_node	*result;
+	char		*filename;
+
+	(void)token;
+	filename = malloc(sizeof(char));
+	ft_strcpy(filename, "\0");
+	result = malloc(sizeof(cmd_node));
+	cmd_set_data(result, filename);
+	cmd_set_type(result, NODE_CMDPATH);
+	return (result);
 }
