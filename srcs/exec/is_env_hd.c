@@ -72,20 +72,18 @@ char	*replace_key_to_value(char *str, int *res, const char *value)
 	return (new_str);
 }
 
-char    *process_key(t_data *data, char *line, int *len_key, char **start_line)
+char    *process_key(t_data *data, char *line, int len_key[2], char **start_line)
 {
 	char	*key;
 	char	*value;
 	char	*res_str;
-	int		flag;
+	bool	flag;
 
 	if (!data || !line)
 		return (NULL);
-	flag = 0;
 	key = seek_key_in_str(data, line, len_key);
 	value = seek_env_value(data->envp, key);
-	if (key)
-		ft_free(data->m, key);
+	ft_free(data->m, key);
 	if (!value)
 	{
 		value = ft_strdup_m(data->m, "");
@@ -95,11 +93,12 @@ char    *process_key(t_data *data, char *line, int *len_key, char **start_line)
 	if (res_str)
 	{
 		free(line);
+		line = res_str;
 		*start_line = line + len_key[0] + ft_strlen(value);
 		if (value && flag == 1)
 			ft_free(data->m, value);	
 	}
-	return (res_str);
+	return (line);
 }
 
 char	*is_there_env(t_data *data, char *line)
@@ -113,14 +112,9 @@ char	*is_there_env(t_data *data, char *line)
 	while (*start_line != '\0')
 	{
 		find_key_pos(line, len_key);
-		if (len_key[0] != -1)
-		{
-			line = process_key(data, line, len_key, &start_line);
-			if (!line)
-				break ;
-		}
-		else
+		if (len_key[0] == -1)
 			break ;
+		line = process_key(data, line, len_key, &start_line);
 	}
 	return (line);
 }
