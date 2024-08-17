@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:06:27 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 13:04:10 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/17 15:30:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ cmd_node	*heredoc_in(t_token **token)
 		return (cmd_delete(cmd_tok));
 	result = malloc(sizeof(cmd_node));
 	cmd_set_data(result, filename);
-	redirect_tok = redirect(token);
+	redirect_tok = heredoc_or_redirecit(token);
 	if (!redirect_tok)
 		return (cmd_define(result, NODE_HEREDOC_IN, cmd_tok, NULL));
 	return (cmd_define(result, NODE_HEREDOC_IN, cmd_tok, redirect_tok));
@@ -64,7 +64,7 @@ cmd_node	*heredoc_out(t_token **token)
 		return (cmd_delete(cmd_tok));
 	result = malloc(sizeof(cmd_node));
 	cmd_set_data(result, filename);
-	redirect_tok = redirect(token);
+	redirect_tok = heredoc_or_redirecit(token);
 	if (!redirect_tok)
 		return (cmd_define(result, NODE_HEREDOC_OUT, cmd_tok, NULL));
 	return (cmd_define(result, NODE_HEREDOC_OUT, cmd_tok, redirect_tok));
@@ -76,12 +76,12 @@ cmd_node	*heredoc(t_token **token)
 	cmd_node	*node;
 
 	save = *token;
-	*token = save;
-	node = heredoc_out(token);
+    *token = save;
+	node = heredoc_in(token);
 	if (node)
 		return (node);
 	*token = save;
-	node = heredoc_in(token);
+	node = heredoc_out(token);
 	if (node)
 		return (node);
 	*token = save;

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:06:27 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 13:01:46 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/17 15:30:45 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ cmd_node	*redirect_in(t_token **token)
 		return (cmd_delete(cmd_tok));
 	result = malloc(sizeof(cmd_node));
 	cmd_set_data(result, filename);
-	redirect_tok = redirect(token);
+	redirect_tok = heredoc_or_redirecit(token);
 	if (!redirect_tok)
 		return (cmd_define(result, NODE_REDIRECT_IN, cmd_tok, NULL));
 	return (cmd_define(result, NODE_REDIRECT_IN, cmd_tok, redirect_tok));
@@ -64,7 +64,7 @@ cmd_node	*redirect_out(t_token **token)
 		return (cmd_delete(cmd_tok));
 	result = malloc(sizeof(cmd_node));
 	cmd_set_data(result, filename);
-	redirect_tok = redirect(token);
+	redirect_tok = heredoc_or_redirecit(token);
 	if (!redirect_tok)
 		return (cmd_define(result, NODE_REDIRECT_OUT, cmd_tok, NULL));
 	return (cmd_define(result, NODE_REDIRECT_OUT, cmd_tok, redirect_tok));

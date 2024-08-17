@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:56:53 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 12:42:20 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/17 14:24:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	char_type(char ch)
 		return (CHAR_GENERAL);
 }
 
-int is_heredoc(char *input, int i)
+int	is_heredoc(char *input, int i)
 {
 	if (!input[i] || !input[i + 1])
 		return (CHAR_GENERAL);

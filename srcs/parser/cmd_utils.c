@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 13:02:40 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/17 15:29:17 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,23 @@ cmd_node	*set_null(t_token **token)
 	cmd_set_data(result, filename);
 	cmd_set_type(result, NODE_CMDPATH);
 	return (result);
+}
+
+cmd_node	*heredoc_or_redirecit(t_token **token)
+{
+	t_token		*save;
+	cmd_node	*node;
+
+	save = *token;
+	*token = save;
+	node = heredoc(token);
+	if (node)
+		return (node);
+	*token = save;
+	node = redirect(token);
+	if (node)
+		return (node);
+	*token = save;
+	*token = (*token)->next;
+	return (NULL);
 }

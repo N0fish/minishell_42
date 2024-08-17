@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 13:05:03 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/17 15:29:25 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ cmd_node	*cmd(t_token **token);
 cmd_node	*heredoc(t_token **token);
 cmd_node	*redirect(t_token **token);
 cmd_node	*parser(t_token **token);
+cmd_node	*heredoc_or_redirecit(t_token **token);
 
 #endif
