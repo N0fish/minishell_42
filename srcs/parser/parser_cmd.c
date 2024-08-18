@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:16:04 by alex              #+#    #+#             */
-/*   Updated: 2024/08/18 15:24:28 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/18 17:20:23 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@ cmd_node	*cmd_simple(t_token **token)
 	cmd_node	*arg;
 	cmd_node	*result;
 	char		*res;
+	int		type;
 
-	if (!check_tokentype(TOKEN, token, &res))
+	if (!(*token))
 		return (NULL);
+	type = (*token)->type;
+	if ((type != TOKEN) && (type != TOKEN_QUOTE)
+		&& (type != TOKEN_DQUOTE))
+		return (NULL);
+	check_tokentype(type, token, &res);
 	arg = cmd_argument(token);
 	result = malloc(sizeof(cmd_node));
 	cmd_set_type(result, NODE_CMDPATH);
