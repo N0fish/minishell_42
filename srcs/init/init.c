@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/21 19:59:33 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:46:54 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,24 @@ char	*get_shell_name(char **argv)
 	return (*argv);
 }
 
-void	init_vars(t_data *data, char **argv)
+t_data	*init_vars(t_data *data, char **argv)
 {
 	if (!data)
-		return ;
+		return (NULL);
 	data->shell_name = get_shell_name(argv);
 	data->exit_code = EXIT_SUCCESS;
 	data->wtpd = -1;
 	data->exec_error = false;
-	data->all_parsed = NULL;
-	data->nb_cmds = 0;
-	data->out_fd = -1;
 	data->in_fd = -1;
-	data->forks = 0;
+	data->out_fd = -1;
 	data->fds = (t_fds){\
 		.in = -1, \
 		.out = -1, \
-		.no = -1 \
+		.no = -1, \
+		.pipe = {-1, -1} \
 	};
+	data->entry_node = NULL;
+	return (data);
 }
 
 t_data	*init(char **argv, char **envp)
@@ -78,6 +78,5 @@ t_data	*init(char **argv, char **envp)
 	data->m = m;
 	if (!copy_env(data, envp) || !prepare_env(data, argv))
 		return (ft_free_all(m), NULL);
-	init_vars(data, argv);
-	return (data);
+	return (init_vars(data, argv));
 }

@@ -5,3 +5,4 @@ obj/
 a.out
 .DS_Store
 minishell_tester
+minishell

@@ -6,7 +6,7 @@
 #    By: algultse <algultse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/06 16:46:39 by algultse          #+#    #+#              #
-#    Updated: 2024/07/21 18:52:00 by algultse         ###   ########.fr        #
+#    Updated: 2024/08/09 23:45:40 by algultse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC = ft_atoi.c ft_bzero.c ft_isascii.c ft_isalnum.c ft_calloc.c \
 		get_next_line.c ft_printf.c ft_printf_utils.c \
 		ft_malloc.c ft_malloc_utils.c ft_split_m.c ft_strjoin_m.c \
 		ft_strdup_m.c ft_substr_m.c ft_itoa_m.c ft_itoa_long_long_int_m.c \
-		ft_array_len.c
+		ft_array_len.c ft_strtok.c ft_strcpy.c ft_free_char_array.c \
+		ft_strncpy.c ft_strcat.c
 
 OBJ = $(SRC:%.c=$(OBJDIR)%.o)
 

@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:01:55 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/22 12:01:56 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/09 23:44:48 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,37 +28,4 @@ void	free_cmd(t_data *data, t_cmd *cmd)
 	}
 	ft_free(data->m, cmd);
 	cmd = NULL;
-}
-
-void	free_char_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array && array[i])
-	{
-		free(array[i]);
-		array[i] = NULL;
-		i++;
-	}
-	if (array)
-	{
-		free(array);
-		array = NULL;
-	}
-}
-
-void	ft_free_t_cmd(t_data *data)
-{
-	int			i;
-
-	if (!data || !data->all_parsed)
-		return ;
-	i = 0;
-	while (i < data->nb_cmds)
-	{
-		if (data->all_parsed[i].pipex)
-			free_cmd(data, data->all_parsed[i].pipex);
-		i++;
-	}
 }

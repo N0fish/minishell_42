@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/29 13:05:17 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:43:42 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 bool	ft_isstralnum(char *str)
 {
-	if ((!ft_isalpha(*str) || *str == '_' || *str == '-') && *str != '=')
+	if (!ft_isalpha(*str) && *str != '=' && *str != '_')
 		return (false);
 	while (*str)
 	{
-		if ((!ft_isalnum(*str) || *str == '_' || *str == '-') && *str != '=')
+		if (!ft_isalnum(*str) && *str != '_')
 			return (false);
 		str++;
 	}

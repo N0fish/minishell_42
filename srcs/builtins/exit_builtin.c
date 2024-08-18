@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:41 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/02 14:54:33 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:50:55 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	check_digit(t_data *data, char **arg)
+bool	check_digit(t_data *data, cmd_node *arg)
 {
 	char			*res_arg;
 	char			*arg_cpy;
 	long long int	i;
 
-	arg_cpy = ft_strdup_m(data->m, arg[1]);
+	arg_cpy = ft_strdup_m(data->m, arg->data);
 	if (arg_cpy[0] == '+')
 		arg_cpy++;
 	i = ft_atoi_long_long_int(arg_cpy);
@@ -27,7 +27,8 @@ bool	check_digit(t_data *data, char **arg)
 	{
 		data->exit_code = EXIT_ERR_DIGIT;
 		return (ft_free(data->m, res_arg), ft_free(data->m, arg_cpy), \
-		ft_strerror(data, "exit", arg[1], "numeric argument required"), false);
+			ft_strerror(data, "exit", arg->data, \
+			"numeric argument required"), false);
 	}
 	ft_free(data->m, res_arg);
 	ft_free(data->m, arg_cpy);
@@ -40,13 +41,13 @@ bool	check_digit(t_data *data, char **arg)
 	return (true);
 }
 
-void	check_exit_arg(t_data *data, char **arg, bool *do_exit)
+void	check_exit_arg(t_data *data, cmd_node *arg, bool *do_exit)
 {
-	if (!data || !arg || !arg[1])
+	if (!data || !arg)
 		return ;
 	if (!check_digit(data, arg))
 		return ;
-	if (ft_array_len(arg) > 2)
+	if (arg->right)
 	{
 		*do_exit = false;
 		data->exit_code = EXIT_FAILURE;
@@ -54,33 +55,24 @@ void	check_exit_arg(t_data *data, char **arg, bool *do_exit)
 	}
 }
 
-void	close_everything(t_data *data)
+void	close_everything(t_fds fds, int in_out[2])
 {
-	if (!data)
-		return ;
-	if (data->out_fd != -1)
-		close(data->out_fd);
-	if (data->in_fd != -1)
-		close(data->in_fd);
-	if (data->fds.out != -1)
-		close(data->fds.out);
-	if (data->fds.in != -1)
-		close(data->fds.in);
-	if (data->fds.no != -1)
-		close(data->fds.no);
-	if (data->out_fd != STDOUT_FILENO && \
-		data->fds.out != STDOUT_FILENO && data->fds.no != STDOUT_FILENO)
-		close(STDOUT_FILENO);
-	if (data->in_fd != STDIN_FILENO && \
-		data->fds.in != STDIN_FILENO && data->fds.no != STDIN_FILENO)
-		close(STDIN_FILENO);
+	if (in_out[0] != STDIN_FILENO && in_out[0] != -1)
+		close(in_out[0]);
+	if (in_out[1] != STDOUT_FILENO && in_out[1] != -1)
+		close(in_out[1]);
+	close_fds(fds);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 }
 
-void	exit_builtin(t_data *data, char **arg, bool display)
+void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 {
 	int		exit_code;
 	bool	do_exit;
+	t_fds	fds;
+	int		in_out[2];
 
 	if (!data)
 		exit(EXIT_FAILURE);
@@ -91,9 +83,12 @@ void	exit_builtin(t_data *data, char **arg, bool display)
 	exit_code = data->exit_code;
 	if (do_exit == false)
 		return ;
-	close_everything(data);
-	free_all_parsed(data->all_parsed, data->nb_cmds);
+	cmd_delete(data->entry_node);
+	fds = data->fds;
+	in_out[0] = data->in_fd;
+	in_out[1] = data->out_fd;
 	ft_free_all(data->m);
-	// rl_clear_history();
+	//rl_clear_history(); // pas sur mac
+	close_everything(fds, in_out);
 	exit(exit_code);
 }

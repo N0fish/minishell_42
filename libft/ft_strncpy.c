@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_builtin.c                                    :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 13:18:10 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 16:45:47 by algultse         ###   ########.fr       */
+/*   Created: 2023/11/09 10:46:34 by algultse          #+#    #+#             */
+/*   Updated: 2023/11/09 14:33:40 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	unset_builtin(t_data *data, cmd_node *arg)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-	if (!data)
-		return (EXIT_FAILURE);
-	if (!arg || (arg->data && arg->data[0] == '\0'))
-		return (EXIT_SUCCESS);
-	if (!ft_strcmp(arg->data, "PWD"))
+	size_t	i;
+
+	i = 0;
+	while (i < n && src[i])
 	{
-		modif_env(data, arg->data, "");
-		hide_env(data, arg->data);
+		dest[i] = src[i];
+		i++;
 	}
-	else
-		delete_env(data, arg->data);
-	return (EXIT_SUCCESS);
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }

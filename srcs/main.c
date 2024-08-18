@@ -1,95 +1,48 @@
 #include "minishell.h"
+#include "expander.h"
 
-// Функция (obtain_cmds) коллеги (оставила только её для понимания, что использовалось),
-// где я забирала данные в data, чтобы использовать далее cmds.
+int	*g_status;
 
-void obtain_cmds(t_data *data, char *line)
+cmd_node	*get_command(t_data *data, char *line)
 {
-	// t_parsed *all_parsed;
-	char *sub_line;
-	int	i;
-	int	j;
-	int	k;
+	cmd_node	*cmd;
+	t_token		*token;
 
-	i = 0;
-	j = 0;
-	k = 0;
-
-	opened_quotes(line, 1, '\'', line);
-
-	data->nb_cmds = count_chars(line, '|');
-	data->nb_cmds++;
-	data->all_parsed = (t_parsed*)malloc(sizeof(t_parsed) * (data->nb_cmds));
-	data->all_parsed[0].cmd = NULL;
-	data->all_parsed[0].entry = NULL;
-	data->all_parsed[0].exit = NULL;
-	data->all_parsed[0].ex_append = 0;
-	data->all_parsed[0].eof = NULL;
-	data->all_parsed[0].err_msg = NULL;
-	data->all_parsed[0].err_code = 0;
-	data->all_parsed[0].pipex = NULL;
-
-	syntax_error(line, &data->all_parsed[0]);
-	if (data->all_parsed[0].err_code == 2 && data->all_parsed[0].err_msg != NULL)
-		data->nb_cmds = 1;
-	else
-	{
-		if (data->all_parsed[0].eof != NULL)
-		{
-			while (data->all_parsed[0].eof[i] && data->all_parsed[0].eof[i] != NULL)
-			{
-				free(data->all_parsed[0].eof[i]);
-				i++;
-			}
-			i = 0;
-			free(data->all_parsed[0].eof);
-			data->all_parsed[0].eof = NULL;
-		}
-		while (i < data->nb_cmds)
-		{
-			while (line[j] != '\0' && line[j] != '|')
-			{
-				if (line[j] == '\'' || line[j] == '"')
-					quote_to_quote(&j, line, line[j]);
-				j++;
-			}
-			sub_line = ft_strndup(line + k, j - k);
-			parsing(&data->all_parsed[i], sub_line, data);
-			j++;
-			k = j;
-			i++;
-			free(sub_line);
-		}
-
-	}
-	free(line);
+	token = lexer(data, line);
+	if (!token)
+		return (NULL);
+	print_tokens(token);
+	cmd = parser(&token);
+	cmd = expander(data, cmd);
+	printf("\n!!!!show_cmd_tree!!!!\n");
+	show_cmd_tree(cmd);
+	printf("\n!!!!end_cmd_tree!!!!\n");
+	exec_entry(data, cmd);
+	//cmd_delete(cmd);
+	data->entry_node = NULL;
+	// executor(cmd);
+	return (cmd);
 }
 
-void	parse_err_or_exec_cmds(t_data *data)
+bool	ft_isempty(const char *str)
 {
-	int i;
-
-	i = 0;
-	while (i < data->nb_cmds)
+	while (*str != '\0')
 	{
-		data->all_parsed[i].pipex = NULL;
-		i++;
+		if (!(*str >= '\t' && *str <= '\r') && *str != ' ')
+			return (false);
+		str++;
 	}
-	if (data->all_parsed && data->all_parsed->err_code != EXIT_SUCCESS)
-	{
-		data->exit_code = data->all_parsed->err_code;
-		ft_strerror(data, NULL, NULL, data->all_parsed->err_msg);
-	}
-	else
-		data->exit_code = exec_cmds(data);
+	return (true);
 }
 
 void	prompt(t_data *data)
 {
 	char	*line;
 
-	while (1)
+	while (true)
 	{
+		signals(&(data->exit_code));
+		line = NULL;
 		line = readline(MISS_PROMPT);
 		if (line == NULL)
 			exit_builtin(data, NULL, false);
@@ -101,30 +54,35 @@ void	prompt(t_data *data)
 		else if (ft_strlen(line) > 0)
 		{
 			add_history(line);
-			obtain_cmds(data, line); // не моя функция
-			parse_err_or_exec_cmds(data);
-			ft_free_t_cmd(data);
-			free_all_parsed(data->all_parsed, data->nb_cmds); // не моя функция
-			data->nb_cmds = 0;
+			get_command(data, line);
+			free(line);
 		}
 	}
-	// rl_clear_history (); // Не компилирует с ним на mac из-за этого закоментирован
+	//rl_clear_history(); // Не компилирует с ним на mac из-за этого закоментирован
 	return ;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_data				*data;
-	// struct sigaction	sa;
-	// struct sigaction	saq;
+	t_data	*data;
+	// t_sig	act;
+	// t_sig	act_q;
 
 	if (argc != 1)
-		(printf("No arguments needed\n"), exit(EXIT_FAILURE));
+		return (write(2, "No arguments needed\n", 20), EXIT_FAILURE);
+    // act.sa_handler = &handler_sigint; 
+    // act.sa_flags = 0;
+	// sigemptyset(&act.sa_mask);
+	// sigaddset(&act.sa_mask, CNTRL_C);
+    // sigaction(CNTRL_C, &act, NULL);
 
-	// код сигналов коллеги который я убрала.
-
+    // act_q.sa_handler = SIG_IGN; 
+    // act_q.sa_flags = SA_RESTART;
+	// sigemptyset(&act_q.sa_mask);
+	// sigaddset(&act_q.sa_mask, CNTRL_B_SLASH);
+    // sigaction(CNTRL_B_SLASH, &act_q, NULL);
 	data = init_builtins(argv, envp);
 	prompt(data);
-	exit_builtin(data, NULL, false); // si i/y a un problemme dans promt et il arrive jusqu'ici, et on efface notre memoire
-	return (EXIT_SUCCESS);
+	// exit_builtin(data, NULL, false);
+	return (*g_status);
 }

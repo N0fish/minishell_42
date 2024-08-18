@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_builtin.c                                    :+:      :+:    :+:   */
+/*   ft_free_char_array.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 13:18:10 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 16:45:47 by algultse         ###   ########.fr       */
+/*   Created: 2024/08/09 23:44:13 by algultse          #+#    #+#             */
+/*   Updated: 2024/08/09 23:45:45 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	unset_builtin(t_data *data, cmd_node *arg)
+void	ft_free_char_array(char **array)
 {
-	if (!data)
-		return (EXIT_FAILURE);
-	if (!arg || (arg->data && arg->data[0] == '\0'))
-		return (EXIT_SUCCESS);
-	if (!ft_strcmp(arg->data, "PWD"))
+	int	i;
+
+	i = 0;
+	while (array && array[i])
 	{
-		modif_env(data, arg->data, "");
-		hide_env(data, arg->data);
+		free(array[i]);
+		array[i] = NULL;
+		i++;
 	}
-	else
-		delete_env(data, arg->data);
-	return (EXIT_SUCCESS);
+	if (array)
+	{
+		free(array);
+		array = NULL;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:16:57 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/16 13:17:49 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:01:22 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,22 @@ void	update_env(t_data *data, char *res_key, char *res_value)
 		add_env(data, res_key, res_value);
 }
 
-int	export_builtin_update(t_data *data, char **cmd)
+int	export_builtin_update(t_data *data, cmd_node *arg)
 {
 	char	*key;
 	char	*value;
 	int		exit;
 
-	if (!cmd && !*cmd)
+	if (!data || !arg)
 		return (EXIT_FAILURE);
 	exit = EXIT_SUCCESS;
-	while (*cmd)
+	while (arg)
 	{
-		if (parse_key_value(data, *cmd, &key, &value) == EXIT_SUCCESS)
+		if (parse_key_value(data, arg->data, &key, &value) == EXIT_SUCCESS)
 		{
 			if (!ft_isstralnum(key))
 			{
-				ft_strerror_q(data, "export", *cmd, INVALID_ID);
+				ft_strerror_q(data, "export", arg->data, INVALID_ID);
 				exit = EXIT_FAILURE;
 			}
 			else
@@ -77,17 +77,16 @@ int	export_builtin_update(t_data *data, char **cmd)
 		ft_free(data->m, key);
 		if (value)
 			ft_free(data->m, value);
-		cmd++;
+		arg = arg->right;
 	}
 	return (exit);
 }
 
-int	export_builtin(t_data *data, char **cmd)
+int	export_builtin(t_data *data, cmd_node *arg)
 {
 	if (!data)
 		return (EXIT_FAILURE);
-	if (cmd && !cmd[1])
+	if (!arg)
 		return (declare_env_builtin(data));
-	cmd++;
-	return (export_builtin_update(data, cmd));
+	return (export_builtin_update(data, arg));
 }

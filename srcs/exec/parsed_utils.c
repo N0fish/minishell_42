@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:48 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/19 15:48:24 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/09 23:53:21 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*find_cmd_path(t_malloc *m, char **paths, char *cmd)
 	char	*tmp;
 	char	*res_cmd;
 
+	if (try_dir_or_file(cmd))
+		return (ft_strdup_m(m, cmd));
 	while (*paths)
 	{
 		tmp = ft_strjoin_m(m, *paths, "/");
@@ -35,16 +37,16 @@ char	*find_cmd_path(t_malloc *m, char **paths, char *cmd)
 }
 
 char	**split_cmd_argv(t_data *data, char **cmd_args, \
-							char **res_path, char **data_cmd)
+							char **paths, char **data_cmd)
 {
 	char	*cmd;
 	char	*tmp;
 
-	if (!cmd_args)
+	if (!cmd_args || !cmd_args[0])
 		return (NULL);
 	if (data_cmd)
-		*data_cmd = find_cmd_path(data->m, res_path, cmd_args[0]);
-	ft_free_array(data->m, (void **)res_path);
+		*data_cmd = find_cmd_path(data->m, paths, cmd_args[0]);
+	ft_free_array(data->m, (void **)paths);
 	cmd = ft_strrchr(cmd_args[0], '/');
 	if (!cmd)
 		return (cmd_args);
@@ -52,6 +54,7 @@ char	**split_cmd_argv(t_data *data, char **cmd_args, \
 		tmp = ft_strdup_m(data->m, cmd_args[0]);
 	else
 		tmp = ft_strdup_m(data->m, cmd + 1);
+	ft_free(data->m, cmd_args[0]);
 	cmd_args[0] = tmp;
 	return (cmd_args);
 }
@@ -67,46 +70,37 @@ bool	is_directory(char *path, bool slash)
 	return (S_ISDIR(path_stat.st_mode));
 }
 
-t_cmd	*prepare_cmd(t_data *data, t_parsed *parsed)
+bool	try_dir_or_file(char *path)
+{
+	return (path && (path[0] == '/' || ft_strncmp(path, "./", 2) == 0));
+}
+
+t_cmd	*prepare_cmd(t_data *data, cmd_node *node)
 {
 	char	*cmd;
 	char	**args;
 	t_cmd	*cmd_res;
 	char	*path;
 
-	if (!data || !parsed)
+	if (!data || !node)
 		return (NULL);
+	cmd = NULL;
 	cmd_res = (t_cmd *)ft_malloc(data->m, sizeof(t_cmd));
 	path = seek_env_value(data->envp, "PATH");
-	if (!parsed->cmd[0])
+	if (!node->data)
 		path = "";
-	if (is_directory(parsed->cmd[0], true))
+	if (is_directory(node->data, true))
 	{
 		data->exit_code = ERROR_CMD_NOT_EXET;
-		return (ft_strerror(data, NULL, parsed->cmd[0], "Is a directory"), NULL);
+		return (ft_strerror(data, NULL, node->data, "Is a directory"), NULL);
 	}
-	args = split_cmd_argv(data, parsed->cmd, \
-				ft_split_m(data->m, path, ':'), &cmd);
+	args = get_command_args(data, node);
+	if (!args || !args[0])
+    	return (NULL);
+	args = split_cmd_argv(data, args, ft_split_m(data->m, path, ':'), &cmd);
+	if (!args)
+    	return (NULL);
 	cmd_res->cmd = cmd;
 	cmd_res->args = args;
-	cmd_res->pipes = (int *) ft_malloc(data->m, sizeof(int) * 2);
-	cmd_res->pipes[0] = -1;
-	cmd_res->pipes[1] = -1;
 	return (cmd_res);
-}
-
-t_cmd	*pid_only_cmd(t_malloc *m, pid_t pid)
-{
-	t_cmd	*cmd;
-
-	if (!m)
-		return (NULL);
-	cmd = (t_cmd *)ft_malloc(m, sizeof(t_cmd));
-	cmd->args = NULL;
-	cmd->cmd = NULL;
-	cmd->pid = pid;
-	cmd->pipes = (int *) ft_malloc(m, sizeof(int) * 2);
-	cmd->pipes[0] = -1;
-	cmd->pipes[1] = -1;
-	return (cmd);
 }
