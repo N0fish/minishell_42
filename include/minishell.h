@@ -132,6 +132,10 @@ void	ft_strerror(t_data *data, char *name, char *text, char *err);
 void	free_cmd(t_data *data, t_cmd *cmd);
 // node
 bool	is_redirect_node(cmd_node *node);
+void	handle_redirect_out(t_data *data, cmd_node **node, int *out_fd);
+void	handle_shift_left(t_data *data, cmd_node **node, int *in_fd);
+void	handle_redirect_in(t_data *data, cmd_node **node, int *in_fd);
+void	handle_shift_right(t_data *data, cmd_node **node, int *out_fd);
 // write
 int		safe_write(t_data *data, char *name, char *arg, int fd);
 
