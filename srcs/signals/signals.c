@@ -5,7 +5,7 @@ void	handler_sigint(int signal)
 	(void)signal;
 	write(2, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0); // Не компилирует с ним на mac
+	//rl_replace_line("", 0); // Не компилирует с ним на mac
 	rl_redisplay();
 	*g_status = 128 + signal;
 }

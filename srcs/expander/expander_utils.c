@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:32:54 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 12:26:00 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/18 14:06:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	get_length_var(char *str)
 		return (2);
 	while (dollar[len] && (ft_isascii(dollar[len]) && dollar[len] != ' '))
 		len++;
-	return (len+1);
+	return (len + 1);
 }
 
 static char	*replace_dollar_by(t_malloc *m, char *str, char *var)
@@ -50,9 +50,13 @@ static char	*replace_dollar_by(t_malloc *m, char *str, char *var)
 	int		len;
 
 	len = get_length_var(str);
+	printf("len = [%d]\n", len);
 	new_str = ft_strdup_m(m, str);
-	tmp = ft_strnstr(new_str, "$", ft_strlen(new_str));
+	printf("new_str: [%s]\n", new_str);
+	tmp = ft_strnstr(new_str, "$", ft_strlen(new_str) - 1);
+	printf("tmp: [%s]\n", tmp);
 	tmp2 = ft_strjoin_m(m, var, tmp + len);
+	printf("tmp2: [%s]\n", tmp2);
 	ft_strlcpy(tmp, tmp2, ft_strlen(tmp2) + 1);
 	return (new_str);
 }
@@ -63,6 +67,8 @@ static char	*check_var(t_data *data, char *str)
 	char	*var;
 	char	*value;
 	int		var_len;
+	char	*res;
+	
 
 	if (!str)
 		return (NULL);
@@ -77,13 +83,17 @@ static char	*check_var(t_data *data, char *str)
 				ft_itoa_m(data->m, data->exit_code)));
 	else
 	{
-		var = ft_substr(dollar, 0, var_len);
+		var = ft_substr(dollar, 0, var_len - 1);
 		printf("var: %s\n", var);
+		printf("len = %d\n", (int)ft_strlen(var));
 		value = seek_env_value(data->envp, var);
-		printf("value: %s\n", value);
-		// если раскоментить падает minishell
-		// printf("value: %s\n", replace_dollar_by(data->m, str, value));
-		return (replace_dollar_by(data->m, str, "2"));
+		if (value)
+			res = replace_dollar_by(data->m, str, value);
+		else
+			res = replace_dollar_by(data->m, str, "2");
+		if (value)
+			printf("res: [%s]\n", res);
+		return (res);
 	}
 	return (str);
 }
@@ -98,7 +108,10 @@ char	*check_vars(t_data *data, char *str)
 	while (dollar)
 	{
 		str = check_var(data, str);
+		printf("str: [%s]\n", str);
 		dollar = get_dollar_pos(str);
+		printf("dollar: [%s]\n", dollar);
 	}
+	printf("ret str: [%s]\n", str);
 	return (str);
 }

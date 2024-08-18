@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:27:14 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 11:27:56 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/18 15:55:13 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 cmd_node	*cmd_define(cmd_node *root, node_type type,
 							cmd_node *left, cmd_node *right)
 {
+	if (right && right->type && right->type == NODE_ERROR)
+	{
+		if (root)
+			cmd_delete(root);
+		if (left)
+			cmd_delete(left);
+		return (right);
+	}
 	cmd_set_type(root, type);
 	cmd_attach(root, left, right);
 	return (root);

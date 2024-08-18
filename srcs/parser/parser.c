@@ -6,12 +6,13 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:29:08 by alex              #+#    #+#             */
-/*   Updated: 2024/08/08 16:20:27 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/18 15:55:21 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "lexer.h"
+#include "minishell.h"
 
 /*
 I try to parse the structure to make it working with pipes:
@@ -50,26 +51,26 @@ cmd_node	*job_pipe(t_token **token)
 	if (!cmd_tok)
 		return (NULL);
 	if (!check_tokentype(CHAR_PIPE, token, NULL))
-	{
-		cmd_delete(cmd_tok);
-		return (NULL);
-	}
+		return (cmd_delete(cmd_tok));
+	if (!only_check_tokentype(TOKEN, token, NULL))
+		return (cmd_delete_error(cmd_tok));
 	job_tok = job(token);
 	if (!job_tok)
-	{
-		cmd_delete(cmd_tok);
-		return (NULL);
-	}
+		return (cmd_delete_error(cmd_tok));
 	result = malloc(sizeof(cmd_node));
-	cmd_set_type(result, NODE_PIPE);
-	cmd_attach(result, cmd_tok, job_tok);
-	return (result);
+	return (cmd_define(result, NODE_PIPE, cmd_tok, job_tok));
 }
 
-cmd_node	*parser(t_token **token)
+cmd_node	*parser(t_data *data, t_token **token)
 {
 	cmd_node	*cmd_tree;
 
 	cmd_tree = job(token);
+	if (cmd_tree && cmd_tree->type == NODE_ERROR)
+	{
+		cmd_delete(cmd_tree);
+		ft_strerror(data, NULL, NULL, "Syntax error");
+		return (NULL);
+	}
 	return (cmd_tree);
 }
