@@ -11,7 +11,7 @@ OBJDIR = ./obj/
 
 PARSER_SRC = parser/cmd_utils.c parser/cmd_init.c parser/parser.c parser/parser_cmd.c parser/parser_redirect.c parser/parser_heredoc.c
 INIT_SRC = init/init.c init/env.c init/env_init.c init/env_utils.c init/env_prepare.c
-LEXER_SRC = lexer/lexer.c lexer/lexer_build.c lexer/lexer_utils.c lexer/lexer_init.c
+LEXER_SRC = lexer/lexer.c lexer/lexer_build.c lexer/lexer_utils.c lexer/lexer_init.c lexer/lexer_build_utils.c
 BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builtin.c \
 	builtins/cd_builtin.c builtins/pwd_builtin.c builtins/export_builtin.c builtins/export_builtin_utils.c \
 	builtins/unset_builtin.c builtins/env_builtin.c builtins/exit_builtin.c

@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:06:24 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 12:47:59 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/17 14:26:14 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ void		print_tokens(t_token *token);
 
 t_token		*token_init(t_malloc *m, t_token *token, int size);
 t_token		*check_lexer(t_data *data, t_token *token, int state);
+
+void		lexer_quotes(char ch, t_token **token, int *j, int *state);
+void		lexer_redirections(char *input, t_token **token, int i, int *j);
+void		lexer_general(char *input, t_token **token, int i, int *j);
+void		lexer_other_state(char ch, t_token **token, int *j, int *state);
+void		lexer_heredoc(char *input, t_token **token, int *i, int *j);
 
 int			char_type(char ch);
 int			is_heredoc(char *input, int i);

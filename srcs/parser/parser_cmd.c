@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:16:04 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 13:03:48 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/17 15:29:53 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,7 @@ cmd_node	*cmd(t_token **token)
 
 	save = *token;
 	*token = save;
-	node = heredoc(token);
-	if (node)
-		return (node);
-	*token = save;
-	node = redirect(token);
+	node = heredoc_or_redirecit(token);
 	if (node)
 		return (node);
 	*token = save;
