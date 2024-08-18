@@ -22,7 +22,6 @@ cmd_node	*get_command(t_data *data, char *line)
 	exec_entry(data, cmd);
 	//cmd_delete(cmd);
 	data->entry_node = NULL;
-	// executor(cmd);
 	return (cmd);
 }
 
@@ -60,7 +59,7 @@ void	prompt(t_data *data)
 			free(line);
 		}
 	}
-	//rl_clear_history(); // Не компилирует с ним на mac из-за этого закоментирован
+	// rl_clear_history(); // Не компилирует с ним на mac из-за этого закоментирован
 	return ;
 }
 

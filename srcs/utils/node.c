@@ -15,5 +15,7 @@
 bool	is_redirect_node(cmd_node *node)
 {
 	return (node->type == NODE_REDIRECT_IN \
-		|| node->type == NODE_REDIRECT_OUT);
+		|| node->type == NODE_REDIRECT_OUT \
+		|| node->type == NODE_HEREDOC_IN \
+		|| node->type == NODE_HEREDOC_OUT);
 }

@@ -103,12 +103,12 @@ t_fds	in_out(t_data *data, cmd_node *node)
 		if (node && node->type == NODE_REDIRECT_OUT)
 			out_fd = find_final_fd(data, &node, NODE_REDIRECT_OUT, open_mode);
 
-		//<< NODE_SHIFT_LEFT ou NODE_HEREDOC_OUT
-		// if (node && node->type == NODE_SHIFT_LEFT)
-		// {
-		// 	out_fd = handle_heredoc(data, node->data);
-		// 	node = node->right;
-		// }
+		//<< NODE_SHIFT_LEFT ou NODE_HEREDOC_OUT (<<)
+		if (node && node->type == NODE_HEREDOC_OUT)
+		{
+			in_fd = handle_heredoc(data, node->data);
+			node = node->right;
+		}
 
 		// IN (<) 
 		open_mode[0] = O_RDONLY;
@@ -116,12 +116,11 @@ t_fds	in_out(t_data *data, cmd_node *node)
 		if (node && node->type == NODE_REDIRECT_IN)
 			in_fd = find_final_fd(data, &node, NODE_REDIRECT_IN, open_mode);
 
-		// >> NODE_SHIFT_RIGHT ou NODE_SHIFT_IN
-		// open_mode[0] = O_CREAT | O_WRONLY | O_APPEND;
-		// open_mode[1] = 0644;
-		// if (node && node->type == NODE_SHIFT_RIGHT) // cest pas fait encore;
-		// if (node && node->type == NODE_REDIRECT_IN) // test
-		// 	in_fd = find_final_fd(data, &node, NODE_REDIRECT_IN, open_mode);
+		// >> NODE_SHIFT_RIGHT ou NODE_SHIFT_IN (>>)
+		open_mode[0] = O_CREAT | O_WRONLY | O_APPEND;
+		open_mode[1] = 0644;
+		if (node && node->type == NODE_HEREDOC_IN)
+			out_fd = find_final_fd(data, &node, NODE_HEREDOC_IN, open_mode);
 	}
 	return ((t_fds){\
 		.in = in_fd, \
