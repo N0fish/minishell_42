@@ -12,7 +12,9 @@ cmd_node	*get_command(t_data *data, char *line)
 	if (!token)
 		return (NULL);
 	print_tokens(token);
-	cmd = parser(&token);
+	cmd = parser(data, &token);
+	if (!cmd)
+		return (NULL);
 	cmd = expander(data, cmd);
 	printf("\n!!!!show_cmd_tree!!!!\n");
 	show_cmd_tree(cmd);

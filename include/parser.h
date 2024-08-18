@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 15:29:25 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/18 15:18:42 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum
 	NODE_Q_ARGUMENT		= 8,
 	NODE_DQ_ARGUMENT	= 9,
     NODE_DATA 			= 0,
+	NODE_ERROR			= -1,
 } node_type;
 
 typedef struct cmd_node {
@@ -50,6 +51,7 @@ bool		only_check_tokentype(int tok_type, t_token **token, char** bufferptr);
 void        show_cmd_tree(cmd_node *node);
 
 cmd_node	*cmd_delete(cmd_node* node);
+cmd_node	*cmd_delete_error(cmd_node *node);
 cmd_node	*set_null(t_token **token);
 cmd_node	*cmd_define(cmd_node *root, node_type type, cmd_node *left, cmd_node *right);
 
@@ -58,7 +60,7 @@ cmd_node	*cmd_simple(t_token **token);
 cmd_node	*cmd(t_token **token);
 cmd_node	*heredoc(t_token **token);
 cmd_node	*redirect(t_token **token);
-cmd_node	*parser(t_token **token);
+cmd_node	*parser(t_data *data, t_token **token);
 cmd_node	*heredoc_or_redirecit(t_token **token);
 
 #endif

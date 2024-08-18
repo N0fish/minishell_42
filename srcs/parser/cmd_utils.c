@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/17 15:29:17 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/18 15:36:41 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,22 @@ cmd_node	*cmd_delete(cmd_node *node)
 	cmd_delete(node->right);
 	free(node);
 	return (NULL);
+}
+
+cmd_node	*cmd_delete_error(cmd_node *node)
+{
+	cmd_node	*ret;
+
+	if (!node)
+		return (NULL);
+	if (node->type >= 0)
+		free(node->data);
+	cmd_delete(node->left);
+	cmd_delete(node->right);
+	free(node);
+	ret = malloc(sizeof(cmd_node));
+	cmd_set_type(ret, NODE_ERROR);
+	return (ret);
 }
 
 cmd_node	*set_null(t_token **token)
