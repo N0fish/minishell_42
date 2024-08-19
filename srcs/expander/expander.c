@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 12:41:01 by alex              #+#    #+#             */
-/*   Updated: 2024/08/18 14:07:36 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/19 14:56:46 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
+#include "minishell.h"
+
+char	*check_vars(t_data *data, char *str)
+{
+	if (!str)
+		return (NULL);
+	str = is_there_env(data, str);
+	return (str);
+}
 
 cmd_node	*expander(t_data *data, cmd_node *node)
 {

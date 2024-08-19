@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:28 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/19 13:43:55 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/19 15:02:03 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,11 @@ int *find_key_pos(char *str, int *len)
 	len[1] = -1;
 	while (str[i] != '\0' && str[i] != '$')
 		i++;
-	while (str[i] == '$' && str[i + 1] == '$')
-		i++;
 	if (str[i] == '\0')
 		return (NULL);
 	len[0] = i;
 	while (str[i] != '\0' && str[i + 1] != '\0' \
-		&& str[i] != '?' && str[i + 1] != '$' \
+		&& str[i] != '?' \
 		&& (str[i + 1] != ' ' && !(str[i + 1] >= '\t' && str[i + 1] <= '\r')))
 		i++;
 	len[1] = i;
@@ -80,6 +78,8 @@ char	*seek_env_or_exit_code(t_data *data, char *key)
 		return (NULL);
 	if (*key == '?')
 		return (ft_itoa_m(data->m, data->exit_code));
+	if (*key == '$')
+		return (ft_strdup_m(data->m, ""));
 	return (ft_strdup_m(data->m, seek_env_value(data->envp, key)));
 }
 
