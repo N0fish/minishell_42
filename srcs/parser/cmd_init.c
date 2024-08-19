@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:27:14 by alex              #+#    #+#             */
-/*   Updated: 2024/08/19 13:25:39 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:18:58 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ cmd_node	*cmd_define(cmd_node *root, node_type type,
 
 void	cmd_attach(cmd_node *root, cmd_node *left, cmd_node *right)
 {
-	if (root == NULL)
+	if (!root)
 		return ;
 	root->left = left;
 	root->right = right;
@@ -38,29 +38,23 @@ void	cmd_attach(cmd_node *root, cmd_node *left, cmd_node *right)
 
 void	cmd_set_type(cmd_node *node, node_type type)
 {
-	if (node == NULL)
+	if (!node)
 		return ;
 	node->type = type;
 }
 
 void	cmd_set_data(cmd_node *node, char *data)
 {
-	if (node == NULL)
+	if (!node)
 		return ;
-	if (data != NULL)
-	{
-		node->data = data;
-	}
+	node->data = data;
 }
 
 void	cmd_set(cmd_node *node, char *data, node_type type, cmd_node *next)
 {
-	if (node == NULL)
+	if (!node)
 		return ;
-	if (data != NULL)
-	{
-		node->data = data;
-		node->type = type;
-		node->left = next;
-	}
+	node->data = data;
+	node->type = type;
+	node->left = next;
 }

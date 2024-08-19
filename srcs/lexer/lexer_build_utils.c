@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_build_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:25:12 by alex              #+#    #+#             */
-/*   Updated: 2024/08/18 15:01:19 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/19 18:33:31 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	lexer_heredoc(char *input, t_token **t, int *i, int *j)
 			(*t) = (*t)->next;
 			(*i) += 1;
 		}
-		if (input[*i] == '>' || input[*i] == '<')
+		if (input[*i] && (input[*i] == '>' || input[*i] == '<'))
 			(*i) += 1;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:56:53 by alex              #+#    #+#             */
-/*   Updated: 2024/08/18 15:39:19 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/19 18:33:47 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	char_type(char ch)
 		return (CHAR_DQOUTE);
 	else if (ch == ' ')
 		return (CHAR_WHITESPACE);
-	else if (ch == 0)
+	else if (ch == '\0')
 		return (CHAR_NULL);
 	else
 		return (CHAR_GENERAL);

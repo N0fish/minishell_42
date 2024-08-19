@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/19 14:58:03 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:50:00 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ typedef enum
 	NODE_HEREDOC_OUT	= 4,
 	NODE_HEREDOC_IN		= 5,
     NODE_CMDPATH		= 6,
-    NODE_ARGUMENT		= 7,
-	NODE_Q_ARGUMENT		= 8,
-	NODE_DQ_ARGUMENT	= 9,
-    NODE_DATA 			= 0,
+	NODE_Q_CMDPATH		= 7,
+	NODE_DQ_CMDPATH		= 8,
+    NODE_ARGUMENT		= 9,
+	NODE_Q_ARGUMENT		= 10,
+	NODE_DQ_ARGUMENT	= 11,
+    NODE_DATA 			= 12,
 	NODE_ERROR			= -1,
 } node_type;
 
@@ -55,7 +57,7 @@ cmd_node	*cmd_delete_error(cmd_node *node);
 cmd_node	*set_null(t_token **token);
 cmd_node	*cmd_define(cmd_node *root, node_type type, cmd_node *left, cmd_node *right);
 
-cmd_node	*argument(t_token **token, int type);
+cmd_node	*cmd_argument(t_token **token);
 cmd_node	*cmd_simple(t_token **token);
 cmd_node	*cmd(t_token **token);
 cmd_node	*heredoc(t_token **token);

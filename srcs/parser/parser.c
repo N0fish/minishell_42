@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:29:08 by alex              #+#    #+#             */
-/*   Updated: 2024/08/18 15:55:21 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/19 18:05:35 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "lexer.h"
 #include "minishell.h"
-
-/*
-I try to parse the structure to make it working with pipes:
-
-JOB :: { CMD | JOB } { CMD }
-CMD :: { CMD_SIMPLE > CMD } { CMD_SIMPLE < CMD } { CMD_SIMPLE }
-*/
 
 cmd_node	*job_pipe(t_token **token);
 cmd_node	*job(t_token **token);
@@ -58,6 +51,7 @@ cmd_node	*job_pipe(t_token **token)
 	if (!job_tok)
 		return (cmd_delete_error(cmd_tok));
 	result = malloc(sizeof(cmd_node));
+	result->data = NULL;
 	return (cmd_define(result, NODE_PIPE, cmd_tok, job_tok));
 }
 

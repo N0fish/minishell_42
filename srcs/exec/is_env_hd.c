@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:28 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/19 15:02:03 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:55:16 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,19 @@ char	*replace_key_to_value(char *str, int *res, const char *value)
 
 char	*seek_env_or_exit_code(t_data *data, char *key)
 {
+	char	*value;
+
 	if (!data || !key)
 		return (NULL);
 	if (*key == '?')
 		return (ft_itoa_m(data->m, data->exit_code));
 	if (*key == '$')
 		return (ft_strdup_m(data->m, ""));
-	return (ft_strdup_m(data->m, seek_env_value(data->envp, key)));
+	value = seek_env_value(data->envp, key);
+	if (value)
+		return (ft_strdup_m(data->m, value));
+	else
+		return (ft_strdup_m(data->m, ""));
 }
 
 char    *process_key(t_data *data, char *line, int len_key[2], char **start_line)

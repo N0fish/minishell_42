@@ -16,24 +16,22 @@ int	*g_status;
 cmd_node	*get_command(t_data *data, char *line)
 {
 	cmd_node	*cmd;
-	// cmd_node	*cmd_start;
 	t_token		*token;
 
+	if (!data || !line)
+		return (NULL);
 	token = lexer(data, line);
 	if (!token)
 		return (NULL);
-	// print_tokens(token);
 	cmd = parser(data, &token);
 	if (!cmd)
 		return (NULL);
 	cmd = expander(data, cmd);
-	// printf("\n!!!!show_cmd_tree!!!!\n");
-	// show_cmd_tree(cmd);
-	// printf("\n!!!!end_cmd_tree!!!!\n");
-	// cmd_start = cmd;
+	if (!cmd)
+		return (NULL);
 	exec_entry(data, cmd);
-	// if (cmd_start)
-	// 	cmd_delete(cmd_start);
+	if (cmd)
+		cmd_delete(cmd);
 	data->entry_node = NULL;
 	return (cmd);
 }
