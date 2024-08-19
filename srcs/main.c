@@ -3,24 +3,37 @@
 
 int	*g_status;
 
+// void	lexer_destroy(t_token **token)
+// {
+// 	if (token && *token)
+// 	{
+// 		ft_free((*token)->m, (*token)->data);
+// 		lexer_destroy(&(*token)->next);
+// 		ft_free((*token)->m, *token);
+// 	}
+// }
+
 cmd_node	*get_command(t_data *data, char *line)
 {
 	cmd_node	*cmd;
+	// cmd_node	*cmd_start;
 	t_token		*token;
 
 	token = lexer(data, line);
 	if (!token)
 		return (NULL);
-	print_tokens(token);
+	// print_tokens(token);
 	cmd = parser(data, &token);
 	if (!cmd)
 		return (NULL);
 	cmd = expander(data, cmd);
-	printf("\n!!!!show_cmd_tree!!!!\n");
-	show_cmd_tree(cmd);
-	printf("\n!!!!end_cmd_tree!!!!\n");
+	// printf("\n!!!!show_cmd_tree!!!!\n");
+	// show_cmd_tree(cmd);
+	// printf("\n!!!!end_cmd_tree!!!!\n");
+	// cmd_start = cmd;
 	exec_entry(data, cmd);
-	//cmd_delete(cmd);
+	// if (cmd_start)
+	// 	cmd_delete(cmd_start);
 	data->entry_node = NULL;
 	return (cmd);
 }
@@ -38,7 +51,7 @@ bool	ft_isempty(const char *str)
 
 void	prompt(t_data *data)
 {
-	char	*line;
+	char		*line;
 
 	while (true)
 	{
@@ -59,29 +72,16 @@ void	prompt(t_data *data)
 			free(line);
 		}
 	}
-	// rl_clear_history(); // Не компилирует с ним на mac из-за этого закоментирован
+	rl_clear_history(); // Не компилирует с ним на mac из-за этого закоментирован
 	return ;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
-	// t_sig	act;
-	// t_sig	act_q;
 
 	if (argc != 1)
 		return (write(2, "No arguments needed\n", 20), EXIT_FAILURE);
-    // act.sa_handler = &handler_sigint; 
-    // act.sa_flags = 0;
-	// sigemptyset(&act.sa_mask);
-	// sigaddset(&act.sa_mask, CNTRL_C);
-    // sigaction(CNTRL_C, &act, NULL);
-
-    // act_q.sa_handler = SIG_IGN; 
-    // act_q.sa_flags = SA_RESTART;
-	// sigemptyset(&act_q.sa_mask);
-	// sigaddset(&act_q.sa_mask, CNTRL_B_SLASH);
-    // sigaction(CNTRL_B_SLASH, &act_q, NULL);
 	data = init_builtins(argv, envp);
 	prompt(data);
 	// exit_builtin(data, NULL, false);

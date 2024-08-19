@@ -24,7 +24,6 @@
 # include "expander.h"
 
 extern int	*g_status;
-typedef struct sigaction	t_sig;
 
 typedef struct s_envp {
 	char			*key;
@@ -108,8 +107,11 @@ t_fds	end_update_fds(t_fds fds, t_fds io);
 t_fds	in_out(t_data *data, cmd_node *node);
 // here_doc
 int		handle_heredoc(t_data *data, char *limiter);
-// if_env_hd
-char	*is_there_env(t_data *data, char *line);
+
+// is_env_hd
+// int		*find_key_pos(char *str, int *len, int offset);
+char    *process_key(t_data *data, char *line, int len_key[2], char **start_line);
+
 // parsed_utils
 bool	is_directory(char *path, bool slash);
 t_cmd	*prepare_cmd(t_data *data, cmd_node *node);
@@ -120,9 +122,11 @@ pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp);
 
 // SIGNALS
 void	handler_sigint(int signal);
-void	ignore_signal(void);
-void	restore_signal(void);
 void	signals(int *exit_code);
+void	parent_signals(void);
+void	child_signals(void);
+void	heredoc_parent_signal(void);
+void	heredoc_child_signal(void);
 
 // UTILS
 // error

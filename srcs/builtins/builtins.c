@@ -44,6 +44,8 @@ void	exec_builtin(t_data *data, cmd_node *cmd, bool exit_display)
 
 bool	is_builtin(t_data *data, cmd_node *cmd)
 {
+	if (!data || !cmd || !cmd->data)
+		return (false);
 	return (ft_match_any(data, cmd->data, \
 		"pwd,cd,unset,env,export,echo,exit"));
 }

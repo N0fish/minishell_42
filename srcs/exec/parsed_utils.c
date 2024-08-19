@@ -17,7 +17,7 @@ char	*find_cmd_path(t_malloc *m, char **paths, char *cmd)
 	char	*tmp;
 	char	*res_cmd;
 
-	if (try_dir_or_file(cmd))
+	if (try_dir_or_file(cmd) || *cmd == '\0')
 		return (ft_strdup_m(m, cmd));
 	while (*paths)
 	{

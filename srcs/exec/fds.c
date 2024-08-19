@@ -101,7 +101,6 @@ t_fds	in_out(t_data *data, cmd_node *node)
 		handle_redirect_in(data, &node, &in_fd);
 		handle_shift_right(data, &node, &out_fd);
 	}
-
 	return ((t_fds){
 		.in = in_fd,
 		.out = out_fd,
