@@ -38,6 +38,7 @@ typedef struct s_cmd {
 	char			**args;
 }				t_cmd;
 
+char	*is_there_env(t_data *data, char *line);
 
 // BUILTINS
 // builtin_utils
