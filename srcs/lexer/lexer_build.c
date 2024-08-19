@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "minishell.h"
 
 t_token	*lexer_build(t_data *data, char *input, int state)
 {

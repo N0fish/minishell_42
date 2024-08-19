@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "lexer.h"
+#include "minishell.h"
 
 cmd_node	*heredoc_out(t_token **token);
 cmd_node	*heredoc_in(t_token **token);

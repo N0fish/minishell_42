@@ -47,7 +47,6 @@ void	close_fds(t_fds fds)
 	if (fds.pipe[0] != STDIN_FILENO && fds.pipe[0] != -1)
 		close(fds.pipe[0]);
 	fds.pipe[0] = -1;
-	// fds.pipe[1] == 0
 	if (fds.pipe[1] != STDOUT_FILENO && fds.pipe[1] != -1)
 		close(fds.pipe[1]);
 	fds.pipe[1] = -1;

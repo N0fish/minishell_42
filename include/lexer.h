@@ -13,12 +13,6 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# include <stdio.h>
-# include <string.h>
-# include <stdbool.h>
-# include "libft.h"
-# include "executor.h"
-
 enum TokenType{
 	CHAR_PIPE		= '|',
 	CHAR_GREATER	= '>',

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
 #include "minishell.h"
 
 int	char_type(char ch)

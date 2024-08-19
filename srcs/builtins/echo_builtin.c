@@ -14,7 +14,7 @@
 
 int	echo_builtin(t_data *data, cmd_node *arg)
 {
-	int		newline;
+	int	newline;
 
 	if (!data)
 		return (EXIT_FAILURE);

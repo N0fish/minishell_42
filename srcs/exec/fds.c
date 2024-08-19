@@ -26,12 +26,9 @@ t_fds	init_fds(t_fds io)
 			.no = -1, \
 			.pipe = {-1, -1}, \
 		});
-	out_fd = new_pipe_fds[1]; // A1
+	out_fd = new_pipe_fds[1];
 	if (io.out != STDOUT_FILENO)
-		out_fd = io.out; // R1
-	// .in = io.in, // STDIN or L1
-	// .out = out_fd, // A1 or R1
-	// .no = new_pipe_fds[0] // A0
+		out_fd = io.out;
 	return ((t_fds){\
 		.in = io.in, \
 		.out = out_fd, \
@@ -55,17 +52,14 @@ t_fds	update_fds(t_fds fds, t_fds io)
 			.pipe = {-1, -1} \
 		});
 	}
-	// .in = A0 or L1
 	fds.in = fds.no;
 	if (io.in != STDIN_FILENO && io.in != -1)
 		fds.in = io.in;
-	// .out = B1 or R1
 	fds.out = new_pipe_fds[1];
 	if (io.out != STDOUT_FILENO && io.out != -1)
 		fds.out = io.out;
-	fds.pipe[0] = fds.no; // .pipe[0] = A0
-	fds.pipe[1] = new_pipe_fds[1]; // .pipe[1] = B1
-	// .no = B0
+	fds.pipe[0] = fds.no;
+	fds.pipe[1] = new_pipe_fds[1];
 	fds.no = new_pipe_fds[0];
 	return (fds);
 }
@@ -74,11 +68,9 @@ t_fds	end_update_fds(t_fds fds, t_fds io)
 {
 	int	in_fd;
 
-	// .in = A0/B0
 	in_fd = fds.no;
 	if (io.in != STDIN_FILENO)
-		in_fd = io.in; // L1
-	// .out = stdout or R1
+		in_fd = io.in;
 	return ((t_fds){\
 		.in = in_fd, \
 		.out = io.out, \
@@ -101,10 +93,10 @@ t_fds	in_out(t_data *data, cmd_node *node)
 		handle_redirect_in(data, &node, &in_fd);
 		handle_shift_right(data, &node, &out_fd);
 	}
-	return ((t_fds){
-		.in = in_fd,
-		.out = out_fd,
-		.no = -1,
-		.pipe = {-1, -1}
+	return ((t_fds){\
+		.in = in_fd, \
+		.out = out_fd, \
+		.no = -1, \
+		.pipe = {-1, -1} \
 	});
 }

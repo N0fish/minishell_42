@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 cmd_node	*cmd_define(cmd_node *root, node_type type,
 							cmd_node *left, cmd_node *right)

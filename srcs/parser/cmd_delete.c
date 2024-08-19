@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 cmd_node	*cmd_delete(cmd_node *node)
 {

@@ -13,12 +13,6 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "libft.h"
-# include "lexer.h"
-# include <stdio.h>
-# include <string.h>
-# include <stdbool.h>
-
 typedef enum
 {
     NODE_PIPE 			= 1,

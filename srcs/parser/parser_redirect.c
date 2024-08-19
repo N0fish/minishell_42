@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "lexer.h"
+#include "minishell.h"
 
 cmd_node	*redirect_out(t_token **token);
 cmd_node	*redirect_in(t_token **token);
