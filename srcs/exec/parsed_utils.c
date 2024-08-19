@@ -63,7 +63,7 @@ bool	is_directory(char *path, bool slash)
 {
 	struct stat	path_stat;
 
-	if (slash && path && path[0] != '/')
+	if ((slash && path && path[0] != '/') || !path || (path && path[0] == 0))
 		return (false);
 	ft_memset(&path_stat, 0, sizeof(struct stat));
 	stat(path, &path_stat);
