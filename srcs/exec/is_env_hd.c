@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_env_hd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:28 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/16 13:23:42 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/19 13:43:55 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int *find_key_pos(char *str, int *len)
 	len[0] = -1;
 	len[1] = -1;
 	while (str[i] != '\0' && str[i] != '$')
+		i++;
+	while (str[i] == '$' && str[i + 1] == '$')
 		i++;
 	if (str[i] == '\0')
 		return (NULL);

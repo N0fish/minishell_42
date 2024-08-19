@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/19 13:31:14 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/19 13:49:14 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ cmd_node	*cmd_delete_error(cmd_node *node)
 
 	if (!node)
 		return (NULL);
-	if (node->type >= 0)
+	if (node->type && node->type >= 0)
 		free(node->data);
 	cmd_delete(node->left);
 	cmd_delete(node->right);
@@ -118,13 +118,10 @@ cmd_node	*cmd_delete_error(cmd_node *node)
 cmd_node	*set_null(t_token **token)
 {
 	cmd_node	*result;
-	char		*filename;
 
 	(void)token;
-	filename = malloc(sizeof(char));
-	ft_strcpy(filename, "\0");
 	result = malloc(sizeof(cmd_node));
-	cmd_set_data(result, filename);
+	result->data = NULL;
 	cmd_set_type(result, NODE_CMDPATH);
 	cmd_attach(result, NULL, NULL);
 	return (result);

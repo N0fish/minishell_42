@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsed_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:48 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/09 23:53:21 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/19 13:37:13 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	is_directory(char *path, bool slash)
 {
 	struct stat	path_stat;
 
-	if (slash && path[0] != '/')
+	if (slash && path && path[0] != '/')
 		return (false);
 	ft_memset(&path_stat, 0, sizeof(struct stat));
 	stat(path, &path_stat);
