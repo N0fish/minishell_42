@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/18 17:22:09 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/19 13:29:46 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,10 @@ cmd_node	*cmd_delete(cmd_node *node)
 		return (NULL);
 	if (node->type >= 0)
 		free(node->data);
-	cmd_delete(node->left);
-	cmd_delete(node->right);
+	if (node && node->left)
+		cmd_delete(node->left);
+	if (node && node->right)
+		cmd_delete(node->right);
 	free(node);
 	return (NULL);
 }
@@ -109,6 +111,7 @@ cmd_node	*cmd_delete_error(cmd_node *node)
 	free(node);
 	ret = malloc(sizeof(cmd_node));
 	cmd_set_type(ret, NODE_ERROR);
+	cmd_attach(ret, NULL, NULL);
 	return (ret);
 }
 
@@ -123,6 +126,7 @@ cmd_node	*set_null(t_token **token)
 	result = malloc(sizeof(cmd_node));
 	cmd_set_data(result, filename);
 	cmd_set_type(result, NODE_CMDPATH);
+	cmd_attach(result, NULL, NULL);
 	return (result);
 }
 
