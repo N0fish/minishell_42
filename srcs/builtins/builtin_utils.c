@@ -33,9 +33,13 @@ bool	ft_match_any(t_data *data, char *str, char *any)
 	if (!data || !str || !any)
 		return (false);
 	arr = ft_split_m(data->m, any, ',');
+	if (!arr)
+		return (false);
 	i = 0;
 	while (arr[i])
 	{
+		if (!str || !arr[i])
+			break ;
 		if (!ft_strcmp(str, arr[i]))
 			return (ft_free_array(data->m, (void **)arr), true);
 		i++;

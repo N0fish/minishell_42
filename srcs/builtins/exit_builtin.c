@@ -83,12 +83,13 @@ void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 	exit_code = data->exit_code;
 	if (do_exit == false)
 		return ;
-	cmd_delete(data->entry_node);
+	if (data->entry_node != NULL)
+		cmd_delete(data->entry_node);
 	fds = data->fds;
 	in_out[0] = data->in_fd;
 	in_out[1] = data->out_fd;
 	ft_free_all(data->m);
-	//rl_clear_history(); // pas sur mac
+	rl_clear_history(); // pas sur mac
 	close_everything(fds, in_out);
 	exit(exit_code);
 }

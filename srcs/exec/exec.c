@@ -22,6 +22,7 @@ void	fork_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 	if (node->type != NODE_CMDPATH)
 		node = node->left;
 	modif_env(data, "_", node->data);
+	parent_signals();
 	if (fork_builtin(data, node, fds))
 		return ;
 	cmd = prepare_cmd(data, node);
@@ -80,6 +81,8 @@ int	exec_cmd(t_data *data, cmd_node *node)
 	fds = in_out(data, node);
 	if (!fds_ok(fds))
 		return (EXIT_FAILURE);
+	if (fds.in == -2)
+		return (data->exit_code);
 	if (is_redirect_node(node))
 		node = node->left;
 	if (use_builtin(data, node, fds, true))
@@ -87,6 +90,7 @@ int	exec_cmd(t_data *data, cmd_node *node)
 	envp = transform_envp(data->m, data->envp);
 	fork_cmd(data, node, fds, envp);
 	data->exit_code = update_exit_code(data);
+	ft_free_array(data->m, (void **)envp);
 	return (data->exit_code);
 }
 

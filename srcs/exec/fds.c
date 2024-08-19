@@ -91,41 +91,20 @@ t_fds	in_out(t_data *data, cmd_node *node)
 {
 	int	in_fd;
 	int	out_fd;
-	int	open_mode[2];
 
 	in_fd = STDIN_FILENO;
 	out_fd = STDOUT_FILENO;
 	while (node && is_redirect_node(node))
 	{
-		// OUT (>)
-		open_mode[0] = O_CREAT | O_WRONLY | O_TRUNC;
-		open_mode[1] = 0644;
-		if (node && node->type == NODE_REDIRECT_OUT)
-			out_fd = find_final_fd(data, &node, NODE_REDIRECT_OUT, open_mode);
-
-		//<< NODE_SHIFT_LEFT ou NODE_HEREDOC_OUT (<<)
-		if (node && node->type == NODE_HEREDOC_OUT)
-		{
-			in_fd = handle_heredoc(data, node->data);
-			node = node->right;
-		}
-
-		// IN (<) 
-		open_mode[0] = O_RDONLY;
-		open_mode[1] = DEFAULT_CHMOD;
-		if (node && node->type == NODE_REDIRECT_IN)
-			in_fd = find_final_fd(data, &node, NODE_REDIRECT_IN, open_mode);
-
-		// >> NODE_SHIFT_RIGHT ou NODE_SHIFT_IN (>>)
-		open_mode[0] = O_CREAT | O_WRONLY | O_APPEND;
-		open_mode[1] = 0644;
-		if (node && node->type == NODE_HEREDOC_IN)
-			out_fd = find_final_fd(data, &node, NODE_HEREDOC_IN, open_mode);
+		handle_redirect_out(data, &node, &out_fd);
+		handle_shift_left(data, &node, &in_fd);
+		handle_redirect_in(data, &node, &in_fd);
+		handle_shift_right(data, &node, &out_fd);
 	}
-	return ((t_fds){\
-		.in = in_fd, \
-		.out = out_fd, \
-		.no = -1, \
-		.pipe = {-1, -1} \
+	return ((t_fds){
+		.in = in_fd,
+		.out = out_fd,
+		.no = -1,
+		.pipe = {-1, -1}
 	});
 }

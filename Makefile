@@ -19,7 +19,7 @@ BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builti
 EXECUTOR_SRC = exec/exec.c exec/fds_utils.c exec/fds.c exec/here_doc.c exec/is_env_hd.c \
 	exec/parsed_utils.c exec/pids.c exec/command.c
 EXPANDER_SRC = expander/expander.c expander/expander_utils.c
-SIGNALS_SRC = signals/signals.c
+SIGNALS_SRC = signals/child.c signals/parent.c signals/here_doc.c
 UTILS_SRC = utils/free.c utils/write.c utils/error.c utils/node.c
 
 BASE_SRC = $(PARSER_SRC) $(EXECUTOR_SRC) $(EXPANDER_SRC) $(INIT_SRC) $(LEXER_SRC) $(BUILTINS_SRC) $(SIGNALS_SRC) $(UTILS_SRC)
