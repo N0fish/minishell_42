@@ -50,6 +50,10 @@ fclean: clean
 	rm -f $(NAME)
 	make fclean -C $(LIBFTDIR)
 
+test:
+	cp -r ./tests/files .
+	cd tests && ./tester
+
 re: fclean all
 
 .PHONY: all clean fclean re

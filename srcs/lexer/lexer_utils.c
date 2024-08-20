@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:56:53 by alex              #+#    #+#             */
-/*   Updated: 2024/08/19 18:48:35 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:14:27 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_token	*check_lexer(t_data *data, t_token *token, int state)
 	head = token;
 	if (state != STATE_GENERAL)
 	{
+		data->exit_code = 2;
 		ft_strerror(data, NULL, NULL, "Syntax error");
 		return (NULL);
 	}
