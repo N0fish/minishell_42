@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:27:14 by alex              #+#    #+#             */
-/*   Updated: 2024/08/19 16:18:58 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:33:33 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ cmd_node	*cmd_define(cmd_node *root, node_type type,
 {
 	if (right && right->type && right->type == NODE_ERROR)
 	{
-		if (root)
-			cmd_delete(root);
 		if (left)
 			cmd_delete(left);
 		return (right);

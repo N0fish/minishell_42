@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 10:43:03 by alex              #+#    #+#             */
-/*   Updated: 2024/08/18 15:36:15 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/19 18:57:07 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	print_tokens(t_token *token)
 {
 	while (token)
 	{
-		ft_printf("data: %s\n", token->data);
-		ft_printf("type: %d\n", token->type);
+		ft_printf("data: [%s]\n", token->data);
+		ft_printf("type: [%d]\n", token->type);
 		token = token->next;
 	}
 }
