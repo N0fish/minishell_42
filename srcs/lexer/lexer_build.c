@@ -6,11 +6,23 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:23:52 by alex              #+#    #+#             */
-/*   Updated: 2024/08/19 18:40:55 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:37:06 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	lexer_null(char *input, t_token **token, int i, int *j)
+{
+	if (!token || !*token)
+		return ;
+	if (char_type(input[i]) == CHAR_GENERAL
+		&& (char_type(input[i + 1]) != CHAR_GENERAL))
+	{
+		if (*j > 0)
+			(*token)->data[(*j)] = '\0';
+	}
+}
 
 t_token	*lexer_build(t_data *data, char *input, int state)
 {
@@ -32,6 +44,7 @@ t_token	*lexer_build(t_data *data, char *input, int state)
 			lexer_heredoc(input, &token, &i, &j);
 			lexer_redirections(input, &token, i, &j);
 			lexer_general(input, &token, i, &j);
+			lexer_null(input, &token, i, &j);
 		}
 		else
 			lexer_other_state(input[i], &token, &j, &state);
