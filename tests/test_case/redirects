@@ -1,0 +1,75 @@
+grep hi <"./files/infile"
+grep hi "<infile" <         ./files/infile
+echo hi < ./files/infile bye bye
+grep hi <./files/infile <./files/infile
+echo <"./files/infile" "bonjour       42"
+cat <"./files/file name with spaces"
+cat <./files/infile ./files/infile
+cat <"1""2""3""4""5"
+echo <"./files/infile" <missing <"./files/infile"
+echo <missing <"./files/infile" <missing
+cat <"./files/infile"
+echo <"./files/infile" | cat <"./files/infile"
+echo <"./files/infile" | cat "./files/infile"
+echo <"./files/infile" | echo <"./files/infile"
+echo hi | cat <"./files/infile"
+echo hi | cat "./files/infile"
+cat <"./files/infile" | echo hi
+cat <"./files/infile" | grep hello
+cat <"./files/infile" | echo hi
+cat <missing
+cat <missing | cat
+cat <missing | echo oi
+cat <missing | cat <"./files/infile"
+echo <123 <456 hi | echo 42
+ls >./outfiles/outfile01
+ls >         ./outfiles/outfile01
+echo hi >         ./outfiles/outfile01 bye
+ls >./outfiles/outfile01 >./outfiles/outfile02
+ls >./outfiles/outfile01 >./files/invalid_permission
+ls >"./outfiles/outfile with spaces"
+ls >"./outfiles/outfile""1""2""3""4""5"
+ls >"./outfiles/outfile01" >./files/invalid_permission >"./outfiles/outfile02"
+ls >./files/invalid_permission >"./outfiles/outfile01" >./files/invalid_permission
+cat <"./files/infile" >"./outfiles/outfile01"
+echo hi >./outfiles/outfile01 | echo bye
+echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye
+echo hi | echo >./outfiles/outfile01 bye
+echo hi | echo bye >./outfiles/outfile01 >./outfiles/outfile02
+echo hi >./outfiles/outfile01 | echo bye >./outfiles/outfile02
+echo hi >./outfiles/outfile01 >./files/invalid_permission | echo bye
+echo hi >./files/invalid_permission | echo bye
+echo hi >./files/invalid_permission >./outfiles/outfile01 | echo bye
+echo hi | echo bye >./files/invalid_permission
+echo hi | >./outfiles/outfile01 echo bye >./files/invalid_permission
+echo hi | echo bye >./files/invalid_permission >./outfiles/outfile01
+cat <"./files/infile" >./files/invalid_permission
+cat >./files/invalid_permission <"./files/infile"
+cat <missing >./outfiles/outfile01
+cat >./outfiles/outfile01 <missing
+cat <missing >./files/invalid_permission
+cat >./files/invalid_permission <missing
+cat >./outfiles/outfile01 <missing >./files/invalid_permission
+ls >>./outfiles/outfile01
+ls >>      ./outfiles/outfile01
+ls >>./outfiles/outfile01 >./outfiles/outfile01
+ls >./outfiles/outfile01 >>./outfiles/outfile01
+ls >./outfiles/outfile01 >>./outfiles/outfile01 >./outfiles/outfile02
+ls >>./outfiles/outfile01 >>./outfiles/outfile02
+ls >>./files/invalid_permission
+ls >>./files/invalid_permission >>./outfiles/outfile01
+ls >>./outfiles/outfile01 >>./files/invalid_permission
+ls >./outfiles/outfile01 >>./files/invalid_permission >>./outfiles/outfile02
+ls <missing >>./files/invalid_permission >>./outfiles/outfile02
+ls >>./files/invalid_permission >>./outfiles/outfile02 <missing
+echo hi >>./outfiles/outfile01 | echo bye
+echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye
+echo hi | echo >>./outfiles/outfile01 bye
+echo hi | echo bye >>./outfiles/outfile01 >>./outfiles/outfile02
+echo hi >>./outfiles/outfile01 | echo bye >>./outfiles/outfile02
+echo hi >>./files/invalid_permission | echo bye
+echo hi >>./files/invalid_permission >./outfiles/outfile01 | echo bye
+echo hi | echo bye >>./files/invalid_permission
+echo hi | echo >>./outfiles/outfile01 bye >./files/invalid_permission
+cat <./files/infile>./outfiles/outfile
+cat <./files/infile|ls

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fds_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:55 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/09 21:28:45 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:48:17 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	find_final_fd(t_data *data, cmd_node **red, \
 	{
 		fd = open((*red)->data, open_modes[0], open_modes[1]);
 		if (fd == -1)
+		{
+			data->exit_code = 1;
 			ft_strerror(data, (*red)->data, NULL, NO_FILE_DIR);
+		}
 		*red = (*red)->right;
 		if (*red && (*red)->type == node_type && fd != -1)
 			close(fd);

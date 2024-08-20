@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:29:08 by alex              #+#    #+#             */
-/*   Updated: 2024/08/20 13:50:03 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:51:00 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ cmd_node	*job_pipe(t_token **token)
 	cmd_tok = cmd(token);
 	if (!cmd_tok)
 		return (NULL);
+	if (cmd_tok->type == NODE_ERROR)
+		return (cmd_tok);
 	if (!check_tokentype(CHAR_PIPE, token, NULL))
 		return (cmd_delete(cmd_tok));
 	if (!only_check_tokentype(TOKEN, token, NULL))
@@ -59,8 +61,9 @@ cmd_node	*parser(t_data *data, t_token **token)
 	cmd_node	*cmd_tree;
 
 	cmd_tree = job(token);
-	if (cmd_tree && cmd_tree->type == NODE_ERROR)
+	if ((cmd_tree && cmd_tree->type == NODE_ERROR) || !cmd_tree)
 	{
+		data->exit_code = 2;
 		cmd_delete(cmd_tree);
 		ft_strerror(data, NULL, NULL, "Syntax error");
 		return (NULL);
