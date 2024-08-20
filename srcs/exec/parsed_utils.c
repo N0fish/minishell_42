@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsed_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:48 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/19 13:37:13 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:02:23 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ bool	try_dir_or_file(char *path)
 	return (path && (path[0] == '/' || ft_strncmp(path, "./", 2) == 0));
 }
 
-t_cmd	*prepare_cmd(t_data *data, cmd_node *node)
+t_cmd	*prepare_cmd(t_data *data, cmd_node *node) // loooooong
 {
 	char	*cmd;
 	char	**args;

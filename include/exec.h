@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 17:06:40 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:57:38 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		handle_heredoc(t_data *data, char *limiter);
 char	*is_there_env(t_data *data, char *line);
 // is_env_hd
 char	*process_key(t_data *data, char *line, \
-                int len_key[2], char **start_line);
+				int len_key[2], char **start_line);
 int		*find_key_pos(char *str, int *len);
 // parsed_utils
 bool	is_directory(char *path, bool slash);

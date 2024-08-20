@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:28 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 17:24:03 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:05:23 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*process_key(t_data *data, char *line, \
 		free(line);
 		line = res_str;
 		*start_line = line + len_key[0] + ft_strlen(value);
-		ft_free(data->m, value);	
+		ft_free(data->m, value);
 	}
 	return (line);
 }

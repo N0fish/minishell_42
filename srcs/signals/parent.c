@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:25 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/29 11:59:04 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:07:00 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	signals(int *exit_code)
 	g_status = exit_code;
 }
 
-void	handler_sigint(int signal) 
+void	handler_sigint(int signal)
 {
 	write(2, "\n", 1);
 	rl_on_new_line();

@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:40 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 18:14:08 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:04:52 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ pid_t	fork_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 	pid_t	pid;
 
 	if (!data || !node)
-		return -1;
+		return (-1);
 	if (node->type != NODE_CMDPATH)
 		node = node->left;
 	modif_env(data, "_", node->data);
 	parent_signals();
 	if (fork_builtin(data, node, fds, &pid))
-		return -1;
+		return (-1);
 	cmd = prepare_cmd(data, node);
 	if (!cmd)
 	{
 		close_fds(fds);
-		return -1;
+		return (-1);
 	}
 	pid = exec_child(data, fds, cmd, envp);
 	close_fds(fds);
@@ -40,8 +40,8 @@ pid_t	fork_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 int	exec_2_plus(t_data *data, cmd_node **node, t_fds *fds, t_ms_pids *pids)
 {
 	char	**envp;
-	envp = transform_envp(data->m, data->envp);
 
+	envp = transform_envp(data->m, data->envp);
 	*fds = init_fds(in_out(data, (*node)->left));
 	if (!fds_ok(*fds))
 		return (EXIT_FAILURE);
@@ -60,9 +60,9 @@ int	exec_2_plus(t_data *data, cmd_node **node, t_fds *fds, t_ms_pids *pids)
 
 int	exec_cmds(t_data *data, cmd_node *node)
 {
-	char	**envp;
-	t_fds	fds;
-	t_ms_pids pids;
+	char		**envp;
+	t_fds		fds;
+	t_ms_pids	pids;
 
 	pids.it = -1;
 	if (!data || !node)
@@ -73,7 +73,7 @@ int	exec_cmds(t_data *data, cmd_node *node)
 	fds = end_update_fds(fds, in_out(data, node));
 	if (!fds_ok(fds))
 		return (ft_free_array(data->m, (void **)envp), EXIT_FAILURE);
-	add_pid(&pids,fork_cmd(data, node, fds, envp));
+	add_pid(&pids, fork_cmd(data, node, fds, envp));
 	wait_pids(data, pids);
 	data->exit_code = update_exit_code(data);
 	ft_free_array(data->m, (void **)envp);
@@ -82,9 +82,9 @@ int	exec_cmds(t_data *data, cmd_node *node)
 
 int	exec_cmd(t_data *data, cmd_node *node)
 {
-	t_fds	fds;
-	char	**envp;
-	t_ms_pids pids;
+	t_fds		fds;
+	char		**envp;
+	t_ms_pids	pids;
 
 	pids.it = -1;
 	if (!data || !node)

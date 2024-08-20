@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:25:25 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 18:13:29 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:02:00 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ void	add_pid(t_ms_pids *pids, pid_t pid)
 
 void	wait_pids(t_data *data, t_ms_pids pids)
 {
-	int it;
+	int	it;
 
 	it = -1;
 	while (++it <= pids.it)
 	{
 		if (pids.pids[it] == -1)
-			continue;
+			continue ;
 		data->exec_error = waitpid(pids.pids[it], &data->wtpd, 0) == -1;
 	}
 }
