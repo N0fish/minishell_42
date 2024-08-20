@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:29:08 by alex              #+#    #+#             */
-/*   Updated: 2024/08/19 18:05:35 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:50:03 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ cmd_node	*job_pipe(t_token **token)
 		return (cmd_delete_error(cmd_tok));
 	result = malloc(sizeof(cmd_node));
 	result->data = NULL;
+	cmd_attach(result, NULL, NULL);
 	return (cmd_define(result, NODE_PIPE, cmd_tok, job_tok));
 }
 
