@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "lexer.h"
+#include "minishell.h"
 
 static int	get_argument_type(int type)
 {

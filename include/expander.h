@@ -13,9 +13,6 @@
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-# include "parser.h"
-# include "executor.h"
-
 cmd_node	    *expander(t_data *data, cmd_node *node);
 
 char            *get_dollar_pos(char *str);

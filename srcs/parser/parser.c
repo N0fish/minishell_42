@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "lexer.h"
 #include "minishell.h"
 
 cmd_node	*job_pipe(t_token **token);

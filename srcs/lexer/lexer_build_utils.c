@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "minishell.h"
 
 void	lexer_quotes(char ch, t_token **token, int *j, int *state)
 {

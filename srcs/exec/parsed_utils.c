@@ -63,7 +63,7 @@ bool	is_directory(char *path, bool slash)
 {
 	struct stat	path_stat;
 
-	if (slash && path && path[0] != '/')
+	if ((slash && path && path[0] != '/') || !path || (path && path[0] == 0))
 		return (false);
 	ft_memset(&path_stat, 0, sizeof(struct stat));
 	stat(path, &path_stat);
@@ -96,10 +96,10 @@ t_cmd	*prepare_cmd(t_data *data, cmd_node *node)
 	}
 	args = get_command_args(data, node);
 	if (!args || !args[0])
-    	return (NULL);
+		return (NULL);
 	args = split_cmd_argv(data, args, ft_split_m(data->m, path, ':'), &cmd);
 	if (!args)
-    	return (NULL);
+		return (NULL);
 	cmd_res->cmd = cmd;
 	cmd_res->args = args;
 	return (cmd_res);

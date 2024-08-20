@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
 #include "minishell.h"
 
 static int	get_node_type(int type)

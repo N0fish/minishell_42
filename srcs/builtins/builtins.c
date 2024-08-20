@@ -56,16 +56,13 @@ bool	use_builtin(t_data *data, cmd_node *cmd, t_fds fds, bool exit_display)
 		return (false);
 	if (!is_builtin(data, cmd))
 		return (false);
-	// on garde les fds de stdout et stdin
 	data->out_fd = dup(STDOUT_FILENO);
 	data->in_fd = dup(STDIN_FILENO);
-	// on remplace stdin et stdout par fds.in et fds.out
 	if (data->out_fd < 0 || data->in_fd < 0 || \
 		dup2(fds.out, STDOUT_FILENO) < 0 || \
 		dup2(fds.in, STDIN_FILENO) < 0)
 		return (true);
 	exec_builtin(data, cmd, exit_display);
-	// on remet les fds de stdout et stdin qu'on avait garde
 	if (dup2(data->out_fd, STDOUT_FILENO) < 0 || \
 		dup2(data->in_fd, STDIN_FILENO) < 0)
 		return (true);

@@ -22,36 +22,30 @@ void	display_error(t_data *data, char *lim)
 	ft_putstr_fd("')\n", 2);
 }
 
-char	*is_there_env(t_data *data, char *line);
+char	*is_there_env(t_data *data, char *line)
+{
+	char	*start_line;
+	int		len_key[2];
 
-// char	*is_there_env(t_data *data, char *line)
-// {
-// 	char	*start_line;
-// 	char	*save_line;
-// 	int		len_key[2];
-// 	int		offset;
-
-// 	if (!data || !line)
-// 		return (NULL);
-// 	start_line = line;
-// 	save_line = start_line;
-// 	while (*start_line != '\0')
-// 	{
-// 		offset = start_line - save_line;
-// 		ft_printf("offset: %d, start_line: %s\n", offset, start_line);
-// 		find_key_pos(line, len_key, offset);
-// 		save_line = start_line;
-// 		if (len_key[0] == -1 || len_key[1] == -1)
-// 			break ;
-// 		if (len_key[0] == len_key[1])
-// 		{
-// 			start_line++;
-// 			continue ;
-// 		}
-// 		line = process_key(data, line, len_key, &start_line);
-// 	}
-// 	return (line);
-// }
+	if (!data || !line)
+		return (NULL);
+	start_line = line;
+	while (*start_line != '\0')
+	{
+		find_key_pos(line, len_key);
+		if (len_key[0] == -1)
+			break ;
+		if (len_key[0] == -1 || len_key[1] == -1)
+			break ;
+		if (len_key[0] == len_key[1])
+		{
+			start_line++;
+			continue ;
+		}
+		line = process_key(data, line, len_key, &start_line);
+	}
+	return (line);
+}
 
 int	heredoc_loop(t_data *data, char **line, int pipe_fds[2])
 {

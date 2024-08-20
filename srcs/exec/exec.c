@@ -27,7 +27,10 @@ void	fork_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 		return ;
 	cmd = prepare_cmd(data, node);
 	if (!cmd)
+	{
+		close_fds(fds);
 		return ;
+	}
 	pid = exec_child(data, fds, cmd, envp);
 	data->exec_error = waitpid(pid, &data->wtpd, 0) == -1;
 	close_fds(fds);

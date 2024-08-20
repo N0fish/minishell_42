@@ -1,17 +1,6 @@
 #include "minishell.h"
-#include "expander.h"
 
 int	*g_status;
-
-// void	lexer_destroy(t_token **token)
-// {
-// 	if (token && *token)
-// 	{
-// 		ft_free((*token)->m, (*token)->data);
-// 		lexer_destroy(&(*token)->next);
-// 		ft_free((*token)->m, *token);
-// 	}
-// }
 
 cmd_node	*get_command(t_data *data, char *line)
 {
@@ -70,7 +59,7 @@ void	prompt(t_data *data)
 			free(line);
 		}
 	}
-	rl_clear_history(); // Не компилирует с ним на mac из-за этого закоментирован
+	rl_clear_history();
 	return ;
 }
 
@@ -82,6 +71,5 @@ int	main(int argc, char **argv, char **envp)
 		return (write(2, "No arguments needed\n", 20), EXIT_FAILURE);
 	data = init_builtins(argv, envp);
 	prompt(data);
-	// exit_builtin(data, NULL, false);
 	return (*g_status);
 }

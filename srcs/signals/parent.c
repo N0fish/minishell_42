@@ -23,12 +23,12 @@ void	handler_sigint(int signal)
 {
 	write(2, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0); // Не компилирует с ним на mac
+	rl_replace_line("", 0);
 	rl_redisplay();
 	*g_status = 128 + signal;
 }
 
-void parent_handler(int signal)
+void	parent_handler(int signal)
 {
 	*g_status = 128 + signal;
 	if (signal == SIGQUIT)

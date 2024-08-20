@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 bool	check_tokentype(int tok_type, t_token **token, char **bufferptr)
 {
