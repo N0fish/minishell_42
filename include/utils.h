@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 16:58:23 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:07:08 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 // error
 void	ft_strerror_q(t_data *data, char *name, char *text, char *err);
 void	ft_strerror(t_data *data, char *name, char *text, char *err);
+void	handle_access_errors(t_data *data, t_cmd *cmd);
 // free
 void	free_cmd(t_data *data, t_cmd *cmd);
 // node

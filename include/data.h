@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:53:12 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 13:33:35 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:06:20 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef struct s_data
 	struct cmd_node	*entry_node;
 }				t_data;
 
+typedef struct s_ms_pids
+{
+	pid_t 	pids[1024];
+	int		it;
+} 				t_ms_pids;
+
 // INIT
 // env_init
 bool	copy_env(t_data *data, char **envp);
@@ -67,5 +73,6 @@ bool	add_env(t_data *data, char *key, char *value);
 // init
 t_envp	*new_env_block(t_data *data, char **envp);
 t_data	*init(char **argv, char **envp);
+
 
 #endif

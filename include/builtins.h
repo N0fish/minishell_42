@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 16:43:42 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:05:44 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	modif_display(t_envp *envp, char *key, bool display);
 // builtins
 t_data	*init_builtins(char **argv, char **envp);
 bool	use_builtin(t_data *data, cmd_node *node, t_fds fds, bool exit_display);
-bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds);
+bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds, pid_t *child);
 // cd_builtin
 int		cd_builtin(t_data *data, cmd_node *cmd);
 // echo_builtin

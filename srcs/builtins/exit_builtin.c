@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:41 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/12 11:50:55 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/20 18:13:40 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ void	exit_builtin(t_data *data, cmd_node *arg, bool display)
 
 	if (!data)
 		exit(EXIT_FAILURE);
-	if (display == true)
-		write(STDERR_FILENO, "exit\n", 5);
 	do_exit = true;
 	check_exit_arg(data, arg, &do_exit);
+	if (display == true && do_exit == true)
+		write(STDERR_FILENO, "exit\n", 5);
 	exit_code = data->exit_code;
 	if (do_exit == false)
 		return ;

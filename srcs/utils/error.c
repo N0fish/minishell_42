@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:25 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/29 11:59:04 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:14:34 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,13 @@ void	ft_strerror(t_data *data, char *name, char *text, char *err)
 		write (STDERR_FILENO, err, ft_strlen(err));
 		write (STDERR_FILENO, "\n", 1);
 	}
+}
+
+void	handle_access_errors(t_data *data, t_cmd *cmd)
+{
+	data->exit_code = EX_NOTFOUND;
+	if (try_dir_or_file(cmd->cmd))
+		ft_strerror(data, cmd->cmd, NULL, NO_FILE_DIR_CAP);
+	else
+		ft_strerror(data, cmd->cmd, NULL, CMD_NOT_FOUND);
 }

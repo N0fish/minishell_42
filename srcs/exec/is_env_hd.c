@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_env_hd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:28 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 16:13:21 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:24:03 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ char	*process_key(t_data *data, char *line, \
 	key = seek_key_in_str(data, line, len_key);
 	value = seek_env_or_exit_code(data, key);
 	ft_free(data->m, key);
-	if (!value)
-		value = ft_strdup_m(data->m, "");
 	res_str = replace_key_to_value(line, len_key, value);
 	if (res_str)
 	{

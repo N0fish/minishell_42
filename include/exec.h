@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 16:43:42 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:06:40 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@ bool	try_dir_or_file(char *path);
 // pids
 int		update_exit_code(t_data *data);
 pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp);
+void	add_pid(t_ms_pids *pids, pid_t pid);
+void	wait_pids(t_data *data, t_ms_pids pids);
 
 #endif
