@@ -23,6 +23,7 @@
 # include "parser.h"
 # include "expander.h"
 # include "builtins.h"
+# include "here_doc.h"
 # include "exec.h"
 # include "utils.h"
 

@@ -69,7 +69,6 @@ cmd_node	*heredoc_or_redirecit(t_token **token)
 	return (NULL);
 }
 
-/*
 void	show_cmd_tree(cmd_node *node)
 {
 	if (node == NULL)
@@ -77,6 +76,7 @@ void	show_cmd_tree(cmd_node *node)
 	if (node->type == NODE_CMDPATH)
 	{
 		printf("cmd: %s\n", node->data);
+		show_cmd_tree(node->left);
 	}
 	else if (node->type == NODE_ARGUMENT
 		|| node->type == NODE_Q_ARGUMENT
@@ -84,6 +84,7 @@ void	show_cmd_tree(cmd_node *node)
 	{
 		printf("arg: %s\n", node->data);
 		printf("type: %d\n", node->type);
+		show_cmd_tree(node->left);
 	}
 	else if (node->type == NODE_PIPE)
 	{
@@ -96,6 +97,7 @@ void	show_cmd_tree(cmd_node *node)
 	else if (node->type == NODE_REDIRECT_IN)
 	{
 		printf("redirect in: %s < %s\n", node->left->data, node->data);
+		show_cmd_tree(node->left);
 	}
 	else if (node->type == NODE_HEREDOC_OUT)
 	{
@@ -107,4 +109,3 @@ void	show_cmd_tree(cmd_node *node)
 	}
 	show_cmd_tree(node->right);
 }
-*/

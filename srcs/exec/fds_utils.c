@@ -31,6 +31,8 @@ int	find_final_fd(t_data *data, cmd_node **red, \
 		{
 			data->exit_code = EXIT_FAILURE;
 			ft_strerror(data, (*red)->data, NULL, NO_FILE_DIR);
+			*red = (*red)->right;
+			return (-1);
 		}
 		*red = (*red)->right;
 		if (*red && (*red)->type == node_type && fd != -1)

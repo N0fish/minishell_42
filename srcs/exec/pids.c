@@ -12,17 +12,6 @@
 
 #include "minishell.h"
 
-int	update_exit_code(t_data *data)
-{
-	if (!data)
-		return (EXIT_FAILURE);
-	if (data->exec_error == true)
-		return (EX_NOTFOUND);
-	if (data->wtpd != -1 && WIFEXITED(data->wtpd))
-		return (WEXITSTATUS(data->wtpd));
-	return (data->exit_code);
-}
-
 void	exec_fork(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 {
 	data->exit_code = 0;
@@ -30,6 +19,11 @@ void	exec_fork(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 	dup2(fds.out, STDOUT_FILENO);
 	if (fds.no >= 0 && fds.no != fds.in && fds.no != fds.out)
 		close(fds.no);
+	if (!ft_strcmp(cmd->cmd, cmd->args[0]))
+	{
+		handle_access_errors(data, cmd);
+		exit_builtin(data, NULL, false);
+	}
 	if (is_directory(cmd->cmd, false))
 	{
 		data->exit_code = ERROR_CMD_NOT_EXET;

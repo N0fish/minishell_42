@@ -75,15 +75,13 @@ bool	try_dir_or_file(char *path)
 	return (path && (path[0] == '/' || ft_strncmp(path, "./", 2) == 0));
 }
 
-t_cmd	*prepare_cmd(t_data *data, cmd_node *node) // loooooong
+t_cmd	*prepare_cmd(t_data *data, cmd_node *node)
 {
 	char	*cmd;
 	char	**args;
 	t_cmd	*cmd_res;
 	char	*path;
 
-	if (!data || !node)
-		return (NULL);
 	cmd = NULL;
 	cmd_res = (t_cmd *)ft_malloc(data->m, sizeof(t_cmd));
 	path = seek_env_value(data->envp, "PATH");

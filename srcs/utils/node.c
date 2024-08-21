@@ -20,7 +20,7 @@ bool	is_redirect_node(cmd_node *node)
 		|| node->type == NODE_HEREDOC_OUT);
 }
 
-void	handle_redirect_out(t_data *data, cmd_node **node, int *out_fd)
+int	handle_redirect_out(t_data *data, cmd_node **node, int *out_fd)
 {
 	int	open_mode[2];
 
@@ -28,18 +28,20 @@ void	handle_redirect_out(t_data *data, cmd_node **node, int *out_fd)
 	open_mode[1] = 0644;
 	if (*node && (*node)->type == NODE_REDIRECT_OUT)
 		*out_fd = find_final_fd(data, node, NODE_REDIRECT_OUT, open_mode);
+	return (*out_fd);
 }
 
-void	handle_shift_left(t_data *data, cmd_node **node, int *in_fd)
+int	handle_shift_left(t_data *data, cmd_node **node, int *in_fd)
 {
 	if (*node && (*node)->type == NODE_HEREDOC_OUT)
 	{
 		*in_fd = handle_heredoc(data, (*node)->data);
 		*node = (*node)->right;
 	}
+	return (*in_fd);
 }
 
-void	handle_redirect_in(t_data *data, cmd_node **node, int *in_fd)
+int	handle_redirect_in(t_data *data, cmd_node **node, int *in_fd)
 {
 	int	open_mode[2];
 
@@ -47,9 +49,10 @@ void	handle_redirect_in(t_data *data, cmd_node **node, int *in_fd)
 	open_mode[1] = DEFAULT_CHMOD;
 	if (*node && (*node)->type == NODE_REDIRECT_IN)
 		*in_fd = find_final_fd(data, node, NODE_REDIRECT_IN, open_mode);
+	return (*in_fd);
 }
 
-void	handle_shift_right(t_data *data, cmd_node **node, int *out_fd)
+int	handle_shift_right(t_data *data, cmd_node **node, int *out_fd)
 {
 	int	open_mode[2];
 
@@ -57,4 +60,5 @@ void	handle_shift_right(t_data *data, cmd_node **node, int *out_fd)
 	open_mode[1] = 0644;
 	if (*node && (*node)->type == NODE_HEREDOC_IN)
 		*out_fd = find_final_fd(data, node, NODE_HEREDOC_IN, open_mode);
+	return (*out_fd);
 }

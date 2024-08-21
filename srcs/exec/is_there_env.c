@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_env_hd.c                                        :+:      :+:    :+:   */
+/*   is_there_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,30 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	*find_key_pos(char *str, int *len)
-{
-	int	i;
-
-	if (!str)
-		return (NULL);
-	i = 0;
-	len[0] = -1;
-	len[1] = -1;
-	while (str[i] != '\0' && str[i] != '$')
-		i++;
-	if (str[i] == '\0')
-		return (NULL);
-	len[0] = i;
-	while (str[i] != '\0' && str[i + 1] != '\0' \
-		&& str[i] != '?' \
-		&& (str[i + 1] != ' ' && !(str[i + 1] >= '\t' && str[i + 1] <= '\r')))
-		i++;
-	len[1] = i;
-	if (len[0] == len[1])
-		return (NULL);
-	return (len);
-}
 
 char	*seek_key_in_str(t_data *data, char *str, int *res)
 {
@@ -85,29 +61,61 @@ char	*seek_env_or_exit_code(t_data *data, char *key)
 	value = seek_env_value(data->envp, key);
 	if (value)
 		return (ft_strdup_m(data->m, value));
-	else
-		return (ft_strdup_m(data->m, ""));
+	return (NULL);
 }
 
-char	*process_key(t_data *data, char *line, \
-					int len_key[2], char **start_line)
+char	*remove_dol(char *line, int *pos)
 {
-	char	*key;
-	char	*value;
-	char	*res_str;
+	int		future_len;
+	char 	*new;
+	int		it;
+
+	if (!line || !ft_strlen(line))
+		return (NULL);
+	future_len = ft_strlen(line) - (pos[1] - pos[0] + 1);
+	if (!future_len)
+		return (free(line), NULL);
+	new = (char *)malloc(future_len + 1);
+	it = -1;
+	if (!new)
+		return (line);
+	while (++it < pos[0])
+		new[it] = line[it];
+	while (it < future_len)
+	{
+		new[it] = line[pos[1] - pos[0] + it + 1];
+		it++;
+	}
+	new[it] = 0;
+	free(line);
+	return (new);
+}
+
+char	*is_there_env(t_data *data, char *line)
+{
+	int		len_key[2];
+	char	*tmp;
+	int		diff;
 
 	if (!data || !line)
 		return (NULL);
-	key = seek_key_in_str(data, line, len_key);
-	value = seek_env_or_exit_code(data, key);
-	ft_free(data->m, key);
-	res_str = replace_key_to_value(line, len_key, value);
-	if (res_str)
+	// si line == ""
+	if (!ft_strlen(line))
+		return (line);
+	diff = 0;
+	// la taille de line change => ft_strlen a chaque fois
+	while (line && diff < (int)ft_strlen(line))
 	{
-		free(line);
-		line = res_str;
-		*start_line = line + len_key[0] + ft_strlen(value);
-		ft_free(data->m, value);
+		find_key_pos(line, len_key, diff);
+		if (len_key[0] == -1 || len_key[1] == -1)
+			break ;
+		if (len_key[0] == len_key[1] && ++diff)
+			continue ;
+		tmp = process_key(data, line, len_key, &diff);
+		if (!tmp)
+			line = remove_dol(line, len_key);
+		else
+			line = tmp;
 	}
 	return (line);
 }

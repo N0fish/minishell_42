@@ -12,53 +12,65 @@
 
 #include "minishell.h"
 
-void	display_error(t_data *data, char *lim)
+char	*process_key(t_data *data, char *line, \
+					int len_key[2], int *diff)
 {
-	ft_putchar_fd('\n', 2);
-	ft_putstr_fd(data->shell_name, 2);
-	ft_putstr_fd(": warning: here-document delimited", 2);
-	ft_putstr_fd(" by end-of-file (wanted `", 2);
-	ft_putstr_fd(lim, 2);
-	ft_putstr_fd("')\n", 2);
-}
-
-char	*is_there_env(t_data *data, char *line)
-{
-	char	*start_line;
-	int		len_key[2];
+	char	*key;
+	char	*value;
+	char	*res_str;
 
 	if (!data || !line)
 		return (NULL);
-	start_line = line;
-	while (*start_line != '\0')
+	key = seek_key_in_str(data, line, len_key);
+	value = seek_env_or_exit_code(data, key);
+	ft_free(data->m, key);
+	if (!value)
+		return (NULL);
+	res_str = replace_key_to_value(line, len_key, value);
+	if (res_str)
 	{
-		find_key_pos(line, len_key);
-		if (len_key[0] == -1)
-			break ;
-		if (len_key[0] == -1 || len_key[1] == -1)
-			break ;
-		if (len_key[0] == len_key[1])
-		{
-			start_line++;
-			continue ;
-		}
-		line = process_key(data, line, len_key, &start_line);
+		free(line);
+		line = res_str;
+		*diff = len_key[0] + ft_strlen(value) - 1;
+		ft_free(data->m, value);
 	}
 	return (line);
+}
+
+int	*find_key_pos(char *str, int *len, int i)
+{
+	len[0] = -1;
+	len[1] = -1;
+	if (!str || i >= (int)ft_strlen(str))
+		return (NULL);
+	while (str[i] != '\0' && str[i] != '$')
+		i++;
+	if (str[i] == '\0')
+		return (NULL);
+	len[0] = i;
+	while (str[i] != '\0' && str[i + 1] != '\0' \
+		&& str[i + 1] != '$' && str[i] != '?' \
+		&& (str[i + 1] != ' ' && !(str[i + 1] >= '\t' && str[i + 1] <= '\r')))
+		i++;
+	len[1] = i;
+	if (len[0] == len[1])
+		return (NULL);
+	return (len);
 }
 
 int	heredoc_loop(t_data *data, char **line, int pipe_fds[2])
 {
 	*line = is_there_env(data, *line);
 	if (!*line)
-		return (EXIT_FAILURE);
-	ft_putstr_fd(*line, pipe_fds[1]);
+		ft_putstr_fd("", pipe_fds[1]);
+	else
+		ft_putstr_fd(*line, pipe_fds[1]);
 	ft_putstr_fd("\n", pipe_fds[1]);
 	if (*line)
 		free(*line);
 	*line = readline("> ");
-	if (!*line)
-		return (EXIT_FAILURE);
+	// if (!*line)
+	// 	return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
