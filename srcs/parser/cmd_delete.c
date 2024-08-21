@@ -6,13 +6,13 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/20 13:32:36 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-cmd_node	*cmd_delete(cmd_node *node)
+t_cmd_node	*cmd_delete(t_cmd_node *node)
 {
 	if (!node)
 		return (NULL);
@@ -26,24 +26,24 @@ cmd_node	*cmd_delete(cmd_node *node)
 	return (NULL);
 }
 
-cmd_node	*cmd_delete_error(cmd_node *node)
+t_cmd_node	*cmd_delete_error(t_cmd_node *node)
 {
-	cmd_node	*ret;
+	t_cmd_node	*ret;
 
 	cmd_delete(node);
-	ret = malloc(sizeof(cmd_node));
+	ret = malloc(sizeof(t_cmd_node));
 	ret->data = NULL;
 	cmd_set_type(ret, NODE_ERROR);
 	cmd_attach(ret, NULL, NULL);
 	return (ret);
 }
 
-cmd_node	*set_null(t_token **token)
+t_cmd_node	*set_null(t_token **token)
 {
-	cmd_node	*result;
+	t_cmd_node	*result;
 
 	(void)token;
-	result = malloc(sizeof(cmd_node));
+	result = malloc(sizeof(t_cmd_node));
 	result->data = NULL;
 	cmd_set_type(result, NODE_CMDPATH);
 	cmd_attach(result, NULL, NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:16:57 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 17:01:22 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	update_env(t_data *data, char *res_key, char *res_value)
 		add_env(data, res_key, res_value);
 }
 
-int	export_builtin_update(t_data *data, cmd_node *arg)
+int	export_builtin_update(t_data *data, t_cmd_node *arg)
 {
 	char	*key;
 	char	*value;
@@ -82,7 +82,7 @@ int	export_builtin_update(t_data *data, cmd_node *arg)
 	return (exit);
 }
 
-int	export_builtin(t_data *data, cmd_node *arg)
+int	export_builtin(t_data *data, t_cmd_node *arg)
 {
 	if (!data)
 		return (EXIT_FAILURE);

@@ -12,6 +12,7 @@ else
 		"test_case/pipes"
 		"test_case/syntax"
 		"test_case/redirects"
+		"test_case/extras"
 	)
 fi
 

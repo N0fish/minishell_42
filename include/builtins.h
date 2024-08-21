@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 17:05:44 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:29:53 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,25 @@ char	**transform_envp(t_malloc *m, t_envp *envp);
 void	modif_display(t_envp *envp, char *key, bool display);
 // builtins
 t_data	*init_builtins(char **argv, char **envp);
-bool	use_builtin(t_data *data, cmd_node *node, t_fds fds, bool exit_display);
-bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds, pid_t *child);
+bool	use_builtin(t_data *data, t_cmd_node *node, t_fds fds, \
+					bool exit_display);
+bool	fork_builtin(t_data *data, t_cmd_node *cmd, t_fds fds, pid_t *child);
 // cd_builtin
-int		cd_builtin(t_data *data, cmd_node *cmd);
+int		cd_builtin(t_data *data, t_cmd_node *cmd);
 // echo_builtin
-int		echo_builtin(t_data *data, cmd_node *arg);
+int		echo_builtin(t_data *data, t_cmd_node *arg);
 // env_builtin
 int		env_builtin(t_data *data);
 // exit_builtin
-void	exit_builtin(t_data *data, cmd_node *arg, bool display);
+void	exit_builtin(t_data *data, t_cmd_node *arg, bool display);
 // export_builtin_utils
 int		declare_env_builtin(t_data *data);
 // export_builtin
-int		export_builtin(t_data *data, cmd_node *arg);
+int		export_builtin(t_data *data, t_cmd_node *arg);
 // pwd_builtin
 char	*getcwd_builtin(t_data *data);
 int		pwd_builtin(t_data *data);
 // unset_builtin
-int		unset_builtin(t_data *data, cmd_node *arg);
+int		unset_builtin(t_data *data, t_cmd_node *arg);
 
 #endif

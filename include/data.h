@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:53:12 by alex              #+#    #+#             */
-/*   Updated: 2024/08/20 18:58:18 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:27:42 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ typedef struct s_envp
 
 typedef struct s_data
 {
-	struct s_malloc	*m;
-	struct s_envp	*envp;
-	int				exit_code;
-	char			*shell_name;
-	bool			here_doc;
-	int				wtpd;
-	bool			exec_error;
-	int				out_fd;
-	int				in_fd;
-	struct s_fds	fds;
-	struct cmd_node	*entry_node;
+	struct s_malloc		*m;
+	struct s_envp		*envp;
+	int					exit_code;
+	char				*shell_name;
+	bool				here_doc;
+	int					wtpd;
+	bool				exec_error;
+	int					out_fd;
+	int					in_fd;
+	struct s_fds		fds;
+	struct s_cmd_node	*entry_node;
 }				t_data;
 
 typedef struct s_ms_pids

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:28 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/16 13:23:42 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:03:55 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ int	heredoc_loop(t_data *data, char **line, int pipe_fds[2])
 	if (*line)
 		free(*line);
 	*line = readline("> ");
-	// if (!*line)
-	// 	return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

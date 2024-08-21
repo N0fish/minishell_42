@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_there_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:28 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 19:05:23 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:04:27 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*seek_env_or_exit_code(t_data *data, char *key)
 char	*remove_dol(char *line, int *pos)
 {
 	int		future_len;
-	char 	*new;
+	char	*new;
 	int		it;
 
 	if (!line || !ft_strlen(line))
@@ -99,11 +99,9 @@ char	*is_there_env(t_data *data, char *line)
 
 	if (!data || !line)
 		return (NULL);
-	// si line == ""
 	if (!ft_strlen(line))
 		return (line);
 	diff = 0;
-	// la taille de line change => ft_strlen a chaque fois
 	while (line && diff < (int)ft_strlen(line))
 	{
 		find_key_pos(line, len_key, diff);

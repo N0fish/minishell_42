@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fds_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:55 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 18:19:32 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	fds_ok(t_fds fds)
 	return (fds.in != -1 && fds.out != -1);
 }
 
-int	find_final_fd(t_data *data, cmd_node **red, \
+int	find_final_fd(t_data *data, t_cmd_node **red, \
 						int node_type, int open_modes[2])
 {
 	int	fd;

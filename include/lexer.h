@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:06:24 by alex              #+#    #+#             */
-/*   Updated: 2024/08/18 15:38:56 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/21 15:27:09 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-enum TokenType{
+typedef enum e_token_type
+{
 	CHAR_PIPE		= '|',
 	CHAR_GREATER	= '>',
 	HEREDOC_IN		= '>'+13,
@@ -22,25 +23,24 @@ enum TokenType{
 	CHAR_QOUTE		= '\'',
 	CHAR_DQOUTE		= '\"',
 	CHAR_WHITESPACE	= ' ',
-
-	CHAR_NULL 		= 0,
+	CHAR_NULL		= 0,
 	CHAR_GENERAL	= -1,
 	TOKEN_QUOTE		= -2,
 	TOKEN_DQUOTE	= -3,
 	TOKEN			= -1,
-};
+}		t_token_type;
 
-enum {
+typedef enum e_lexer_state
+{
 	STATE_IN_DQUOTE,
 	STATE_IN_QUOTE,
-	
-	STATE_IN_ESCAPESEQ,
 	STATE_GENERAL,
-};
+}		t_lexer_state;
 
 # define TOKEN_DELIM " \t\n\r\a"
 
-typedef struct s_token {
+typedef struct s_token
+{
 	struct s_malloc	*m;
 	char			*data;
 	int				type;
@@ -62,7 +62,7 @@ void		lexer_heredoc(char *input, t_token **token, int *i, int *j);
 
 int			char_type(char ch);
 int			is_heredoc(char *input, int i);
-void		token_data_init(t_token* token, int size);
+void		token_data_init(t_token *token, int size);
 void		strip_quotes(char *src, char *dest);
 void		lexer_destroy(t_token **token);
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:18:10 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/08 16:45:47 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unset_builtin(t_data *data, cmd_node *arg)
+int	unset_builtin(t_data *data, t_cmd_node *arg)
 {
 	if (!data)
 		return (EXIT_FAILURE);

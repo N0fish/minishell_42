@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:21:40 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 19:04:52 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-pid_t	fork_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
+pid_t	fork_cmd(t_data *data, t_cmd_node *node, t_fds fds, char **envp)
 {
 	t_cmd	*cmd;
 	pid_t	pid;
@@ -37,14 +37,12 @@ pid_t	fork_cmd(t_data *data, cmd_node *node, t_fds fds, char **envp)
 	return (pid);
 }
 
-int	exec_2_plus(t_data *data, cmd_node **node, t_fds *fds, t_ms_pids *pids)
+int	exec_2_plus(t_data *data, t_cmd_node **node, t_fds *fds, t_ms_pids *pids)
 {
 	char	**envp;
 
 	envp = transform_envp(data->m, data->envp);
 	*fds = init_fds(in_out(data, (*node)->left));
-	// if (!fds_ok(*fds))
-	// 	return (EXIT_FAILURE);
 	add_pid(pids, fork_cmd(data, (*node)->left, *fds, envp));
 	*node = (*node)->right;
 	while (*node && (*node)->type == NODE_PIPE)
@@ -58,7 +56,7 @@ int	exec_2_plus(t_data *data, cmd_node **node, t_fds *fds, t_ms_pids *pids)
 	return (EXIT_SUCCESS);
 }
 
-int	exec_cmds(t_data *data, cmd_node *node)
+int	exec_cmds(t_data *data, t_cmd_node *node)
 {
 	char		**envp;
 	t_fds		fds;
@@ -80,7 +78,7 @@ int	exec_cmds(t_data *data, cmd_node *node)
 	return (data->exit_code);
 }
 
-int	exec_cmd(t_data *data, cmd_node *node)
+int	exec_cmd(t_data *data, t_cmd_node *node)
 {
 	t_fds		fds;
 	char		**envp;
@@ -106,7 +104,7 @@ int	exec_cmd(t_data *data, cmd_node *node)
 	return (data->exit_code);
 }
 
-int	exec_entry(t_data *data, cmd_node *node)
+int	exec_entry(t_data *data, t_cmd_node *node)
 {
 	if (!data || !node)
 		return (EXIT_FAILURE);

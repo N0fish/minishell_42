@@ -6,14 +6,14 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:27:14 by alex              #+#    #+#             */
-/*   Updated: 2024/08/20 13:50:42 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:30:24 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-cmd_node	*cmd_define(cmd_node *root, node_type type,
-							cmd_node *left, cmd_node *right)
+t_cmd_node	*cmd_define(t_cmd_node *root, t_node_type type,
+							t_cmd_node *left, t_cmd_node *right)
 {
 	if (right && right->type && right->type == NODE_ERROR)
 	{
@@ -28,7 +28,7 @@ cmd_node	*cmd_define(cmd_node *root, node_type type,
 	return (root);
 }
 
-void	cmd_attach(cmd_node *root, cmd_node *left, cmd_node *right)
+void	cmd_attach(t_cmd_node *root, t_cmd_node *left, t_cmd_node *right)
 {
 	if (!root)
 		return ;
@@ -36,21 +36,22 @@ void	cmd_attach(cmd_node *root, cmd_node *left, cmd_node *right)
 	root->right = right;
 }
 
-void	cmd_set_type(cmd_node *node, node_type type)
+void	cmd_set_type(t_cmd_node *node, t_node_type type)
 {
 	if (!node)
 		return ;
 	node->type = type;
 }
 
-void	cmd_set_data(cmd_node *node, char *data)
+void	cmd_set_data(t_cmd_node *node, char *data)
 {
 	if (!node)
 		return ;
 	node->data = data;
 }
 
-void	cmd_set(cmd_node *node, char *data, node_type type, cmd_node *next)
+void	cmd_set(t_cmd_node *node, char *data, t_node_type type, \
+				t_cmd_node *next)
 {
 	if (!node)
 		return ;

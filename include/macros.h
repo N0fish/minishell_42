@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   macros.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
+/*   Updated: 2024/08/21 15:31:23 by aliutykh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MACROS_H
 # define MACROS_H
 
@@ -15,12 +27,7 @@
 # define IS_A_DIR "Is a directory"
 # define MISS_PROMPT "\001\033[0;36m\002(＃＞＜) \001\033[0m\002"
 
-# if __APPLE__
-    // delete avan correction pour la norm
-#   define PATH_MAX 1024
-# else
-#   define PATH_MAX 4096
-# endif
+# define PATH_MAX 4096
 # define FREE_STATIC_FD -99
 # define CNTRL_C SIGINT
 # define CNTRL_B_SLASH SIGQUIT

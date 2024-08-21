@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:02:02 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/12 17:15:00 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	cd_builtin_utils(t_data *data)
 	return (exit);
 }
 
-int	see_args(t_data *data, cmd_node *arg)
+int	see_args(t_data *data, t_cmd_node *arg)
 {
 	if (!data || !arg)
 		return (EXIT_FAILURE);
@@ -43,7 +43,7 @@ int	see_args(t_data *data, cmd_node *arg)
 	return (EXIT_SUCCESS);
 }
 
-char	*cd_no_data(t_data *data, cmd_node *cmd)
+char	*cd_no_data(t_data *data, t_cmd_node *cmd)
 {
 	char	*path;
 
@@ -56,7 +56,7 @@ char	*cd_no_data(t_data *data, cmd_node *cmd)
 	return (path);
 }
 
-int	cd_builtin(t_data *data, cmd_node *arg)
+int	cd_builtin(t_data *data, t_cmd_node *arg)
 {
 	t_envp	*oldpwd;
 	t_envp	*pwd;

@@ -1,0 +1,19 @@
+
+$PWD
+$EMPTY
+echo "$EMPTY hi $EMPTY hello"
+echo $EMPTY hi $EMPTY hello
+$1 $2 $3 ls $EMPTY $EMPTY $EMPTY -a $EMPTY -l
+ls $EMPTY -a $EMPTY -l
+./test_files/invalid_permission
+./missing.out
+missing.out
+"aaa"
+test_files
+./test_files
+/test_files
+minishell.h
+$
+$1 $1
+$?
+README.md

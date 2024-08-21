@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:16:04 by alex              #+#    #+#             */
-/*   Updated: 2024/08/19 16:51:19 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ static int	get_argument_type(int type)
 	return (NODE_ARGUMENT);
 }
 
-cmd_node	*argument(t_token **token, int type)
+t_cmd_node	*argument(t_token **token, int type)
 {
-	cmd_node	*arg;
-	cmd_node	*result;
+	t_cmd_node	*arg;
+	t_cmd_node	*result;
 	char		*res;
 	int			arg_type;
 
 	if (!check_tokentype(type, token, &res))
 		return (NULL);
 	arg = cmd_argument(token);
-	result = malloc(sizeof(cmd_node));
+	result = malloc(sizeof(t_cmd_node));
 	arg_type = get_argument_type(type);
 	cmd_set_type(result, arg_type);
 	cmd_set_data(result, res);
@@ -41,10 +41,10 @@ cmd_node	*argument(t_token **token, int type)
 	return (result);
 }
 
-cmd_node	*cmd_argument(t_token **token)
+t_cmd_node	*cmd_argument(t_token **token)
 {
 	t_token		*save;
-	cmd_node	*node;
+	t_cmd_node	*node;
 
 	save = *token;
 	*token = save;

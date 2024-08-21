@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 17:18:11 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/12 17:18:18 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_redirect_node(cmd_node *node)
+bool	is_redirect_node(t_cmd_node *node)
 {
 	return (node->type == NODE_REDIRECT_IN \
 		|| node->type == NODE_REDIRECT_OUT \
@@ -20,7 +20,7 @@ bool	is_redirect_node(cmd_node *node)
 		|| node->type == NODE_HEREDOC_OUT);
 }
 
-int	handle_redirect_out(t_data *data, cmd_node **node, int *out_fd)
+int	handle_redirect_out(t_data *data, t_cmd_node **node, int *out_fd)
 {
 	int	open_mode[2];
 
@@ -31,7 +31,7 @@ int	handle_redirect_out(t_data *data, cmd_node **node, int *out_fd)
 	return (*out_fd);
 }
 
-int	handle_shift_left(t_data *data, cmd_node **node, int *in_fd)
+int	handle_shift_left(t_data *data, t_cmd_node **node, int *in_fd)
 {
 	if (*node && (*node)->type == NODE_HEREDOC_OUT)
 	{
@@ -41,7 +41,7 @@ int	handle_shift_left(t_data *data, cmd_node **node, int *in_fd)
 	return (*in_fd);
 }
 
-int	handle_redirect_in(t_data *data, cmd_node **node, int *in_fd)
+int	handle_redirect_in(t_data *data, t_cmd_node **node, int *in_fd)
 {
 	int	open_mode[2];
 
@@ -52,7 +52,7 @@ int	handle_redirect_in(t_data *data, cmd_node **node, int *in_fd)
 	return (*in_fd);
 }
 
-int	handle_shift_right(t_data *data, cmd_node **node, int *out_fd)
+int	handle_shift_right(t_data *data, t_cmd_node **node, int *out_fd)
 {
 	int	open_mode[2];
 

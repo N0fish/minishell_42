@@ -6,21 +6,21 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:06:27 by alex              #+#    #+#             */
-/*   Updated: 2024/08/20 13:49:42 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-cmd_node	*heredoc_out(t_token **token);
-cmd_node	*heredoc_in(t_token **token);
+t_cmd_node	*heredoc_out(t_token **token);
+t_cmd_node	*heredoc_in(t_token **token);
 
-cmd_node	*heredoc_in(t_token **token)
+t_cmd_node	*heredoc_in(t_token **token)
 {
 	t_token		*save;
-	cmd_node	*cmd_tok;
-	cmd_node	*redirect_tok;
-	cmd_node	*result;
+	t_cmd_node	*cmd_tok;
+	t_cmd_node	*redirect_tok;
+	t_cmd_node	*result;
 	char		*filename;
 
 	save = *token;
@@ -34,7 +34,7 @@ cmd_node	*heredoc_in(t_token **token)
 		return (cmd_delete(cmd_tok));
 	if (!only_check_tokentype(TOKEN, token, &filename))
 		return (cmd_delete_error(cmd_tok));
-	result = malloc(sizeof(cmd_node));
+	result = malloc(sizeof(t_cmd_node));
 	cmd_set_data(result, filename);
 	cmd_attach(result, NULL, NULL);
 	redirect_tok = heredoc_or_redirecit(token);
@@ -43,12 +43,12 @@ cmd_node	*heredoc_in(t_token **token)
 	return (cmd_define(result, NODE_HEREDOC_IN, cmd_tok, redirect_tok));
 }
 
-cmd_node	*heredoc_out(t_token **token)
+t_cmd_node	*heredoc_out(t_token **token)
 {
 	t_token		*save;
-	cmd_node	*cmd_tok;
-	cmd_node	*redirect_tok;
-	cmd_node	*result;
+	t_cmd_node	*cmd_tok;
+	t_cmd_node	*redirect_tok;
+	t_cmd_node	*result;
 	char		*filename;
 
 	save = *token;
@@ -62,7 +62,7 @@ cmd_node	*heredoc_out(t_token **token)
 		return (cmd_delete(cmd_tok));
 	if (!only_check_tokentype(TOKEN, token, &filename))
 		return (cmd_delete_error(cmd_tok));
-	result = malloc(sizeof(cmd_node));
+	result = malloc(sizeof(t_cmd_node));
 	cmd_set_data(result, filename);
 	cmd_attach(result, NULL, NULL);
 	redirect_tok = heredoc_or_redirecit(token);
@@ -71,10 +71,10 @@ cmd_node	*heredoc_out(t_token **token)
 	return (cmd_define(result, NODE_HEREDOC_OUT, cmd_tok, redirect_tok));
 }
 
-cmd_node	*heredoc(t_token **token)
+t_cmd_node	*heredoc(t_token **token)
 {
 	t_token		*save;
-	cmd_node	*node;
+	t_cmd_node	*node;
 
 	save = *token;
 	*token = save;

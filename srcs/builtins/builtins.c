@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:13 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 17:08:02 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_data	*init_builtins(char **argv, char **envp)
 	return (data);
 }
 
-void	exec_builtin(t_data *data, cmd_node *cmd, bool exit_display)
+void	exec_builtin(t_data *data, t_cmd_node *cmd, bool exit_display)
 {
 	if (!data || !cmd || !cmd->data)
 		return ;
@@ -42,7 +42,7 @@ void	exec_builtin(t_data *data, cmd_node *cmd, bool exit_display)
 		exit_builtin(data, cmd->right, exit_display);
 }
 
-bool	is_builtin(t_data *data, cmd_node *cmd)
+bool	is_builtin(t_data *data, t_cmd_node *cmd)
 {
 	if (!data || !cmd || !cmd->data)
 		return (false);
@@ -50,7 +50,7 @@ bool	is_builtin(t_data *data, cmd_node *cmd)
 		"pwd,cd,unset,env,export,echo,exit"));
 }
 
-bool	use_builtin(t_data *data, cmd_node *cmd, t_fds fds, bool exit_display)
+bool	use_builtin(t_data *data, t_cmd_node *cmd, t_fds fds, bool exit_display)
 {
 	if (!data || !cmd)
 		return (false);
@@ -74,7 +74,7 @@ bool	use_builtin(t_data *data, cmd_node *cmd, t_fds fds, bool exit_display)
 	return (true);
 }
 
-bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds, pid_t *child)
+bool	fork_builtin(t_data *data, t_cmd_node *cmd, t_fds fds, pid_t *child)
 {
 	if (!is_builtin(data, cmd))
 		return (false);

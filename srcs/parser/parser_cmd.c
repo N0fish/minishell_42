@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:16:04 by alex              #+#    #+#             */
-/*   Updated: 2024/08/19 17:11:55 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static int	get_cmd_type(int type)
 	return (NODE_CMDPATH);
 }
 
-cmd_node	*cmd_simple(t_token **token)
+t_cmd_node	*cmd_simple(t_token **token)
 {
-	cmd_node	*arg;
-	cmd_node	*result;
+	t_cmd_node	*arg;
+	t_cmd_node	*result;
 	char		*res;
 	int			type;
 
@@ -39,17 +39,17 @@ cmd_node	*cmd_simple(t_token **token)
 	if (!check_tokentype(type, token, &res))
 		return (NULL);
 	arg = cmd_argument(token);
-	result = malloc(sizeof(cmd_node));
+	result = malloc(sizeof(t_cmd_node));
 	cmd_set_type(result, get_cmd_type(type));
 	cmd_set_data(result, res);
 	cmd_attach(result, NULL, arg);
 	return (result);
 }
 
-cmd_node	*cmd(t_token **token)
+t_cmd_node	*cmd(t_token **token)
 {
 	t_token		*save;
-	cmd_node	*node;
+	t_cmd_node	*node;
 
 	save = *token;
 	*token = save;

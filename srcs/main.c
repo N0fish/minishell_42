@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
+/*   Updated: 2024/08/21 15:31:46 by aliutykh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	*g_status;
 
-cmd_node	*get_command(t_data *data, char *line)
+t_cmd_node	*get_command(t_data *data, char *line)
 {
-	cmd_node	*cmd;
+	t_cmd_node	*cmd;
 	t_token		*token;
 
 	if (!data || !line)
@@ -18,7 +30,6 @@ cmd_node	*get_command(t_data *data, char *line)
 	cmd = expander(data, cmd);
 	if (!cmd)
 		return (NULL);
-	// show_cmd_tree(cmd);
 	exec_entry(data, cmd);
 	if (cmd)
 		cmd_delete(cmd);

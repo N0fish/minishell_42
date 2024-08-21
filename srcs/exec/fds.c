@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fds.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:22:11 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/12 17:17:09 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_fds	end_update_fds(t_fds fds, t_fds io)
 	});
 }
 
-t_fds	in_out(t_data *data, cmd_node *node)
+t_fds	in_out(t_data *data, t_cmd_node *node)
 {
 	int	in_fd;
 	int	out_fd;
@@ -89,7 +89,7 @@ t_fds	in_out(t_data *data, cmd_node *node)
 	while (node && is_redirect_node(node))
 	{
 		if (handle_redirect_out(data, &node, &out_fd) == -1 \
-			|| handle_redirect_in(data, &node, &in_fd) == -1\
+			|| handle_redirect_in(data, &node, &in_fd) == -1 \
 			|| handle_shift_left(data, &node, &in_fd) == -1 \
 			|| handle_shift_right(data, &node, &out_fd) == -1)
 			break ;

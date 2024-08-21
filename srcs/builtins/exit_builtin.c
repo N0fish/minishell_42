@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:41 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 18:13:40 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	check_digit(t_data *data, cmd_node *arg)
+bool	check_digit(t_data *data, t_cmd_node *arg)
 {
 	char			*res_arg;
 	char			*arg_cpy;
@@ -41,7 +41,7 @@ bool	check_digit(t_data *data, cmd_node *arg)
 	return (true);
 }
 
-void	check_exit_arg(t_data *data, cmd_node *arg, bool *do_exit)
+void	check_exit_arg(t_data *data, t_cmd_node *arg, bool *do_exit)
 {
 	if (!data || !arg)
 		return ;
@@ -67,7 +67,7 @@ void	close_everything(t_fds fds, int in_out[2])
 	close(STDERR_FILENO);
 }
 
-void	exit_builtin(t_data *data, cmd_node *arg, bool display)
+void	exit_builtin(t_data *data, t_cmd_node *arg, bool display)
 {
 	int		exit_code;
 	bool	do_exit;
