@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_build.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:23:52 by alex              #+#    #+#             */
-/*   Updated: 2024/08/20 18:11:13 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:52:31 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,25 @@ void	lexer_null(char *input, t_token **token, int i, int *j)
 	}
 }
 
+void	lexer_others(char *input, t_token **token, int *i, int *j)
+{
+	if (!token || !*token)
+		return ;
+	lexer_heredoc(input, token, i, j);
+	lexer_redirections(input, token, *i, j);
+	lexer_general(input, token, *i, j);
+	lexer_null(input, token, *i, j);
+}
+
+t_token	*skip_spaces(char *input, int *i)
+{
+	while (input[*i] && (input[*i] == ' '
+			|| (input[*i] >= '\t' && input[*i] <= '\r')))
+		(*i)++;
+	(*i)--;
+	return (NULL);
+}
+
 t_token	*lexer_build(t_data *data, char *input, int state)
 {
 	t_token		*token;
@@ -31,24 +50,24 @@ t_token	*lexer_build(t_data *data, char *input, int state)
 	int			i;
 	int			j;
 
-	token = NULL;
+	i = 0;
+	j = 0;
+	token = skip_spaces(input, &i);
 	token = token_init(data->m, token, ft_strlen(input));
 	head = token;
-	i = -1;
-	j = 0;
 	while (input[++i])
 	{
 		if (state == STATE_GENERAL)
 		{
 			lexer_quotes(input[i], &token, &j, &state);
-			lexer_heredoc(input, &token, &i, &j);
-			lexer_redirections(input, &token, i, &j);
-			lexer_general(input, &token, i, &j);
-			lexer_null(input, &token, i, &j);
+			lexer_others(input, &token, &i, &j);
+			if (input[i] == '\0')
+				break ;
 		}
 		else
 			lexer_other_state(input[i], &token, &j, &state);
 	}
-	lexer_general(input, &token, i, &j);
+	if (input[i - 1] != '\0')
+		lexer_general(input, &token, i, &j);
 	return (check_lexer(data, head, state));
 }

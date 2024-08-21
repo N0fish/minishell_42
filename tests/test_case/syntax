@@ -22,3 +22,16 @@ echo hi |  "|"
 ls "
 echo ' " '
 echo ' " ' '
+b<<<>>a | ls<<a
+
+ls "-a"
+ls "
+echo '
+"ls"
+' echo'
+     ls
+    ls    -la
+    echo    "ls"
+'"ls'"
+'ls'
+'"ls"'

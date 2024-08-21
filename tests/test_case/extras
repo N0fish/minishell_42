@@ -17,3 +17,13 @@ $
 $1 $1
 $?
 README.md
+/bin/ls
+echo "hello"
+exit 9091
+'$PWD'
+''
+" "
+cd include/
+cd $PWD
+cd "$PWD"
+cd .

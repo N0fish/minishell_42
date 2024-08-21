@@ -1,5 +1,6 @@
-env | sort | grep -v SHLVL | grep -v ^_
-rm a |ls>a|cat < Makefile >> a | cat a
+ls -la $a | wc -l
 cat ./test_files/infile | grep oi
-cat minishell.h | grep ");"$
+cat include/minishell.h | grep ");"$
 export GHOST=123 | env | grep GHOST
+ls|ls|ls   |ls
+||||||||||||||

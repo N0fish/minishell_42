@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:56:53 by alex              #+#    #+#             */
-/*   Updated: 2024/08/20 16:14:27 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:53:13 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	char_type(char ch)
 		return (CHAR_QOUTE);
 	else if (ch == '\"')
 		return (CHAR_DQOUTE);
+	else if (ch == '\t')
+		return (CHAR_WHITESPACE);
 	else if (ch == ' ')
 		return (CHAR_WHITESPACE);
 	else if (ch == '\0')

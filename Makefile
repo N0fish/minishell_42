@@ -6,7 +6,7 @@
 #    By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/16 13:00:03 by algultse          #+#    #+#              #
-#    Updated: 2024/08/21 15:33:42 by aliutykh         ###   ########.fr        #
+#    Updated: 2024/08/21 20:44:02 by aliutykh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,9 +62,10 @@ fclean: clean
 	rm -f $(NAME)
 	make fclean -C $(LIBFTDIR)
 
-test:
+test: all
 	cp -r ./tests/files .
 	cd tests && ./tester
+	rm -rf files
 
 re: fclean all
 
