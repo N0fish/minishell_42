@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 13:40:47 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:07:08 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,17 @@
 // error
 void	ft_strerror_q(t_data *data, char *name, char *text, char *err);
 void	ft_strerror(t_data *data, char *name, char *text, char *err);
+void	handle_access_errors(t_data *data, t_cmd *cmd);
+int		update_exit_code(t_data *data);
+void	display_error(t_data *data, char *lim);
 // free
 void	free_cmd(t_data *data, t_cmd *cmd);
 // node
 bool	is_redirect_node(cmd_node *node);
-void	handle_redirect_out(t_data *data, cmd_node **node, int *out_fd);
-void	handle_shift_left(t_data *data, cmd_node **node, int *in_fd);
-void	handle_redirect_in(t_data *data, cmd_node **node, int *in_fd);
-void	handle_shift_right(t_data *data, cmd_node **node, int *out_fd);
+int 	handle_redirect_out(t_data *data, cmd_node **node, int *out_fd);
+int 	handle_shift_left(t_data *data, cmd_node **node, int *in_fd);
+int 	handle_redirect_in(t_data *data, cmd_node **node, int *in_fd);
+int 	handle_shift_right(t_data *data, cmd_node **node, int *out_fd);
 // write
 int		safe_write(t_data *data, char *name, char *arg, int fd);
 

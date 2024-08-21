@@ -6,31 +6,11 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:25:25 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/09 23:53:16 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:02:00 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	update_exit_code(t_data *data)
-{
-	if (!data)
-		return (EXIT_FAILURE);
-	if (data->exec_error == true)
-		return (EX_NOTFOUND);
-	if (data->wtpd != -1 && WIFEXITED(data->wtpd))
-		return (WEXITSTATUS(data->wtpd));
-	return (data->exit_code);
-}
-
-void	handle_access_errors(t_data *data, t_cmd *cmd)
-{
-	data->exit_code = EX_NOTFOUND;
-	if (try_dir_or_file(cmd->cmd))
-		ft_strerror(data, cmd->cmd, NULL, NO_FILE_DIR_CAP);
-	else
-		ft_strerror(data, cmd->cmd, NULL, CMD_NOT_FOUND);
-}
 
 void	exec_fork(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 {
@@ -39,6 +19,11 @@ void	exec_fork(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 	dup2(fds.out, STDOUT_FILENO);
 	if (fds.no >= 0 && fds.no != fds.in && fds.no != fds.out)
 		close(fds.no);
+	if (!ft_strcmp(cmd->cmd, cmd->args[0]))
+	{
+		handle_access_errors(data, cmd);
+		exit_builtin(data, NULL, false);
+	}
 	if (is_directory(cmd->cmd, false))
 	{
 		data->exit_code = ERROR_CMD_NOT_EXET;
@@ -71,4 +56,22 @@ pid_t	exec_child(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 	if (child == 0)
 		exec_fork(data, fds, cmd, envp);
 	return (child);
+}
+
+void	add_pid(t_ms_pids *pids, pid_t pid)
+{
+	pids->pids[++(pids->it)] = pid;
+}
+
+void	wait_pids(t_data *data, t_ms_pids pids)
+{
+	int	it;
+
+	it = -1;
+	while (++it <= pids.it)
+	{
+		if (pids.pids[it] == -1)
+			continue ;
+		data->exec_error = waitpid(pids.pids[it], &data->wtpd, 0) == -1;
+	}
 }

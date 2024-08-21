@@ -17,7 +17,7 @@ LEXER_SRC = lexer/lexer.c lexer/lexer_build.c lexer/lexer_utils.c lexer/lexer_in
 BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builtin.c \
 	builtins/cd_builtin.c builtins/pwd_builtin.c builtins/export_builtin.c builtins/export_builtin_utils.c \
 	builtins/unset_builtin.c builtins/env_builtin.c builtins/exit_builtin.c
-EXECUTOR_SRC = exec/exec.c exec/fds_utils.c exec/fds.c exec/here_doc.c exec/is_env_hd.c \
+EXECUTOR_SRC = exec/exec.c exec/fds_utils.c exec/fds.c exec/here_doc.c exec/is_there_env.c \
 	exec/parsed_utils.c exec/pids.c exec/command.c
 EXPANDER_SRC = expander/expander.c
 SIGNALS_SRC = signals/child.c signals/parent.c signals/here_doc.c

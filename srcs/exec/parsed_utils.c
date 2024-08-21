@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsed_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:48 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/19 13:37:13 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:02:23 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ t_cmd	*prepare_cmd(t_data *data, cmd_node *node)
 	t_cmd	*cmd_res;
 	char	*path;
 
-	if (!data || !node)
-		return (NULL);
 	cmd = NULL;
 	cmd_res = (t_cmd *)ft_malloc(data->m, sizeof(t_cmd));
 	path = seek_env_value(data->envp, "PATH");

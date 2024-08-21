@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:53:12 by alex              #+#    #+#             */
-/*   Updated: 2024/08/16 13:33:35 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:58:18 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef struct s_data
 	struct s_fds	fds;
 	struct cmd_node	*entry_node;
 }				t_data;
+
+typedef struct s_ms_pids
+{
+	pid_t	pids[1024];
+	int		it;
+}				t_ms_pids;
 
 // INIT
 // env_init

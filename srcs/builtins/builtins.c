@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:13 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/09 21:28:50 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:08:02 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,18 @@ bool	use_builtin(t_data *data, cmd_node *cmd, t_fds fds, bool exit_display)
 	return (true);
 }
 
-bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds)
+bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds, pid_t *child)
 {
-	pid_t	child;
-
 	if (!is_builtin(data, cmd))
 		return (false);
-	child = fork();
-	if (child < 0)
+	*child = fork();
+	if (*child < 0)
 	{
 		ft_strerror(data, "fork", NULL, strerror(errno));
 		data->exit_code = -1;
 		return (false);
 	}
-	if (child == 0)
+	if (*child == 0)
 	{
 		dup2(fds.in, STDIN_FILENO);
 		dup2(fds.out, STDOUT_FILENO);
@@ -96,7 +94,7 @@ bool	fork_builtin(t_data *data, cmd_node *cmd, t_fds fds)
 			close(fds.no);
 		exit_builtin(data, NULL, false);
 	}
-	data->exec_error = waitpid(child, &data->wtpd, 0) == -1;
+	data->exec_error = waitpid(*child, &data->wtpd, 0) == -1;
 	close_fds(fds);
 	return (true);
 }

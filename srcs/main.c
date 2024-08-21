@@ -18,6 +18,7 @@ cmd_node	*get_command(t_data *data, char *line)
 	cmd = expander(data, cmd);
 	if (!cmd)
 		return (NULL);
+	// show_cmd_tree(cmd);
 	exec_entry(data, cmd);
 	if (cmd)
 		cmd_delete(cmd);

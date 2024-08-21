@@ -88,10 +88,11 @@ t_fds	in_out(t_data *data, cmd_node *node)
 	out_fd = STDOUT_FILENO;
 	while (node && is_redirect_node(node))
 	{
-		handle_redirect_out(data, &node, &out_fd);
-		handle_shift_left(data, &node, &in_fd);
-		handle_redirect_in(data, &node, &in_fd);
-		handle_shift_right(data, &node, &out_fd);
+		if (handle_redirect_out(data, &node, &out_fd) == -1 \
+			|| handle_redirect_in(data, &node, &in_fd) == -1\
+			|| handle_shift_left(data, &node, &in_fd) == -1 \
+			|| handle_shift_right(data, &node, &out_fd) == -1)
+			break ;
 	}
 	return ((t_fds){\
 		.in = in_fd, \

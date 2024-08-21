@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:25 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/29 11:59:04 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:06:30 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	handler(int signal)
 {
 	ft_putstr_fd("\n", 2);
 	*g_status = 128 + signal;
-    exit(*g_status);
+	exit(*g_status);
 }
 
 void	heredoc_child_signal(void)
