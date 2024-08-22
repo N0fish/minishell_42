@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+         #
+#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/16 13:00:03 by algultse          #+#    #+#              #
-#    Updated: 2024/08/21 20:44:02 by aliutykh         ###   ########.fr        #
+#    Updated: 2024/08/22 13:12:56 by alex             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJDIR = ./obj/
 
 PARSER_SRC = parser/parser_utils.c parser/cmd_init.c parser/parser.c \
 			parser/parser_argument.c parser/parser_cmd.c parser/parser_redirect.c \
-			parser/parser_heredoc.c parser/cmd_delete.c
+			parser/parser_heredoc.c parser/cmd_delete.c parser/parser_check.c
 INIT_SRC = init/init.c init/env.c init/env_init.c init/env_utils.c init/env_prepare.c
 LEXER_SRC = lexer/lexer.c lexer/lexer_build.c lexer/lexer_utils.c lexer/lexer_init.c lexer/lexer_build_utils.c
 BUILTINS_SRC = builtins/builtins.c builtins/builtin_utils.c builtins/echo_builtin.c \

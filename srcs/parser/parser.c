@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:29:08 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:59:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ t_cmd_node	*parser(t_data *data, t_token **token)
 		ft_strerror(data, NULL, NULL, "Syntax error");
 		return (NULL);
 	}
-	return (cmd_tree);
+	return (check_parser(&cmd_tree));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:23:15 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:54:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_cmd_node
 	struct s_cmd_node	*left;
 	struct s_cmd_node	*right;
 }				t_cmd_node;
+
+t_cmd_node	*check_parser(t_cmd_node **node);
 
 void		cmd_set(t_cmd_node *node, char *data, t_node_type type, \
 					t_cmd_node *next);

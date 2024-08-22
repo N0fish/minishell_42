@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:06:27 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/22 13:11:02 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ t_cmd_node	*heredoc_in(t_token **token)
 	cmd_attach(result, NULL, NULL);
 	redirect_tok = heredoc_or_redirecit(token);
 	if (!redirect_tok)
-		return (cmd_define(result, NODE_HEREDOC_IN, cmd_tok, NULL));
+		return (cmd_define(result, NODE_HEREDOC_IN, cmd_tok,
+				cmd_argument(token)));
 	return (cmd_define(result, NODE_HEREDOC_IN, cmd_tok, redirect_tok));
 }
 
@@ -67,7 +68,8 @@ t_cmd_node	*heredoc_out(t_token **token)
 	cmd_attach(result, NULL, NULL);
 	redirect_tok = heredoc_or_redirecit(token);
 	if (!redirect_tok)
-		return (cmd_define(result, NODE_HEREDOC_OUT, cmd_tok, NULL));
+		return (cmd_define(result, NODE_HEREDOC_OUT, cmd_tok,
+				cmd_argument(token)));
 	return (cmd_define(result, NODE_HEREDOC_OUT, cmd_tok, redirect_tok));
 }
 
