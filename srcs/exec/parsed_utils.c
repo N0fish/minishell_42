@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsed_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:48 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/22 18:10:39 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*find_cmd_path(t_malloc *m, char **paths, char *cmd)
 
 	if (try_dir_or_file(cmd) || *cmd == '\0')
 		return (ft_strdup_m(m, cmd));
-	while (*paths)
+	while (paths && *paths)
 	{
 		tmp = ft_strjoin_m(m, *paths, "/");
 		if (!tmp)
