@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:19:39 by algultse          #+#    #+#             */
-/*   Updated: 2024/07/22 12:22:06 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/22 18:09:29 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	modif_or_add_env(t_data *data, char *key, char *value)
 }
 
 void	delete_env(t_data *data, char *key)
-{	
+{
 	t_envp	*list;
 
 	list = data->envp;
@@ -60,7 +60,7 @@ void	delete_env(t_data *data, char *key)
 }
 
 void	hide_env(t_data *data, char *key)
-{	
+{
 	t_envp	*list;
 
 	list = data->envp;
