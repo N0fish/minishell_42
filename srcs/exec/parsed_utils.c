@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsed_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:48 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/22 18:10:39 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/22 18:10:39 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*find_cmd_path(t_malloc *m, char **paths, char *cmd)
 		ft_free(m, tmp);
 		if (!res_cmd)
 			return (NULL);
-		if (access(res_cmd, 0) == 0)
+		if (access(res_cmd, F_OK) == 0)
 			return (res_cmd);
 		ft_free(m, res_cmd);
 		paths++;
