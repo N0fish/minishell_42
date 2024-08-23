@@ -48,6 +48,7 @@ void		cmd_set_data(t_cmd_node *node, char *data);
 bool		check_tokentype(int tok_type, t_token **token, char **bufferptr);
 bool		only_check_tokentype(int tok_type, t_token **token, \
 					char **bufferptr);
+bool		is_token_redirect_or_heredoc(t_token *token);
 void		show_cmd_tree(t_cmd_node *node);
 //
 t_cmd_node	*cmd_delete(t_cmd_node *node);

@@ -35,6 +35,7 @@ t_cmd_node	*redirect_in(t_token **token)
 	if (!only_check_tokentype(TOKEN, token, &filename))
 		return (cmd_delete_error(cmd_tok));
 	result = malloc(sizeof(t_cmd_node));
+	result->data = NULL;
 	cmd_set_data(result, filename);
 	cmd_attach(result, NULL, NULL);
 	redirect_tok = heredoc_or_redirecit(token);
@@ -64,6 +65,7 @@ t_cmd_node	*redirect_out(t_token **token)
 	if (!only_check_tokentype(TOKEN, token, &filename))
 		return (cmd_delete_error(cmd_tok));
 	result = malloc(sizeof(t_cmd_node));
+	result->data = NULL;
 	cmd_set_data(result, filename);
 	cmd_attach(result, NULL, NULL);
 	redirect_tok = heredoc_or_redirecit(token);
