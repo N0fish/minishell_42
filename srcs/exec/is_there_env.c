@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_there_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:28 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/21 15:04:27 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:04:27 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*seek_key_in_str(t_data *data, char *str, int *res)
 	if (!data || !str)
 		return (NULL);
 	key_len = res[1] - res[0];
-	key = ft_malloc(data->m, key_len + 1);
+	key = (char *)ft_malloc(data->m, key_len + 1);
 	ft_strncpy(key, str + res[0] + 1, key_len);
 	key[key_len] = '\0';
 	return (key);

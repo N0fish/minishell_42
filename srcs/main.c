@@ -37,17 +37,6 @@ t_cmd_node	*get_command(t_data *data, char *line)
 	return (cmd);
 }
 
-bool	ft_isempty(const char *str)
-{
-	while (*str != '\0')
-	{
-		if (!(*str >= '\t' && *str <= '\r') && *str != ' ')
-			return (false);
-		str++;
-	}
-	return (true);
-}
-
 void	prompt(t_data *data)
 {
 	char		*line;
