@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 11:06:35 by aliutykh          #+#    #+#             */
-/*   Updated: 2024/08/23 16:27:33 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:44:01 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,16 @@ bool	only_check_tokentype(int tok_type, t_token **token, char **bufferptr)
 		return (true);
 	}
 	return (false);
+}
+
+bool	is_token_redirect_or_heredoc(t_token *token)
+{
+	if (!token)
+		return (false);
+	return (token->type == CHAR_LESSER
+		|| token->type == CHAR_GREATER
+		|| token->type == HEREDOC_IN
+		|| token->type == HEREDOC_OUT);
 }
 
 void	show_cmd_tree(t_cmd_node *node)
