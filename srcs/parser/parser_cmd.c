@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:16:04 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/22 23:28:49 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,25 @@ t_cmd_node	*cmd_simple(t_token **token)
 	cmd_set_data(result, res);
 	cmd_attach(result, NULL, arg);
 	return (result);
+}
+
+t_cmd_node	*heredoc_or_redirecit(t_token **token)
+{
+	t_token		*save;
+	t_cmd_node	*node;
+
+	save = *token;
+	*token = save;
+	node = heredoc(token);
+	if (node)
+		return (node);
+	*token = save;
+	node = redirect(token);
+	if (node)
+		return (node);
+	*token = save;
+	*token = (*token)->next;
+	return (NULL);
 }
 
 t_cmd_node	*cmd(t_token **token)

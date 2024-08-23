@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:12:06 by alex              #+#    #+#             */
-/*   Updated: 2024/08/22 18:00:51 by alex             ###   ########.fr       */
+/*   Updated: 2024/08/23 16:19:31 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,38 @@ t_cmd_node	*add_args_to_node(t_cmd_node **left, t_cmd_node **right)
 	return (*left);
 }
 
+bool	is_heredoc_or_redirect(t_cmd_node *node)
+{
+	return (node->type == NODE_HEREDOC_OUT
+		|| node->type == NODE_HEREDOC_IN
+		|| node->type == NODE_REDIRECT_OUT
+		|| node->type == NODE_REDIRECT_IN);
+}
+
 t_cmd_node	*check_parser(t_cmd_node **node)
 {
 	t_cmd_node	*head;
+	t_cmd_node	*temp;
 
 	if (!node || !*node)
 		return (NULL);
 	head = *node;
+	temp = NULL;
 	while (*node)
 	{
-		if ((*node)->type == NODE_HEREDOC_OUT
-			|| (*node)->type == NODE_HEREDOC_IN
-			|| (*node)->type == NODE_REDIRECT_OUT
-			|| (*node)->type == NODE_REDIRECT_IN)
+		if (is_heredoc_or_redirect(*node))
 		{
-			if ((*node)->right && (*node)->left
+			if (temp && (*node)->left && (*node)->left->right
+				&& (*node)->left->right->type == NODE_ARGUMENT)
+				add_args_to_node(&temp->left, &(*node)->left->right);
+			if (!temp)
+				temp = *node;
+			if (temp && (*node)->right
 				&& (*node)->right->type == NODE_ARGUMENT)
-				add_args_to_node(&(*node)->left, &(*node)->right);
+				add_args_to_node(&temp->left, &(*node)->right);
 		}
+		else
+			temp = NULL;
 		*node = (*node)->right;
 	}
 	return (head);
