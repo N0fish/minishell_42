@@ -79,7 +79,7 @@ bool	heredoc_fork(t_data *data, int pipe_fds[2], char *limiter)
 	while (line)
 	{
 		if (ft_strlen(line) >= 1 \
-			&& ft_strncmp(line, limiter, ft_strlen(line)) == 0)
+			&& ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
 			data->exit_code = EXIT_SUCCESS;
