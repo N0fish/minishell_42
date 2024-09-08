@@ -29,12 +29,16 @@ t_cmd_node	*add_args_to_node(t_cmd_node **left, t_cmd_node **right)
 	while (temp_right)
 	{
 		temp_left->right = malloc(sizeof(t_cmd_node));
+		if (!temp_left->right)
+			return (NULL);
 		temp_left->right->type = temp_right->type;
 		temp_left->right->data = ft_strdup(temp_right->data);
-		if (temp_right->right)
-			temp_left->right->right = temp_right->right;
-		if (temp_right->left)
-			temp_left->right->left = temp_right->left;
+		// if (temp_right->right)
+		// 	temp_left->right->right = temp_right->right;
+		// if (temp_right->left)
+		// 	temp_left->right->left = temp_right->left;
+		temp_left->right->left = NULL;
+		temp_left->right->right = NULL;
 		temp_right = temp_right->right;
 		temp_left = temp_left->right;
 	}

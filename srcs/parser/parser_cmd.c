@@ -40,6 +40,7 @@ t_cmd_node	*cmd_simple(t_token **token)
 		return (NULL);
 	arg = cmd_argument(token);
 	result = malloc(sizeof(t_cmd_node));
+	result->data = NULL;
 	cmd_set_type(result, get_cmd_type(type));
 	cmd_set_data(result, res);
 	cmd_attach(result, NULL, arg);

@@ -43,6 +43,8 @@ int	exec_2_plus(t_data *data, t_cmd_node **node, t_fds *fds, t_ms_pids *pids)
 
 	envp = transform_envp(data->m, data->envp);
 	*fds = init_fds(in_out(data, (*node)->left));
+	// if (!fds_ok(*fds))
+	// 	return (EXIT_FAILURE);
 	add_pid(pids, fork_cmd(data, (*node)->left, *fds, envp));
 	*node = (*node)->right;
 	while (*node && (*node)->type == NODE_PIPE)

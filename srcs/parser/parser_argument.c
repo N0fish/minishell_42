@@ -34,6 +34,7 @@ t_cmd_node	*argument(t_token **token, int type)
 		return (NULL);
 	arg = cmd_argument(token);
 	result = malloc(sizeof(t_cmd_node));
+	result->data = NULL;
 	arg_type = get_argument_type(type);
 	cmd_set_type(result, arg_type);
 	cmd_set_data(result, res);

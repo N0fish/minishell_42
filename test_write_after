@@ -95,16 +95,10 @@ bash error = ( numeric argument required)
 [0m[0;31m———————————— redirects
 [0;33mTest  57: ✅[38;5;244m grep hi <./test_files/infile 
 [0m[0;33mTest  58: ✅[38;5;244m grep hi "<infile" <         ./test_files/infile 
-[0m[0;33mTest  59: ❌[38;5;244m echo hi < ./test_files/infile bye bye 
-[0mmini output = ()
-bash output = (hi bye bye)
-mini exit code = 139
-bash exit code = 0
-[0;33mTest  60: ✅[38;5;244m grep hi <./test_files/infile_big <./test_files/infile 
-[0m[0;33mTest  61: ❌[38;5;244m echo <"./test_files/infile" "bonjour       42" 
-[0mmini output = ()
-bash output = (bonjour 42)
-[0;33mTest  62: ✅[38;5;244m cat <"./test_files/file name with spaces" 
+[0m[0;33mTest  59: ✅[38;5;244m echo hi < ./test_files/infile bye bye 
+[0m[0;33mTest  60: ✅[38;5;244m grep hi <./test_files/infile_big <./test_files/infile 
+[0m[0;33mTest  61: ✅[38;5;244m echo <"./test_files/infile" "bonjour       42" 
+[0m[0;33mTest  62: ✅[38;5;244m cat <"./test_files/file name with spaces" 
 [0m[0;33mTest  63: ✅[38;5;244m cat <./test_files/infile_big ./test_files/infile 
 [0m[0;33mTest  64: ✅[38;5;244m cat <"1""2""3""4""5" 
 [0m[0;33mTest  65: ✅[38;5;244m echo <"./test_files/infile" <missing <"./test_files/infile" 
@@ -141,15 +135,8 @@ bash error = ( Permission denied)
 [0;33mTest  90: ✅[38;5;244m cat <"./test_files/infile" >"./outfiles/outfile01" 
 [0m[0;33mTest  91: ✅[38;5;244m echo hi >./outfiles/outfile01 | echo bye 
 [0m[0;33mTest  92: ✅[38;5;244m echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye 
-[0m[0;33mTest  93: ❌[38;5;244m echo hi | echo >./outfiles/outfile01 bye 
-[0mFiles ./mini_outfiles/outfile01 and ./bash_outfiles/outfile01 differ
-mini outfiles:
-bye ANDROID_HOME XDG_SESSION_CLASS NVM_DIR GJS_DEBUG_OUTPUT ANDROID_NDK_HOME MANAGERPID TERMINATOR_DBUS_NAME INVOCATION_ID VTE_VERSION XDG_CURRENT_DESKTOP LS_COLORS LANG LC_PAPER IM_CONFIG_PHASE USERNAME HOME WINDOWPATH GJS_DEBUG_TOPICS XAUTHORITY GPG_AGENT_INFO XDG_SESSION_TYPE LOGNAME XDG_SESSION_DESKTOP PWD GTK_MODULES SSH_AGENT_PID LC_MONETARY DESKTOP_SESSION XMODIFIERS TERMINATOR_UUID SSH_AUTH_SOCK LC_NAME GNOME_SHELL_SESSION_MODE LC_ADDRESS MANDATORY_PATH TERMINATOR_DBUS_PATH GNOME_DESKTOP_SESSION_ID XDG_MENU_PREFIX NVM_INC LESS XDG_CONFIG_DIRS COLORTERM QT_ACCESSIBILITY SESSION_MANAGER LSCOLORS SHELL
-bash outfiles:
-bye
-mini exit code = 139
-bash exit code = 0
-[0;33mTest  94: ✅[38;5;244m echo hi | echo bye >./outfiles/outfile01 >./outfiles/outfile02 
+[0m[0;33mTest  93: ✅[38;5;244m echo hi | echo >./outfiles/outfile01 bye 
+[0m[0;33mTest  94: ✅[38;5;244m echo hi | echo bye >./outfiles/outfile01 >./outfiles/outfile02 
 [0m[0;33mTest  95: ✅[38;5;244m echo hi >./outfiles/outfile01 | echo bye >./outfiles/outfile02 
 [0m[0;33mTest  96: ✅⚠️ [38;5;244m echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye 
 [0mmini error = ( No such file or directory)
@@ -163,13 +150,8 @@ bash error = ( Permission denied)
 [0;33mTest  99: ✅⚠️ [38;5;244m echo hi | echo bye >./test_files/invalid_permission 
 [0mmini error = ( No such file or directory)
 bash error = ( Permission denied)
-[0;33mTest 100: ❌[38;5;244m echo hi | >./outfiles/outfile01 echo bye >./test_files/invalid_permission 
-[0mOnly in ./bash_outfiles: outfile01
-mini outfiles:
-bash outfiles:
-mini exit code = 2
-bash exit code = 1
-mini error = ( Syntax error)
+[0;33mTest 100: ✅⚠️ [38;5;244m echo hi | >./outfiles/outfile01 echo bye >./test_files/invalid_permission 
+[0mmini error = ( No such file or directory)
 bash error = ( Permission denied)
 [0;33mTest 101: ✅⚠️ [38;5;244m echo hi | echo bye >./test_files/invalid_permission >./outfiles/outfile01 
 [0mmini error = ( No such file or directory)
@@ -211,15 +193,8 @@ bash error = ( Permission denied)
 bash error = ( Permission denied)
 [0;33mTest 121: ✅[38;5;244m echo hi >>./outfiles/outfile01 | echo bye 
 [0m[0;33mTest 122: ✅[38;5;244m echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye 
-[0m[0;33mTest 123: ❌[38;5;244m echo hi | echo >>./outfiles/outfile01 bye 
-[0mFiles ./mini_outfiles/outfile01 and ./bash_outfiles/outfile01 differ
-mini outfiles:
-bye NVM_DIR GJS_DEBUG_OUTPUT ANDROID_NDK_HOME MANAGERPID TERMINATOR_DBUS_NAME INVOCATION_ID VTE_VERSION XDG_CURRENT_DESKTOP LS_COLORS LANG LC_PAPER IM_CONFIG_PHASE USERNAME HOME WINDOWPATH GJS_DEBUG_TOPICS XAUTHORITY GPG_AGENT_INFO XDG_SESSION_TYPE LOGNAME XDG_SESSION_DESKTOP PWD GTK_MODULES SSH_AGENT_PID LC_MONETARY DESKTOP_SESSION XMODIFIERS TERMINATOR_UUID SSH_AUTH_SOCK LC_NAME GNOME_SHELL_SESSION_MODE LC_ADDRESS MANDATORY_PATH TERMINATOR_DBUS_PATH GNOME_DESKTOP_SESSION_ID XDG_MENU_PREFIX NVM_INC LESS XDG_CONFIG_DIRS COLORTERM QT_ACCESSIBILITY SESSION_MANAGER LSCOLORS SHELL
-bash outfiles:
-bye
-mini exit code = 139
-bash exit code = 0
-[0;33mTest 124: ✅[38;5;244m echo hi | echo bye >>./outfiles/outfile01 >>./outfiles/outfile02 
+[0m[0;33mTest 123: ✅[38;5;244m echo hi | echo >>./outfiles/outfile01 bye 
+[0m[0;33mTest 124: ✅[38;5;244m echo hi | echo bye >>./outfiles/outfile01 >>./outfiles/outfile02 
 [0m[0;33mTest 125: ✅[38;5;244m echo hi >>./outfiles/outfile01 | echo bye >>./outfiles/outfile02 
 [0m[0;33mTest 126: ✅⚠️ [38;5;244m echo hi >>./test_files/invalid_permission | echo bye 
 [0mmini error = ( No such file or directory)
@@ -251,5 +226,7 @@ bash error = ( Permission denied)
 [0m[0;33mTest 144: ✅[38;5;244m $ 
 [0m[0;33mTest 145: ✅[38;5;244m $? 
 [0m[0;33mTest 146: ✅[38;5;244m README.md 
-[0m[0;35m[1m141/146
-[0m😭 😭 😭
+[0m[0;35m[1m146/146
+[0m🎊 🎊 🎊
+😎 😎 😎
+🎉 🎉 🎉
