@@ -6,7 +6,7 @@
 #    By: algultse <algultse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/16 13:00:03 by algultse          #+#    #+#              #
-#    Updated: 2024/08/22 21:48:10 by algultse         ###   ########.fr        #
+#    Updated: 2024/09/08 17:51:50 by algultse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,13 +41,14 @@ SRC =  $(BASE_SRC) main.c
 OBJS = $(SRC:%.c=$(OBJDIR)%.o)
 
 LIBFT = -L$(LIBFTDIR) -lft
+LIBFT_FILE = $(LIBFTDIR)libft.a
 
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(LIBFT_FILE) $(OBJS)
 	$(CC) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
-$(LIBFT):
+$(LIBFT_FILE):
 	make -C $(LIBFTDIR)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
