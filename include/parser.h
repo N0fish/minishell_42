@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:06:24 by aliutykh          #+#    #+#             */
-/*   Updated: 2024/08/21 15:27:09 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/09/08 11:54:15 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void		cmd_set_data(t_cmd_node *node, char *data);
 bool		check_tokentype(int tok_type, t_token **token, char **bufferptr);
 bool		only_check_tokentype(int tok_type, t_token **token, \
 					char **bufferptr);
+bool		is_token_redirect_or_heredoc(t_token *token);
 void		show_cmd_tree(t_cmd_node *node);
 //
 t_cmd_node	*cmd_delete(t_cmd_node *node);
