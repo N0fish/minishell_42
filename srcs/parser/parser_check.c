@@ -6,7 +6,7 @@
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:12:06 by aliutykh          #+#    #+#             */
-/*   Updated: 2024/08/23 16:36:49 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/09/08 12:00:28 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ t_cmd_node	*add_args_to_node(t_cmd_node **left, t_cmd_node **right)
 			return (NULL);
 		temp_left->right->type = temp_right->type;
 		temp_left->right->data = ft_strdup(temp_right->data);
-		// if (temp_right->right)
-		// 	temp_left->right->right = temp_right->right;
-		// if (temp_right->left)
-		// 	temp_left->right->left = temp_right->left;
 		temp_left->right->left = NULL;
 		temp_left->right->right = NULL;
 		temp_right = temp_right->right;

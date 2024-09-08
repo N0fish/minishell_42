@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/22 20:28:59 by algultse         ###   ########.fr       */
+/*   Updated: 2024/09/08 12:09:53 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,6 @@
 # define CMD_NOT_FOUND "command not found"
 # define IS_A_DIR "Is a directory"
 # define MISS_PROMPT "\001\033[0;36m\002(＃＞＜) \001\033[0m\002"
-
-# if __APPLE__
-    // delete avan correction pour la norm
-#   define  PATH_MAX 1024
-# else
-#   define  PATH_MAX 4096
-# endif
-
-// # define PATH_MAX 4096
+# define PATH_MAX 4096
 
 #endif
