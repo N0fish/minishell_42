@@ -4,3 +4,9 @@
    ...
    obj:*/libreadline.so.*
 }
+{
+   ignore_libreadline_leaks
+   Memcheck:Leak
+   bin/
+   obj:*/bin/libreadline.so.*
+}
