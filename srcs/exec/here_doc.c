@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:23:28 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/21 15:03:55 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:03:55 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*process_key(t_data *data, char *line, \
-					int len_key[2], int *diff)
+char	*process_key(t_data *data, char *line, int len_key[2], int *diff)
 {
 	char	*key;
 	char	*value;
@@ -48,9 +47,7 @@ int	*find_key_pos(char *str, int *len, int i)
 	if (str[i] == '\0')
 		return (NULL);
 	len[0] = i;
-	while (str[i] != '\0' && str[i + 1] != '\0' \
-		&& str[i + 1] != '$' && str[i] != '?' \
-		&& (str[i + 1] != ' ' && !(str[i + 1] >= '\t' && str[i + 1] <= '\r')))
+	while (is_not_special_char(str[i], str[i + 1]))
 		i++;
 	len[1] = i;
 	if (len[0] == len[1])
@@ -82,7 +79,7 @@ bool	heredoc_fork(t_data *data, int pipe_fds[2], char *limiter)
 	while (line)
 	{
 		if (ft_strlen(line) >= 1 \
-			&& ft_strncmp(line, limiter, ft_strlen(line)) == 0)
+			&& ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
 			data->exit_code = EXIT_SUCCESS;

@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 12:41:01 by alex              #+#    #+#             */
+/*   Created: 2024/08/12 12:41:01 by aliutykh          #+#    #+#             */
 /*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -59,7 +59,7 @@ t_cmd_node	*replace_node(t_data *data, t_cmd_node **node)
 
 t_cmd_node	*check_node(t_data *data, t_cmd_node **node)
 {
-	if (!node)
+	if (!node || !*node)
 		return (NULL);
 	if ((*node)->type == NODE_DQ_ARGUMENT || (*node)->type == NODE_ARGUMENT
 		|| (*node)->type == NODE_DQ_CMDPATH || (*node)->type == NODE_CMDPATH)

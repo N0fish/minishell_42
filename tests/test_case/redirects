@@ -1,3 +1,4 @@
+echo hi <./tests/files/infile alla
 grep hi <"./files/infile"
 grep hi "<infile" <         ./files/infile
 echo hi bye bye < ./files/infile

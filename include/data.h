@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 11:53:12 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:27:42 by aliutykh         ###   ########.fr       */
+/*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
+/*   Updated: 2024/08/22 20:25:48 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_ms_pids
 {
 	pid_t	pids[1024];
 	int		it;
-}				t_ms_pids;
+}			t_ms_pids;
 
 // INIT
 // env_init

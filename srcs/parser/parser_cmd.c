@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 16:16:04 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Created: 2024/08/08 16:16:04 by aliutykh          #+#    #+#             */
+/*   Updated: 2024/08/23 16:27:23 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,30 @@ t_cmd_node	*cmd_simple(t_token **token)
 		return (NULL);
 	arg = cmd_argument(token);
 	result = malloc(sizeof(t_cmd_node));
+	result->data = NULL;
 	cmd_set_type(result, get_cmd_type(type));
 	cmd_set_data(result, res);
 	cmd_attach(result, NULL, arg);
 	return (result);
+}
+
+t_cmd_node	*heredoc_or_redirecit(t_token **token)
+{
+	t_token		*save;
+	t_cmd_node	*node;
+
+	save = *token;
+	*token = save;
+	node = heredoc(token);
+	if (node)
+		return (node);
+	*token = save;
+	node = redirect(token);
+	if (node)
+		return (node);
+	*token = save;
+	*token = (*token)->next;
+	return (NULL);
 }
 
 t_cmd_node	*cmd(t_token **token)

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 11:28:41 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:23:15 by aliutykh         ###   ########.fr       */
+/*   Created: 2024/07/24 11:06:24 by aliutykh          #+#    #+#             */
+/*   Updated: 2024/09/08 11:54:15 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_cmd_node
 	struct s_cmd_node	*right;
 }				t_cmd_node;
 
+t_cmd_node	*check_parser(t_cmd_node **node);
+
 void		cmd_set(t_cmd_node *node, char *data, t_node_type type, \
 					t_cmd_node *next);
 void		cmd_attach(t_cmd_node *root, t_cmd_node *left, t_cmd_node *right);
@@ -46,6 +48,7 @@ void		cmd_set_data(t_cmd_node *node, char *data);
 bool		check_tokentype(int tok_type, t_token **token, char **bufferptr);
 bool		only_check_tokentype(int tok_type, t_token **token, \
 					char **bufferptr);
+bool		is_token_redirect_or_heredoc(t_token *token);
 void		show_cmd_tree(t_cmd_node *node);
 //
 t_cmd_node	*cmd_delete(t_cmd_node *node);

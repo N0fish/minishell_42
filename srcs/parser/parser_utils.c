@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/28 11:06:35 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Created: 2024/07/28 11:06:35 by aliutykh          #+#    #+#             */
+/*   Updated: 2024/08/23 16:44:01 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,14 @@ bool	only_check_tokentype(int tok_type, t_token **token, char **bufferptr)
 	return (false);
 }
 
-t_cmd_node	*heredoc_or_redirecit(t_token **token)
+bool	is_token_redirect_or_heredoc(t_token *token)
 {
-	t_token		*save;
-	t_cmd_node	*node;
-
-	save = *token;
-	*token = save;
-	node = heredoc(token);
-	if (node)
-		return (node);
-	*token = save;
-	node = redirect(token);
-	if (node)
-		return (node);
-	*token = save;
-	*token = (*token)->next;
-	return (NULL);
+	if (!token)
+		return (false);
+	return (token->type == CHAR_LESSER
+		|| token->type == CHAR_GREATER
+		|| token->type == HEREDOC_IN
+		|| token->type == HEREDOC_OUT);
 }
 
 void	show_cmd_tree(t_cmd_node *node)

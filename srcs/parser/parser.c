@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 11:29:08 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Created: 2024/07/24 11:29:08 by aliutykh          #+#    #+#             */
+/*   Updated: 2024/08/23 16:48:20 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ t_cmd_node	*job_pipe(t_token **token)
 		return (cmd_tok);
 	if (!check_tokentype(CHAR_PIPE, token, NULL))
 		return (cmd_delete(cmd_tok));
-	if (!only_check_tokentype(TOKEN, token, NULL))
+	if (!only_check_tokentype(TOKEN, token, NULL)
+		&& !is_token_redirect_or_heredoc(*token))
 		return (cmd_delete_error(cmd_tok));
 	job_tok = job(token);
 	if (!job_tok)
@@ -68,5 +69,5 @@ t_cmd_node	*parser(t_data *data, t_token **token)
 		ft_strerror(data, NULL, NULL, "Syntax error");
 		return (NULL);
 	}
-	return (cmd_tree);
+	return (check_parser(&cmd_tree));
 }

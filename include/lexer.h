@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 11:06:24 by alex              #+#    #+#             */
+/*   Created: 2024/07/24 11:06:24 by aliutykh          #+#    #+#             */
 /*   Updated: 2024/08/21 15:27:09 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -28,14 +28,14 @@ typedef enum e_token_type
 	TOKEN_QUOTE		= -2,
 	TOKEN_DQUOTE	= -3,
 	TOKEN			= -1,
-}		t_token_type;
+}			t_token_type;
 
 typedef enum e_lexer_state
 {
 	STATE_IN_DQUOTE,
 	STATE_IN_QUOTE,
 	STATE_GENERAL,
-}		t_lexer_state;
+}			t_lexer_state;
 
 # define TOKEN_DELIM " \t\n\r\a"
 
@@ -45,7 +45,7 @@ typedef struct s_token
 	char			*data;
 	int				type;
 	struct s_token	*next;
-}	t_token;
+}			t_token;
 
 t_token		*lexer(t_data *data, char *line);
 t_token		*lexer_build(t_data *data, char *line, int state);

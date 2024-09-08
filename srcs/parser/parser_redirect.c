@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 16:06:27 by alex              #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Created: 2024/08/08 16:06:27 by aliutykh          #+#    #+#             */
+/*   Updated: 2024/08/23 16:27:31 by aliutykh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ t_cmd_node	*redirect_in(t_token **token)
 	if (!only_check_tokentype(TOKEN, token, &filename))
 		return (cmd_delete_error(cmd_tok));
 	result = malloc(sizeof(t_cmd_node));
+	result->data = NULL;
 	cmd_set_data(result, filename);
 	cmd_attach(result, NULL, NULL);
 	redirect_tok = heredoc_or_redirecit(token);
 	if (!redirect_tok)
-		return (cmd_define(result, NODE_REDIRECT_IN, cmd_tok, NULL));
+		return (cmd_define(result, NODE_REDIRECT_IN, cmd_tok,
+				cmd_argument(token)));
 	return (cmd_define(result, NODE_REDIRECT_IN, cmd_tok, redirect_tok));
 }
 
@@ -63,11 +65,13 @@ t_cmd_node	*redirect_out(t_token **token)
 	if (!only_check_tokentype(TOKEN, token, &filename))
 		return (cmd_delete_error(cmd_tok));
 	result = malloc(sizeof(t_cmd_node));
+	result->data = NULL;
 	cmd_set_data(result, filename);
 	cmd_attach(result, NULL, NULL);
 	redirect_tok = heredoc_or_redirecit(token);
 	if (!redirect_tok)
-		return (cmd_define(result, NODE_REDIRECT_OUT, cmd_tok, NULL));
+		return (cmd_define(result, NODE_REDIRECT_OUT, cmd_tok,
+				cmd_argument(token)));
 	return (cmd_define(result, NODE_REDIRECT_OUT, cmd_tok, redirect_tok));
 }
 

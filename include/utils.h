@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:03 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:21:04 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ int		update_exit_code(t_data *data);
 void	display_error(t_data *data, char *lim);
 // free
 void	free_cmd(t_data *data, t_cmd *cmd);
+// string
+bool	ft_isempty(const char *str);
+bool	is_not_special_char(char c, char c_1);
 // node
 bool	is_redirect_node(t_cmd_node *node);
 int		handle_redirect_out(t_data *data, t_cmd_node **node, int *out_fd);

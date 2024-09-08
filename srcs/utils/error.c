@@ -6,7 +6,7 @@
 /*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:15:25 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/20 18:14:34 by algultse         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:11:40 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_strerror_q(t_data *data, char *name, char *text, char *err)
 	if (text)
 	{
 		write (STDERR_FILENO, ": ", 3);
-		write (STDERR_FILENO, "'", 1);
+		write (STDERR_FILENO, "`", 1);
 		write (STDERR_FILENO, text, ft_strlen(text));
 		write (STDERR_FILENO, "'", 1);
 	}
