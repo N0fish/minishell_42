@@ -73,13 +73,13 @@ bool	heredoc_fork(t_data *data, int pipe_fds[2], char *limiter)
 {
 	char	*line;
 
+	close(pipe_fds[0]);
 	g_status = &data->exit_code;
 	heredoc_child_signal();
 	line = readline("> ");
 	while (line)
 	{
-		if (ft_strlen(line) >= 1 \
-			&& ft_strcmp(line, limiter) == 0)
+		if (ft_strlen(line) >= 1 && ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
 			data->exit_code = EXIT_SUCCESS;
@@ -107,13 +107,11 @@ int	handle_heredoc(t_data *data, char *limiter)
 	if (pid < 0)
 	{
 		data->exit_code = -1;
-		return (ft_strerror(data, "fork", NULL, strerror(errno)), false);
+		return (close(pipe_fds[0]), close(pipe_fds[1]), \
+			ft_strerror(data, "fork", NULL, strerror(errno)), false);
 	}
 	if (pid == 0)
-	{
-		close(pipe_fds[0]);
 		heredoc_fork(data, pipe_fds, limiter);
-	}
 	heredoc_parent_signal();
 	close(pipe_fds[1]);
 	waitpid(pid, &status, 0);
