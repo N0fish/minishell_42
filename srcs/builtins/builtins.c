@@ -90,8 +90,9 @@ bool	fork_builtin(t_data *data, t_cmd_node *cmd, t_fds fds, pid_t *child)
 		dup2(fds.in, STDIN_FILENO);
 		dup2(fds.out, STDOUT_FILENO);
 		use_builtin(data, cmd, fds, false);
-		if (fds.no != -1 && fds.no != fds.in && fds.no != fds.out)
-			close(fds.no);
+		// if (fds.no != -1 && fds.no != fds.in && fds.no != fds.out)
+		// 	close(fds.no);
+		close_child_fds(fds);
 		exit_builtin(data, NULL, false);
 	}
 	data->exec_error = waitpid(*child, &data->wtpd, 0) == -1;

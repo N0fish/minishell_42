@@ -29,6 +29,7 @@ bool	fds_ok(t_fds fds);
 int		find_final_fd(t_data *data, t_cmd_node **red, \
 						int node_type, int open_modes[2]);
 void	close_fds(t_fds fds);
+void	close_child_fds(t_fds fds);
 // fds
 t_fds	init_fds(t_fds io);
 t_fds	update_fds(t_fds fds, t_fds io);

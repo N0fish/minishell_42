@@ -17,8 +17,7 @@ void	exec_fork(t_data *data, t_fds fds, t_cmd *cmd, char **envp)
 	data->exit_code = 0;
 	dup2(fds.in, STDIN_FILENO);
 	dup2(fds.out, STDOUT_FILENO);
-	if (fds.no >= 0 && fds.no != fds.in && fds.no != fds.out)
-		close(fds.no);
+	close_child_fds(fds);
 	if (!ft_strcmp(cmd->cmd, cmd->args[0]))
 	{
 		handle_access_errors(data, cmd);
