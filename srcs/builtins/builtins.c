@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliutykh <aliutykh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: algultse <algultse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:00:13 by algultse          #+#    #+#             */
-/*   Updated: 2024/08/21 15:21:04 by aliutykh         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:16:31 by algultse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ bool	fork_builtin(t_data *data, t_cmd_node *cmd, t_fds fds, pid_t *child)
 		dup2(fds.in, STDIN_FILENO);
 		dup2(fds.out, STDOUT_FILENO);
 		use_builtin(data, cmd, fds, false);
-		// if (fds.no != -1 && fds.no != fds.in && fds.no != fds.out)
-		// 	close(fds.no);
 		close_child_fds(fds);
 		exit_builtin(data, NULL, false);
 	}
