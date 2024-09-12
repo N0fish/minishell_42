@@ -40,6 +40,8 @@ int	*find_key_pos(char *str, int *len, int i)
 {
 	len[0] = -1;
 	len[1] = -1;
+	if (!str || !*str)
+		return (NULL);
 	if (!str || i >= (int)ft_strlen(str))
 		return (NULL);
 	while (str[i] != '\0' && str[i] != '$')

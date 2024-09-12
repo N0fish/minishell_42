@@ -47,7 +47,7 @@ void	prompt(t_data *data)
 		line = NULL;
 		line = readline(MISS_PROMPT);
 		if (line == NULL)
-			exit_builtin(data, NULL, false);
+			exit_builtin(data, NULL, true);
 		else if (ft_strcmp(line, "") == 0 || ft_isempty(line))
 		{
 			free(line);
