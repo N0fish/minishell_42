@@ -89,7 +89,7 @@ void	exit_builtin(t_data *data, t_cmd_node *arg, bool display)
 	in_out[0] = data->in_fd;
 	in_out[1] = data->out_fd;
 	ft_free_all(data->m);
-	rl_clear_history();
+	rl_clear_history(); // Comment this out when compiling on Mac
 	close_everything(fds, in_out);
 	exit(exit_code);
 }

@@ -23,7 +23,7 @@ void	handler_sigint(int signal)
 {
 	write(2, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	rl_replace_line("", 0); // Comment this out when compiling on Mac
 	rl_redisplay();
 	*g_status = 128 + signal;
 }

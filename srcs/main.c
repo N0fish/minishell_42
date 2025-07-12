@@ -60,7 +60,7 @@ void	prompt(t_data *data)
 			free(line);
 		}
 	}
-	rl_clear_history();
+	rl_clear_history(); // Comment this out when compiling on Mac
 	return ;
 }
 
